@@ -3,8 +3,54 @@
 \setcounter{subsection}{1}
 \subsection{Indicator Variables}
 
-\begin{enumerate}
-    \item \textbf{TBD}
+\begin{enumerate}[a)]
+
+    \item \textbf{Define $I(A)$ to be an indicator variable for the event $A$, meaning $I_{(A)} = 1$ if $A$ occurs and $I_{(A)} = 1$ if $A^c$ occurs. Relate this to a Bernoulli random variable. Show how an indicator variable is the \textit{fundamental bridge} between probability and expected value, in that $P(A) = E(I_{(A)})$. Use this to prove Boole's inequality: $P(A_1 \cup A_2 \cup \dots \cup A_n) \leq P(A_1) + P(A_2) + \dots + P(A_n)$. Try to think of a non-trivial example.} \\
+    
+    We can write $I(A)$ as 
+    \[
+        I(A) = \begin{cases} 
+        1 & \text{if }A \\
+        0 & \text{if }A^c
+        \end{cases}
+    \]
+    
+    where $A$ occurs with probability of $P(A)$, and $A^c$ occurs with probability $1- P(A)$. This is equivalent to a $\text{Bern}(P(A))$ random variable. \\
+    
+    For the fundamental bridge, note that $E[I(A)] = P(A) \cdot 1 + (1 - P(A)) \cdot 0 = P(A)$. \\
+    
+    To prove Boole's Inequality, we will show that $P(A_1 \cup A_2 \cup \dots \cup A_n) \leq P(A_1) + P(A_2) + \dots + P(A_n)$. 
+    Rewriting the probability values on the left and right hand sides as expected values of indicator variables, we know that 
+    \[ 
+        P(A_1 \cup A_2 \cup \dots \cup A_n) = E[I_{A_1 \cup A_2 \cup \dots \cup A_n}].
+    \]
+
+    On the other hand, 
+    \[
+        P(A_1) + P(A_2) + \dots + P(A_n) = E[I_{A_1}] + E[I_{A_2}] + \dots + E[I_{A_n}] = E[I_{A_1} + I_{A_2} + \dots + I_{A_n}]
+    \]
+
+    Thus, to prove Boole's inequality, it suffices to show that
+    \[
+            E[I_{A_1 \cup A_2 \cup \dots \cup A_n}] \leq E[I_{A_1} + I_{A_2} + \dots + I_{A_n}].
+    \]
+    
+    Note that $I_{A_1 \cup A_2 \cup \dots \cup A_n}$ can only be either $0$ or $1$, since it is an indicator. 
+    In the former case, none of $A_1$ to $A_n$ have occurred, so $I_{A_1} + I_{A_2} + \dots + I_{A_n} = 0$. 
+    In the latter case, if $I_{A_1 \cup A_2 \cup \dots \cup A_n} = 1$, then at least one of $A_1$ to $A_n$ has occurred, 
+    so $I_{A_1} + I_{A_2} + \dots + I_{A_n} \geq 1$. \\
+
+    It follows that 
+    \[
+        I_{A_1 \cup A_2 \cup \dots \cup A_n} \leq I_{A_1} + I_{A_2} + \dots + I_{A_n}.
+    \]
+
+    Taking the expected value of both sides, we arrive at Boole's Inequality. \\
+    
+    \textit{Example of Boole's Inequality}: Let $A$ represent the event of a fair coin flip; $A_i = 1$ if flip $i$ is heads, and $A_i = 0$ if it is tails. 
+    Boole's Inequality tells us that if we flip the coin $5$ times, the probability we flip at least one heads is less than or equal to $5$ times the probability we flip a heads on any single coin flip. 
+    Thus, the probability we flip at least one heads is at most $5 \cdot \frac{1}{2} = \frac{5}{2}$; this is trivial as this is greater than $1.$
+
     \item \textbf{A special case of Boole's inequality occurs when the events all have the same probability. 
     Suppose $n$ graduates all throw their caps in the air and then retrieve a cap at random. 
     Find an expression for the probability that none of the students retrieve their own cap (a derangement). 
