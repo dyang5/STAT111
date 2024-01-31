@@ -1,0 +1,141 @@
+\newpage
+
+\section{Continuous Random Variables}
+
+\setcounter{subsection}{1}
+\subsection{The Differential Argument and the Gamma Distribution}
+
+\begin{enumerate}[a)]
+    \item By definition, 
+    \[
+        P(X \in [x, x+ dx)) = \int_{x}^{x+dx} f_x(y) \, dy.
+    \]
+
+    For small deviation $dx$, we can approximate the integral as $f_x(x)\left[ (x + dx) - x \right] = f_x(x)\, dx$. \\
+
+    Note that this expression becomes exact when $dx$ approaches $0$: formally, we have
+    \[
+        \lim_{dx \to 0} \frac{P(X \in [x, x+dx))}{dx} = \lim_{dx \to 0} \frac{F(x+dx) - F(x)}{dx} = f_x(x)
+    \]
+
+    because the second expression is the limit form of the derivative of the CDF at $x$, which is precisely the value of the PDF at $x$: 
+    $f_x(x)$. \\
+
+    We can use the Differential argument to derive the Exponential density function. 
+    Since the CDF of an Exponential variable at time $t$ measures the probability that an event has occured by time $t$, we can measure the probability
+    that the first Poisson event occurs in the time interval $[t, t+dt)$ by subtracting the CDF at times $t+dt$ and time $t$:
+    \begin{align*}
+        P(\text{first occurence in } [t, t+dt)) &= \left( 1 - e^{-\lambda(t+dt)}\right) - \left( 1 - e^{-\lambda t} \right) \\
+        &= e^{-\lambda t} - e^{-\lambda(t+dt)}
+    \end{align*}
+
+    Dividing this expression by $dt$ and taking the limit as $dt$ approaches $0$, we derive the Exponential variable density at time $t$:
+    \[
+        f_t(t) = \lim_{dt \to 0} \frac{e^{-\lambda t} - e^{-\lambda (t+dt)}}{dt}.
+    \]
+
+    Using L'Hopital's Rule, this becomes
+    \begin{align*}
+        f_t(t) &= \lim_{dt \to 0} \frac{e^{-\lambda t} - e^{-\lambda (t+dt)}}{dt} \\
+        &= \lim_{dt \to 0} \frac{\lambda e^{-\lambda (t+dt)}}{1} \\
+        &= \lambda e^{-\lambda t}.
+    \end{align*}
+
+    \item We can similarly use the differential argument to derive the Gamma$(k, \lambda)$ density; let $X$ be the time of the $k$th aevent for a Poisson process with rate $\lambda$.
+    We can model the probability of $k-1$ events occuring before time $x$ using $\mathrm{Pois}(\lambda x)$, where $\lambda x$ represents the expected number of events to occur
+    in $x$ units of time. Similarly, we can model the probability of $1$ event occuring in the interval $[x, x+dx)$ using $\mathrm{Pois}(\lambda dx)$. \\
+
+    Thus, the probability of $k-1$ events occuring before time $x$ and a $k$th event occuring in $[x, x+dx)$ is 
+    \begin{align*}
+        &P(\text{$k - 1$ events before time $x$}) P(\text{$1$ event before time $t$}) \\
+        &= \frac{(\lambda x)^{k-1} e^{-\lambda x}}{(k-1)!} \frac{(\lambda dx)^{1} e^{-\lambda dx}}{1!} \\
+        &= \frac{\lambda^k e^{-\lambda (x+dx)}dx}{(k-1)!}x^{k-1}
+    \end{align*}
+
+    Dividing this probability by $dx$ and taking the limit as $dx$ approaches $0$, we find that
+    \begin{align*}
+        f_x(k, \lambda) &= \lim_{dx \to 0} \frac{\left( \frac{\lambda^k e^{-\lambda (x+dx)}dx}{(k-1)!}x^{k-1} \right) }{dx} \\
+        &= \lim_{dx \to 0} \frac{\lambda^k e^{-\lambda (x+dx)}}{(k-1)!} x^{k-1} \\
+        &= \frac{\lambda^k e^{-\lambda x}}{(k-1)!} x^{k-1}
+    \end{align*}
+
+    which matches the Gamma$(k, \lambda)$ density we expect. \\
+
+    Note that if $X_1 \sim \mathrm{Gamma}(k_1, \lambda)$ and $X_2 \sim \mathrm{Gamma}(k_2, \lambda)$ are independent, intuitively, 
+    $X_1 + X_2 \sim \mathrm{Gamma}(k_1 + k_2, \lambda)$, as we can think of $X_1$ and $X_2$ representing the sum for waiting times in two non-overlapping time intervals.
+    We will reserve discussion for why the sum of two independent Gamma variables with different $\lambda$ values is not Gamma for part (d). 
+    
+    \item Recall the form of the Gamma PDF derived in part (b): 
+    \[
+        f_x(k, \lambda) = \frac{\lambda^k e^{-\lambda x}}{(k-1)!} x^{k-1}.
+    \]
+
+    Note that our derivation measures the average wait time for $k$ events to occur, where $k$ is an integer. 
+    However, the Gamma Distribution also extends to values of $k$ which are not necessarily integers -- all positive real $k$, in fact. To understand the extension
+    and subsequent definition of the Gamma Distribution, we introduce the notion of a Gamma Function, an extension of the factorial function for real numbers. 
+    For integer $k$, $\Gamma(k) = (k-1)!$, which matches with the normalizing constant in our present PDF. \\
+
+    In general, if $\alpha$ is a positive real value replacing our $k$ parameter, we define the PDF of $X \sim \mathrm{Gamma}(\alpha, \lambda)$ to be
+    \[
+        f_x(\alpha, \lambda) = \frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha-1}.
+    \] 
+
+    We can derive the definition of Gamma Function by forcing this PDF to integrate to $1$ as $x$ ranges from $0$ to $\infty$. Note that
+    \[
+        \int_0^{\infty} \frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha-1} \, dx = \frac{\lambda^\alpha}{\Gamma(\alpha)}\int_0^{\infty} e^{-\lambda x} x^{\alpha-1} \, dx.
+    \]
+    Apply the change of variables $y = \lambda x$. It follows that $x = \frac{y}{\lambda}$ so $dx = \frac{1}{\lambda} dy$. Our integral now becomes
+    \[
+        \frac{\lambda^\alpha}{\Gamma(\alpha)}\int_0^{\infty} e^{-\lambda x} x^{\alpha-1} \, dx = \frac{\lambda^\alpha}{\Gamma(\alpha)}\int_0^{\infty} e^{-y} \left( \frac{y}{\lambda} \right) ^{\alpha-1} \left(\frac{1}{\lambda }\, dy\right).
+    \]
+
+    Simplifying and setting the resulting expression to $1$ (since our PDF should integrate to $1$), we find that
+    \[
+        \frac{\int_0^{\infty} e^{-y} y^{\alpha - 1} \, dy}{\Gamma(\alpha)} = 1.
+    \]
+
+    This inspires our definition of the \textbf{Gamma Function}: 
+    \[
+        \boxed{\Gamma(\alpha) = \int_0^{\infty} e^{-y} y^{\alpha - 1} \, dy}
+    \]
+
+    which is defined for any positive real values of the parameter $\alpha$.
+
+    \noindent\rule{\textwidth}{1pt} \\
+
+    With the above definition of the Gamma Function, we can derive a nice recursive definition of the Gamma Function, 
+    one which will illuminate its relationship with the factorial function. \\
+
+    Note that by definition, $\Gamma(\alpha + 1) = \int_0^{\infty} e^{-y} y^{\alpha} \, dy$. \\
+
+    Using Integration by Parts, we find that
+    \begin{align*}
+        \Gamma(\alpha + 1) &= \left[ y^\alpha (-e^{-y}) \right]_0^{\infty} - \int_0^{\infty} (-e^{-y}) \alpha y^\alpha \, dy \\
+        &= 0 + \alpha \int_0^{\infty} (e^{-y}) y^\alpha \, dy \\
+        &= \alpha \Gamma(\alpha).
+    \end{align*}
+
+    Since $\Gamma(1) = \int_0^{\infty} e^{-y} y^{1 - 1} \, dy = 1$ by definition, it follows recursively that $\Gamma(\alpha) = (\alpha - 1)!$.
+
+    \item A final powerful property of the Gamma distribution is that for any constant $c > 0$, if $X \sim \mathrm{Gamma}(\alpha, \lambda)$, then
+    $Y = cX \sim \mathrm{Gamma}\left(\alpha, \frac{\lambda}{c}\right)$. This property can be thought of as a changing in the units for the $\lambda$ parameter:
+    intuitively, if $X$ measures the waiting time for $\alpha$ events to occur given a rate of $\lambda$ in some unit of time (e.g seconds), $Y=cX$ 
+    may measure the waiting time for $\alpha$ events to occur given a rate of $\lambda$ in a new unit of time (e.g. minutes, where $c = \frac{1}{60}$). \\
+
+    This intuition, which relates the $\lambda$ parameter to a given unit of time, also gives us an idea of why
+    the sum of two Gamma variables with different $\lambda$ values is not itself Gamma: we cannot sum the waiting times for events of
+    processes measured in different units of time. \\
+
+    % The property itself can be proved by comparing the PDFs for $X$ and $Y$. Note that
+    % \[
+    %     f_x(\alpha, \lambda) = \frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha-1}.
+    % \]
+
+    % On the other hand, suppose that $Y \sim \mathrm{Gamma}\left( \alpha, \frac{\lambda}{c} \right)$. Then if $Y=cX$, we see that
+    % \[
+    %     f_y\left(\alpha, \frac{\lambda}{c}\right) = \frac{\left( \frac{\lambda}{c} \right) ^\alpha e^{-\frac{\lambda}{c}(cx)}}{\Gamma(\alpha)} (cx)^{\alpha-1} = \frac{1}{c} \frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha - 1}
+    % \]
+
+    % and indeed, $f_y(\alpha, \lambda) = cf_x(\alpha, \lambda)$, as desired.
+
+\end{enumerate}
