@@ -2,7 +2,33 @@
 
 \section{Continuous Random Variables}
 
-\setcounter{subsection}{1}
+\subsection{Intro to Continuous Random Variables}
+Assumptions for a Poisson process in time include
+\begin{itemize}
+    \item Events are independent
+    \item Rate of events through time is constant
+    \item Events are not simultaneous
+\end{itemize}
+
+Suppose that $T_1, \dots, T_n$ are i.i.d.\ $\mathrm{Expo}(\lambda)$ random variables. \\
+
+\begin{definition}
+The \textbf{first order statistic}, defined to be the smallest of these, is 
+$T_{(1)}$ follows the $\mathrm{Expo}(n \lambda)$ distribution.
+\end{definition}
+
+\begin{proof}
+Consider the CDF of $T_{(1)}, P(T_{(1)} \leq t)$. Note that
+\begin{align*}
+    P(T_{(1)} \leq t) &= 1 - P(T_{(1)} > t) \\
+    &= 1 - \left( e^{-\lambda t} \right)^n \\
+    &= 1 - e^{-n\lambda t} 
+\end{align*}
+
+which is the CDF for an $\mathrm{Expo}(n \lambda)$ distribution.
+\end{proof}
+
+
 \subsection{The Differential Argument and the Gamma Distribution}
 
 \begin{enumerate}[a)]
@@ -41,11 +67,11 @@
         &= \lambda e^{-\lambda t}.
     \end{align*}
 
-    \item We can similarly use the differential argument to derive the Gamma$(k, \lambda)$ density; let $X$ be the time of the $k$th aevent for a Poisson process with rate $\lambda$.
-    We can model the probability of $k-1$ events occuring before time $x$ using $\mathrm{Pois}(\lambda x)$, where $\lambda x$ represents the expected number of events to occur
-    in $x$ units of time. Similarly, we can model the probability of $1$ event occuring in the interval $[x, x+dx)$ using $\mathrm{Pois}(\lambda dx)$. \\
+    \item We can similarly use the differential argument to derive the Gamma$(k, \lambda)$ density; let $X$ be the time of the $k$th event for a Poisson process with rate $\lambda$.
+    We can model the probability of $k-1$ events occurring before time $x$ using $\mathrm{Pois}(\lambda x)$, where $\lambda x$ represents the expected number of events to occur
+    in $x$ units of time. Similarly, we can model the probability of $1$ event occurring in the interval $[x, x+dx)$ using $\mathrm{Pois}(\lambda dx)$. \\
 
-    Thus, the probability of $k-1$ events occuring before time $x$ and a $k$th event occuring in $[x, x+dx)$ is 
+    Thus, the probability of $k-1$ events occurring before time $x$ and a $k$th event occurring in $[x, x+dx)$ is 
     \begin{align*}
         &P(\text{$k - 1$ events before time $x$}) P(\text{$1$ event before time $t$}) \\
         &= \frac{(\lambda x)^{k-1} e^{-\lambda x}}{(k-1)!} \frac{(\lambda dx)^{1} e^{-\lambda dx}}{1!} \\
@@ -122,20 +148,114 @@
     intuitively, if $X$ measures the waiting time for $\alpha$ events to occur given a rate of $\lambda$ in some unit of time (e.g seconds), $Y=cX$ 
     may measure the waiting time for $\alpha$ events to occur given a rate of $\lambda$ in a new unit of time (e.g. minutes, where $c = \frac{1}{60}$). \\
 
-    This intuition, which relates the $\lambda$ parameter to a given unit of time, also gives us an idea of why
+    \textit{Note: This intuition, which relates the $\lambda$ parameter to a given unit of time, also gives us an idea of why
     the sum of two Gamma variables with different $\lambda$ values is not itself Gamma: we cannot sum the waiting times for events of
-    processes measured in different units of time. \\
+    processes measured in different units of time.} \\
 
-    % The property itself can be proved by comparing the PDFs for $X$ and $Y$. Note that
-    % \[
-    %     f_x(\alpha, \lambda) = \frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha-1}.
-    % \]
+    Suppose that $Y = cX$. Comparing the CDFs of $X$ and $Y$, we find that
+    \[
+        F_Y(y) = P(cX < y) = P \left( X < \frac{y}{c} \right) = F_X \left( \frac{y}{c} \right).
+    \]
+    Taking the derivative of both sides, we find a relationship between the PDFs. Since $y = cx$, we have
+    \[
+        f_Y(y) = \frac{1}{c} f_X \left( \frac{y}{c} \right) = \frac{1}{c} f_X(x).
+    \]
 
-    % On the other hand, suppose that $Y \sim \mathrm{Gamma}\left( \alpha, \frac{\lambda}{c} \right)$. Then if $Y=cX$, we see that
-    % \[
-    %     f_y\left(\alpha, \frac{\lambda}{c}\right) = \frac{\left( \frac{\lambda}{c} \right) ^\alpha e^{-\frac{\lambda}{c}(cx)}}{\Gamma(\alpha)} (cx)^{\alpha-1} = \frac{1}{c} \frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha - 1}
-    % \]
+    
+    The scaling property itself can be proved by comparing the PDFs for $X$ and $Y$. Note that
+    \[
+        f_x(\alpha, \lambda) = \frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha-1}.
+    \]
 
-    % and indeed, $f_y(\alpha, \lambda) = cf_x(\alpha, \lambda)$, as desired.
+    Consider $\frac{1}{c} f_x(\alpha, \lambda) = \frac{1}{c}\frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha-1}$. We can rewrite this expression in a few equivalent forms:
+    \begin{align*}
+        \frac{1}{c} f_x(\alpha, \lambda) &= \frac{1}{c}\frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha-1} \\
+        &= \left(\frac{1}{c}\right)^\alpha c^{\alpha - 1} \frac{\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)} x^{\alpha-1} \\
+        &= \left[\left(\frac{1}{c}\right)^\alpha \lambda^\alpha\right] \left(c^{\alpha - 1}x^{\alpha-1}\right) \frac{\lambda^\alpha e^{-\frac{\lambda}{x}(cx)}}{\Gamma(\alpha)} \\
+        &= \left( \frac{\lambda}{c} \right)^\alpha (cx)^{\alpha-1} \frac{e^{-\frac{\lambda}{c}(cx)}}{\Gamma(\alpha)} 
+    \end{align*}
+
+    Note that the resulting expression is precisely the PDF for a $\mathrm{Gamma}\left( \alpha, \frac{\lambda}{c} \right)$ RV, so 
+    \[
+        Y = cX \sim \mathrm{Gamma}\left( \alpha, \frac{\lambda}{c} \right)        
+    \] 
+    as desired. 
+
+    \subsection{The Uniform Distribution}
+
+    \begin{definition}
+    Let $F$ be the CDF for a continuous random variable. The \textbf{inverse function} $G(u)$ is defined
+    to satisfy $G(u) = x$ if $F(x) = u$. \\
+
+    Suppose that $U \sim \mathrm{Unif}(0, 1)$. Then  $X = G(U)$ has CDF $F$.
+    \end{definition}
+
+    \begin{remark}
+    Let $U \sim \mathrm{Unif}(0, 1)$. Then  $X = G(U) \sim \mathrm{Expo}(\lambda)$. 
+    \end{remark}
+
+    \subsection{The Normal and Chi-Square Distributions}
+
+    \begin{definition}[Chi-Square]
+    The sum of $k$ independent squared standard normal variables follows a Chi-square distribution with $k$ degrees of freedom, denoted $\chi^2_(k)$. 
+    \end{definition}
+
+    \begin{remark}
+    $\chi ^2_(1) \sim \mathrm{Gamma}\left( \frac{1}{2}, \frac{1}{2} \right)$. \\
+    
+    In general, $\chi ^2_(\nu) \sim \mathrm{Gamma}\left( \frac{\nu}{2}, \frac{1}{2} \right)$  due to the properties of a sum Gamma RVs. \\
+
+    Furthermore, due to the scaling property of Gamma RVs, if $X \sim \mathrm{Gamma}(\alpha, \lambda)$, then $Y = 2\lambda X \sim \mathrm{Gamma}\left( \alpha, \frac{1}{2} \right)$
+    which is equivalent to a $\chi ^2_{2\alpha}$ random variable.  
+    \end{remark}
+
+    \subsection{The Beta Distribution}
+
+    \begin{definition}
+    The \textbf{Beta Distribution} is the conjugate prior of the binomial distribution; if we assume a coin flip has a probability of success following a
+    Beta distribution, the posterior distribution, after accounting for new data, is also a Beta distribution.
+    \end{definition}
+
+    \begin{remark}
+    Let $V_1 \sim \mathrm{Gamma}(a, \lambda)$ and $V_2 \sim \mathrm{Gamma}(b, \lambda)$. Then
+    \[
+        X = \frac{V_1}{V_1 + V_2} \sim \mathrm{Beta}(a, b). 
+    \]
+    \end{remark}
+
+    \begin{remark}
+    Let $U_1, \dots, U_n$ be i.i.d.\ $\mathrm{Unif}(0, 1)$ random variables. Then the $k$th order statistic $U_k$ follows a $\mathrm{Beta}(k, n-k + 1)$ distribution for $k = 1, \dots , n$.   
+    \end{remark}
+
+    \subsection{The Beta, $F$, and $t$ distributions}
+    \begin{remark}
+    Let $V_1 \sim \mathrm{Gamma}(a, \lambda)$, $V_2 \sim \mathrm{Gamma}(b, \lambda)$, and $X \sim \mathrm{Beta}(a, b)$. \\
+    
+    Then $R = \frac{X}{1-X}$ has PDF
+    \[
+        f_R(r) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)} r^{a-1} \left( \frac{1}{1+r} \right)^{a+b}.  
+    \]
+    Furthermore, $Y = cR$ has PDF
+    \[
+        f_Y(y) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)} \frac{y^{a-1} c^b}{(c+x)^{a+b}} 
+    \]
+    which we define as the $F^* (a, b, c)$ density.
+    
+    \end{remark}
+
+    \begin{definition}
+    The \textbf{$F$-distribution} is defined in terms of Chi-Square random variables: if $V_1 \sim \chi_(m_1)^2$ is independent of  $V_2 \sim \chi_(m_2)^2$, then
+    \[
+        F_{(m_1, m_2)} \sim \frac{\left( \frac{V_1}{m_1} \right) }{\left( \frac{V_2}{m_2} \right)}.
+    \]
+    \end{definition}
+
+    \begin{definition}
+    If $Z \sim N(0, 1)$ is independent of $V \sim \chi_{(m)}^2$, then 
+    \[
+        T = \frac{Z}{\sqrt{\frac{V}{m}} } \sim t_(m),
+    \]
+    the \textbf{t-distribution} with $m$ degrees of freedom. Furthermore, $T^2 \sim F_{(1, m)}$. 
+    \end{definition}
 
 \end{enumerate}
