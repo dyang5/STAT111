@@ -18,7 +18,7 @@
 	\begin{center}
         \textbf{STAT111: Mathematical Statistics II}\hfill \textbf{Spring 2024}\newline
 
-		{\Large Homework 1}
+		{\Large Homework 2}
 
 		David Yang
 	\end{center}
@@ -54,7 +54,7 @@
     \item \textbf{Suppose that $X \sim \mathrm{Gamma}\left(\alpha, \frac{\alpha}{\mu}\right)$ is parameterized so that the mean is $\mu$.}
     
     \begin{enumerate}[a)]
-        \item \textbf{Identify the mode of the pdf for $X$ as a function of $\alpha$ and $\mu$. That is, for what value of $x$ is $f_x(x)$ (or $\ln f_x(x)$) maximized?} 
+        \item \textbf{Identify the mode of the pdf for $X$ as a function of $\alpha$ and $\mu$. That is, for what value of $x$ is $f_X(x)$ (or $\ln f_X(x)$) maximized?} 
     
         \begin{solution}
         $X \sim \mathrm{Gamma}\left(\alpha, \frac{\alpha}{\mu}\right)$ has pdf 
@@ -71,7 +71,7 @@
             \ell^{\prime}(x) = \frac{\alpha - 1}{x} - \frac{\alpha}{\mu}.
         \]
 
-        Note that $\ell^{\prime}(x) = 0$ when $\frac{\alpha - 1}{x} - \frac{\alpha}{\mu}$. Solving for $x$, we find that $x = \frac{\mu(\alpha - 1)}{\alpha}$. \\
+        Note that $\ell^{\prime}(x) = 0$ when $\frac{\alpha - 1}{x} = \frac{\alpha}{\mu}$. Solving for $x$, we find that $x = \frac{\mu(\alpha - 1)}{\alpha}$. \\
 
         However, note that this is the mode only when $\alpha > 1$ (for which $x > 0$); when $\alpha \leq 1$, the mode occurs at $x=0$. Thus, the mode of the pdf for $X$ as a function of $\alpha$ and $\mu$ is
 
@@ -117,7 +117,7 @@
             \ell^{\prime}(y) = \frac{-\alpha - 1}{y} + \frac{\alpha}{\mu y^2}.
         \]
 
-        The mode occurs when $\ell^{\prime}(y) = 0$, or when $\frac{\alpha + 1}{y} + \frac{\alpha}{\mu y^2}$. Solving for $y$, we find that the mode is at
+        The mode occurs when $\ell^{\prime}(y) = 0$, or when $\frac{\alpha + 1}{y} = \frac{\alpha}{\mu y^2}$. Solving for $y$, we find that the mode is at
         \[
             \boxed{y = \frac{\alpha}{\mu(\alpha + 1)}}
         \]
@@ -125,13 +125,15 @@
         \end{solution}
     \end{enumerate}
 
-    \item \textbf{Let $F(x) = \frac{x}{x+2} I_{(x > 0)}$.}
+\newpage
+
+    \item \textbf{Let $F(x) = \frac{x}{x+2} I(x > 0)$.}
     
     \begin{enumerate}[a)]
-        \item \textbf{Show that $F_x(x)$ is a CDF and find the corresponding pdf.}
+        \item \textbf{Show that $F_X(x)$ is a CDF and find the corresponding pdf.}
         
         \begin{solution}
-        First, note that $F_x(x)$ is nondecreasing as 
+        First, note that $F_X(x)$ is nondecreasing as 
         \[
             F^{\prime}_x(x) = \frac{2}{(x+2)^2} > 0
         \] 
@@ -148,9 +150,9 @@
             \lim_{x \to \infty} F(x) = \lim_{x \to \infty} \frac{x}{x+2} = 1.
         \]
 
-        Thus, $F_x(x)$ satisfies all the properties of a CDF. The corresponding pdf for $X$ is simply $F^{\prime}_x(x)$, or
+        Thus, $F_X(x)$ satisfies all the properties of a CDF. The corresponding pdf for $X$ is simply $F^{\prime}_X(x)$, or
         \[
-            \boxed{f(x) = \frac{2}{(x+2)^2} I_{(x > 0)}}. \qedhere
+            \boxed{f_X(x) = \frac{2}{(x+2)^2} I(x > 0)}. \qedhere
         \]
         \end{solution}
 
@@ -161,7 +163,7 @@
         \[
             f_X(x) \propto \frac{x^{a - 1}}{(c+x)^{a+b}} I(x > 0).
         \]
-        Comparing the derived PDF $f_x = \frac{2}{(x+2)^2} I_{(x > 0)}$ to an $F^*$ distribution kernel, we find that $a = 1$, $b = 1$, and $c = 2$, so
+        Comparing the derived PDF $f_X = \frac{2}{(x+2)^2} I(x > 0)$ to an $F^*$ distribution kernel, we find that $a = 1$, $b = 1$, and $c = 2$, so
         \[
             \boxed{X \sim F^*(1, 1, 2)}. \qedhere
         \]
@@ -191,11 +193,68 @@
 
     \end{enumerate}
 
+\newpage
+
     \item \textbf{Suppose $X \mid \theta \sim \mathrm{Poisson}(\theta)$, with $\theta \sim \mathrm{Gamma}(\alpha, \lambda)$. Find the marginal pmf for $X$ by integrating $\theta$ out of the joint pmf/pdf.
     Show that this is a Negative Binomial distribution that represents the count of successes at the time 
     of our $\alpha$th failure (if $\alpha$ happens to be an integer) and identify the success probability.}
 
+    \begin{solution}
+    By rules of marginal pmfs, we know that the marginal pmf of $X$, $f_X(x)$, is
+    \[
+        f_X(x) = \int_{-\infty}^{\infty} f_{X \mid \,\theta}(x \mid \theta) f_\theta (\theta) \, d\theta
+    \]
 
+    Since $X \mid \theta \sim \mathrm{Poisson}(\theta)$, we know that 
+    \[
+        f_{X \mid \,\theta}(x \mid \theta) = \frac{e^{-\theta}\theta^x}{x!}I(x > 0).
+    \]
+
+    Similarly, since $\theta \sim \mathrm{Gamma}(\alpha, \lambda)$, we know that
+    \[
+        f_{\theta}(\theta) = \frac{\lambda^\alpha}{\Gamma(\alpha)}\theta^{\alpha - 1}e^{-\lambda\theta}.
+    \]
+
+    Substituting these expressions in our expression for $f_X(x)$ and simplifying, we find that
+    \begin{align*}
+        f_X(x) &= \int_{-\infty}^{\infty} f_{X \mid \,\theta}(x \mid \theta) f_\theta (\theta) \, d\theta \\
+        &= \int_{-\infty}^{\infty} \left(\frac{e^{-\theta}\theta^x}{x!}I(x > 0)\right) \left( \frac{\lambda^\alpha}{\Gamma(\alpha)}\theta^{\alpha - 1}e^{-\lambda\theta} \right) \, d\theta \\
+        &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \int_{-\infty}^{\infty} \left(e^{-\theta}\theta^xI(x > 0)\right) \left( \theta^{\alpha - 1}e^{-\lambda\theta} \right) \, d\theta \\
+        &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \int_{0}^{\infty} e^{-\theta(\lambda + 1)}\theta^{x + \alpha - 1} \, d\theta 
+    \end{align*}
+
+    We will now apply the change of variables $y = \theta(\lambda + 1)$ so that $\theta = \frac{y}{\lambda + 1}$. Note that $dy = \lambda + 1 \, d\theta$, so $d\theta = \frac{1}{\lambda + 1} dy$. Applying this change of variables to our expression
+    for $f_X(x)$, we get
+    \begin{align*}
+        f_X(x) &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \int_{0}^{\infty} e^{-\theta(\lambda + 1)}\theta^{x + \alpha - 1} \, d\theta \\
+        &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \int_{0}^{\infty} e^{-y}\left( \frac{y}{\lambda + 1} \right) ^{x + \alpha - 1} \, \left( \frac{1}{\lambda + 1} dy \right)  \\
+        &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \int_{0}^{\infty} e^{-y}y^{x + \alpha - 1} \, \left( \frac{1}{\lambda + 1} \right)^{x + \alpha} dy \\
+        &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \left( \frac{1}{\lambda + 1} \right)^{x + \alpha} \int_{0}^{\infty} e^{-y}y^{x + \alpha - 1} \, dy.
+    \end{align*}    
+
+    Note that by definition of the Gamma Function, $\Gamma(x + \alpha) = \int_{0}^{\infty} e^{-y}y^{x + \alpha - 1} \, dy$. It follows upon substitution that
+    \begin{align*}
+        f_X(x) &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \left( \frac{1}{\lambda + 1} \right)^{x + \alpha} \int_{0}^{\infty} e^{-y}y^{x + \alpha - 1} \, dy \\
+        &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \left( \frac{1}{\lambda + 1} \right)^{x + \alpha} \Gamma(x + \alpha).
+    \end{align*}    
+
+    Rewriting this expression by grouping and rearranging terms, we find that
+    \begin{align*}
+        f_X(x) &= \frac{\lambda^\alpha}{\Gamma(\alpha) x!} \left( \frac{1}{\lambda + 1} \right)^{x + \alpha} \Gamma(x + \alpha - 1) \\
+        &= \frac{\Gamma(x + \alpha)}{\Gamma(\alpha)x!} \left( \frac{\lambda}{\lambda + 1} \right)^\alpha \left( \frac{1}{\lambda + 1} \right)^\times   
+    \end{align*}   
+
+    When $\alpha$ is an integer, note that $\Gamma(x + \alpha) = (x + \alpha - 1)!$ and $\Gamma(\alpha) = (\alpha - 1)!$. Substituting and simplifying
+    once more, we get that
+    \begin{align*}
+        f_X(x) &= \frac{\Gamma(x + \alpha)}{\Gamma(\alpha)x!} \left( \frac{\lambda}{\lambda + 1} \right)^\alpha \left( \frac{1}{\lambda + 1} \right)^x   \\
+        &= \frac{(x + \alpha - 1)!}{(\alpha - 1)! \, x!}\left( \frac{\lambda}{\lambda + 1} \right)^\alpha \left( \frac{1}{\lambda + 1} \right)^x \\
+        &= \binom{x + \alpha - 1}{x}\left( \frac{1}{\lambda + 1} \right)^x \left( \frac{\lambda}{\lambda + 1} \right)^\alpha .
+    \end{align*}   
+
+    Note that $\frac{1}{\lambda + 1} + \frac{\lambda}{\lambda + 1} = 1$, so this is precisely the PDF for a Negative Binomial Random Variable counting the number of successes $x$ at the time of our $\alpha$th failure, for success probability
+    $\boxed{p = \frac{1}{\alpha + 1}}$. 
+    \end{solution}
 \end{enumerate}
 
 \end{document}
