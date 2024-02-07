@@ -1,0 +1,98 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[shortlabels]{enumitem}
+\usepackage[margin=1in]{geometry}
+
+\newenvironment{solution}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+  {\end{proof}}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+	\hrule
+	\begin{center}
+        \textbf{STAT111: Mathematical Statistics II}\hfill \textbf{Spring 2024}\newline
+
+		{\Large Homework 1}
+
+		David Yang
+	\end{center}
+
+\hrule
+
+\vspace{1em}
+
+\begin{enumerate}
+    \item \textbf{Evaluate the integral}
+    \[
+        \int_0^{\infty} x^5 e^{-2x} \, dx
+    \] 
+    \textbf{using integration by recognition. That is, recognize this function as proportional to a standard pdf 
+    and identify the constant multiplier needed to make the integral equal $1$. Then take the reciprocal of that constant.}
+
+    \begin{solution}
+    The integrand is the kernel of a $\mathrm{Gamma}(6, 2)$ random variable. \\
+
+    Using this fact, we know that the PDF integrates to $1$, i.e.
+    \[
+        \int_0^{\infty} \frac{2^6}{\Gamma(6)}x^5 e^{-2x} \, dx = 1.
+    \] 
+    
+    Solving for the integral we want to evaluate, we find that
+    \[
+        \int_0^{\infty} x^5 e^{-2x} \, dx = \frac{\Gamma(6)}{2^6} = \frac{(6-1)!}{64} = \boxed{\frac{15}{8}}. \qedhere
+    \] 
+    \end{solution}
+
+\newpage
+
+    \item \textbf{Suppose that $X \sim \mathrm{Gamma}\left(\alpha, \frac{\alpha}{u}\right)$ is parameterized so that the mean is $\mu$.}
+    
+    \begin{enumerate}[a)]
+        \item \textbf{Identify the mode of the pdf for $X$ as a function of $\alpha$ and $u$. That is, for what value of $x$ is $f_x(x)$ (or $\ln f_x(x)$) maximized?} 
+    
+        \begin{solution}
+        $X \sim \mathrm{Gamma}\left(\alpha, \frac{\alpha}{u}\right)$ has pdf 
+        \[
+            f_X(x) = \frac{\left( \frac{\alpha}{u} \right)^{\alpha} }{\Gamma(\alpha)} x^{\alpha - 1} e^{-\left( \frac{\alpha}{u} \right)x}.
+        \]
+
+        $f_X(x)$ is maximized when $\ln(f_X(x))$ is maximized. For convenience, let $\ell(x)$ denote $\ln(f_X(x))$. Note that 
+        \[
+            \ell(x) = \ln(f_X(x)) = \ln \left( \frac{\left( \frac{\alpha}{\mu} \right)^{\alpha} }{\Gamma(\alpha)} \right) + (\alpha - 1) \ln(x) - \left( \frac{\alpha}{\mu} \right)x. 
+        \]
+        We take the derivative of $\ell(x)$ and set it to $0$ to solve for the maximum:
+        \[
+            \ell^{\prime}(x) = \frac{\alpha - 1}{x} - \frac{\alpha}{\mu}.
+        \]
+
+        Note that $\ell^{\prime}(x) = 0$ when $\frac{\alpha - 1}{x} - \frac{\alpha}{\mu}$. Solving for $x$, we find that $x = \frac{\mu(\alpha - 1)}{\alpha}$. 
+        \end{solution}
+
+
+        \item \textbf{Let $Y = \frac{1}{X}$, so that $Y$ follows a reciprocal-Gamma$\left( \alpha, \frac{\alpha}{u} \right)$ distribution. Find the pdf for $Y$,
+        and identify its mode as a function of $\alpha$ and $u$.}
+    \end{enumerate}
+
+    \item \textbf{Let $F(x) = \frac{x}{x+2} I_{(x > 0)}$.}
+    
+    \begin{enumerate}[a)]
+        \item \textbf{Show that $F_x(x)$ is a CDF and find the corresponding pdf.}
+        \item \textbf{Identify these as the CDF and pdf for an $F^*$ random variable (give the parameter values $a$, $b$, and $c$).}
+        \item \textbf{For a random variable $X$ that follows this $F^*$ distribution, represent $X$ in terms of two independent Gamma random variables and a positive constant $c$.
+        Use this representation to identify the distributions of $Y = \frac{1}{X}$ and of $R = \frac{X}{2+X}$.}
+    \end{enumerate}
+
+    \item \textbf{Suppose $X \mid \theta \sim \mathrm{Poisson}(\theta)$, with $\theta \sim \mathrm{Gamma}(\alpha, \lambda)$. Find the marginal pmf for $X$ by integrating $\theta$ out of the joint pmf/pdf.
+    Show that this is a Negative Binomial distribution that represents the count of successes at the time 
+    of our $\alpha$th failure (if $\alpha$ happens to be an integer) and identify the success probability.}
+
+
+\end{enumerate}
+
+\end{document}
