@@ -51,15 +51,15 @@
 
 \newpage
 
-    \item \textbf{Suppose that $X \sim \mathrm{Gamma}\left(\alpha, \frac{\alpha}{u}\right)$ is parameterized so that the mean is $\mu$.}
+    \item \textbf{Suppose that $X \sim \mathrm{Gamma}\left(\alpha, \frac{\alpha}{\mu}\right)$ is parameterized so that the mean is $\mu$.}
     
     \begin{enumerate}[a)]
-        \item \textbf{Identify the mode of the pdf for $X$ as a function of $\alpha$ and $u$. That is, for what value of $x$ is $f_x(x)$ (or $\ln f_x(x)$) maximized?} 
+        \item \textbf{Identify the mode of the pdf for $X$ as a function of $\alpha$ and $\mu$. That is, for what value of $x$ is $f_x(x)$ (or $\ln f_x(x)$) maximized?} 
     
         \begin{solution}
-        $X \sim \mathrm{Gamma}\left(\alpha, \frac{\alpha}{u}\right)$ has pdf 
+        $X \sim \mathrm{Gamma}\left(\alpha, \frac{\alpha}{\mu}\right)$ has pdf 
         \[
-            f_X(x) = \frac{\left( \frac{\alpha}{u} \right)^{\alpha} }{\Gamma(\alpha)} x^{\alpha - 1} e^{-\left( \frac{\alpha}{u} \right)x}.
+            f_X(x) = \frac{\left( \frac{\alpha}{\mu} \right)^{\alpha} }{\Gamma(\alpha)} x^{\alpha - 1} e^{-\left( \frac{\alpha}{\mu} \right)x}.
         \]
 
         $f_X(x)$ is maximized when $\ln(f_X(x))$ is maximized. For convenience, let $\ell(x)$ denote $\ln(f_X(x))$. Note that 
@@ -71,21 +71,124 @@
             \ell^{\prime}(x) = \frac{\alpha - 1}{x} - \frac{\alpha}{\mu}.
         \]
 
-        Note that $\ell^{\prime}(x) = 0$ when $\frac{\alpha - 1}{x} - \frac{\alpha}{\mu}$. Solving for $x$, we find that $x = \frac{\mu(\alpha - 1)}{\alpha}$. 
+        Note that $\ell^{\prime}(x) = 0$ when $\frac{\alpha - 1}{x} - \frac{\alpha}{\mu}$. Solving for $x$, we find that $x = \frac{\mu(\alpha - 1)}{\alpha}$. \\
+
+        However, note that this is the mode only when $\alpha > 1$ (for which $x > 0$); when $\alpha \leq 1$, the mode occurs at $x=0$. Thus, the mode of the pdf for $X$ as a function of $\alpha$ and $\mu$ is
+
+            \[
+                \boxed{
+                    x = \begin{cases}
+                        0 &\text{ if } \alpha \leq 1  ;\\
+                        \frac{\mu(\alpha - 1)}{\alpha}  &\text{ if } \alpha > 1
+                    \end{cases}
+                } \qedhere
+            \]
         \end{solution}
 
-
-        \item \textbf{Let $Y = \frac{1}{X}$, so that $Y$ follows a reciprocal-Gamma$\left( \alpha, \frac{\alpha}{u} \right)$ distribution. Find the pdf for $Y$,
+        \item \textbf{Let $Y = \frac{1}{X}$, so that $Y$ follows a reciprocal-Gamma$\left( \alpha, \frac{\alpha}{\mu} \right)$ distribution. Find the pdf for $Y$,
         and identify its mode as a function of $\alpha$ and $u$.}
+
+        \begin{solution}
+        Let $Y = \frac{1}{X}$. By the change of variables formula for pdfs, we know that
+        \[
+            f_Y(y) = f_X(g^{-1}(y)) \left| \frac{d}{dy} \left( g^{-1}(y) \right) \right|
+        \]
+        where $g^{-1}(y) = \frac{1}{y}$ and $\frac{d}{dy} \left( g^{-1}(y) \right) = \frac{d}{dy} \left( \frac{1}{y} \right) = -\frac{1}{y^2}$. \\
+        
+        Plugging these back into our above formula, we have that
+        \begin{align*}
+            f_Y(y) &= f_X(g^{-1}(y)) \left| \frac{d}{dy} \left( g^{-1}(y) \right) \right| \\
+            &= \left[ \frac{\left( \frac{\alpha}{\mu} \right)^{\alpha} }{\Gamma(\alpha)} \left( \frac{1}{y} \right)^{\alpha - 1} e^{-\left( \frac{\alpha}{\mu} \right)\left(\frac{1}{y} \right) } \right] \left( \frac{1}{y^2} \right) \\
+            &= \frac{\left( \frac{\alpha}{\mu} \right)^{\alpha} }{\Gamma(\alpha)} y^{-\alpha - 1} e^{- \frac{\alpha}{\mu y} }. 
+        \end{align*}
+
+        Thus, the pdf for $Y$ is 
+        \[
+            \boxed{f_Y(y) = \frac{\left( \frac{\alpha}{\mu} \right)^{\alpha} }{\Gamma(\alpha)} y^{-\alpha - 1} e^{- \frac{\alpha}{\mu y} }}.
+        \]
+
+        To identify the mode of $y$, we can once again work to maximize the log of the pdf for $Y$, denoted $\ell(y)$ for convenience. Note that
+        \[
+            \ell(y) = \ln \left( \frac{\left( \frac{\alpha}{\mu} \right)^{\alpha} }{\Gamma(\alpha)} \right) + (-\alpha - 1) \ln(y) - \frac{\alpha}{\mu y}.
+        \]
+
+        Taking the derivative of $\ell(y)$, we find
+        \[
+            \ell^{\prime}(y) = \frac{-\alpha - 1}{y} + \frac{\alpha}{\mu y^2}.
+        \]
+
+        The mode occurs when $\ell^{\prime}(y) = 0$, or when $\frac{\alpha + 1}{y} + \frac{\alpha}{\mu y^2}$. Solving for $y$, we find that the mode is at
+        \[
+            \boxed{y = \frac{\alpha}{\mu(\alpha + 1)}}
+        \]
+        for all $\alpha > 0$.
+        \end{solution}
     \end{enumerate}
 
     \item \textbf{Let $F(x) = \frac{x}{x+2} I_{(x > 0)}$.}
     
     \begin{enumerate}[a)]
         \item \textbf{Show that $F_x(x)$ is a CDF and find the corresponding pdf.}
+        
+        \begin{solution}
+        First, note that $F_x(x)$ is nondecreasing as 
+        \[
+            F^{\prime}_x(x) = \frac{2}{(x+2)^2} > 0
+        \] 
+        for any $x$. \\
+
+        Furthermore,
+        \[
+            \lim_{x \to -\infty} F(x) = 0
+        \]
+        as $F(x) = 0$ for any $x \leq 0$. \\
+        
+        Finally, note that  
+        \[
+            \lim_{x \to \infty} F(x) = \lim_{x \to \infty} \frac{x}{x+2} = 1.
+        \]
+
+        Thus, $F_x(x)$ satisfies all the properties of a CDF. The corresponding pdf for $X$ is simply $F^{\prime}_x(x)$, or
+        \[
+            \boxed{f(x) = \frac{2}{(x+2)^2} I_{(x > 0)}}. \qedhere
+        \]
+        \end{solution}
+
         \item \textbf{Identify these as the CDF and pdf for an $F^*$ random variable (give the parameter values $a$, $b$, and $c$).}
+        
+        \begin{solution}
+        Recall that if $X \sim F^*(a, b, c)$, then 
+        \[
+            f_X(x) \propto \frac{x^{a - 1}}{(c+x)^{a+b}} I(x > 0).
+        \]
+        Comparing the derived PDF $f_x = \frac{2}{(x+2)^2} I_{(x > 0)}$ to an $F^*$ distribution kernel, we find that $a = 1$, $b = 1$, and $c = 2$, so
+        \[
+            \boxed{X \sim F^*(1, 1, 2)}. \qedhere
+        \]
+        \end{solution}
+        
         \item \textbf{For a random variable $X$ that follows this $F^*$ distribution, represent $X$ in terms of two independent Gamma random variables and a positive constant $c$.
         Use this representation to identify the distributions of $Y = \frac{1}{X}$ and of $R = \frac{X}{2+X}$.}
+
+        \begin{solution}
+        Recall that $F^*(a, b, c) = c \frac{V_1}{V_2}$ where $V_1 \sim \mathrm{Gamma}(a, 1)$ and $V_2 \sim \mathrm{Gamma}(b, 1)$. \\
+        
+        It follows that since $X \sim F^*(1, 1, 2)$, 
+        \[
+            \boxed{X = 2 \frac{V_1}{V_2}}
+        \] where $V_1 \sim \mathrm{Gamma(1, 1)}$ and $V_2 \sim \mathrm{Gamma(1, 1)}$ are independent.
+
+        Furthermore, note that for $Y = \frac{1}{X} = \frac{1}{2} \frac{V_2}{V_1}$, we have that
+        \[
+            \boxed{Y \sim F^*\left( 1, 1, \frac{1}{2} \right)} 
+        \]
+        and for $R = \frac{X}{2+X}$,
+        \[
+            \boxed{R \sim \mathrm{Beta}(1, 1)}
+        \]
+        by properties of the $F^*$ distribution. 
+        \end{solution}
+
     \end{enumerate}
 
     \item \textbf{Suppose $X \mid \theta \sim \mathrm{Poisson}(\theta)$, with $\theta \sim \mathrm{Gamma}(\alpha, \lambda)$. Find the marginal pmf for $X$ by integrating $\theta$ out of the joint pmf/pdf.
