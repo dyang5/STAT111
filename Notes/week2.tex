@@ -228,20 +228,22 @@ which is the CDF for an $\mathrm{Expo}(n \lambda)$ distribution.
     \end{remark}
 
     \subsection{The Beta, $F$, and $t$ distributions}
-    \begin{remark}
-    Let $V_1 \sim \mathrm{Gamma}(a, \lambda)$, $V_2 \sim \mathrm{Gamma}(b, \lambda)$, and $X \sim \mathrm{Beta}(a, b)$. \\
+    \begin{definition}[Relationships between Gamma, Beta, and $F^*$ Distributions]
+    Let $V_1 \sim \mathrm{Gamma}(a, \lambda)$, $V_2 \sim \mathrm{Gamma}(b, \lambda)$. \\
     
-    Then $R = \frac{X}{1-X}$ has PDF
+    Then $X = \frac{V_1}{V_1 + V_2} \sim \mathrm{Beta}(a, b)$. \\
+    
+    Then $R = \frac{V_1}{V_2} = \frac{X}{1-X}$ has PDF
     \[
         f_R(r) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)} r^{a-1} \left( \frac{1}{1+r} \right)^{a+b}.  
     \]
-    Furthermore, $Y = cR$ has PDF
-    \[
-        f_Y(y) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)} \frac{y^{a-1} c^b}{(c+x)^{a+b}} 
-    \]
-    which we define as the $F^* (a, b, c)$ density.
-    
-    \end{remark}
+    Furthermore, $Y = c \frac{V_1}{V_2} = cR \sim F^*(a, b, c)$ has PDF
+    \begin{align*}
+        f_Y(y) &= \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)} \frac{y^{a-1} c^b}{(c+y)^{a+b}} I(y > 0) \\
+        &\propto \frac{y^{a-1} c^b}{(c+y)^{a+b}} I(y > 0)
+    \end{align*}
+    for $a > 0$, $b > 0$, $c > 0$. This is known as the \textbf{$F^* (a, b, c)$}\textbf{ density.}
+    \end{definition}
 
     \begin{definition}[F-distribution]
     The \textbf{$F$-distribution} is defined in terms of Chi-Square random variables: if $V_1 \sim \chi_(m_1)^2$ is independent of  $V_2 \sim \chi_(m_2)^2$, then
@@ -249,6 +251,10 @@ which is the CDF for an $\mathrm{Expo}(n \lambda)$ distribution.
         F_{(m_1, m_2)} \sim \frac{\left( \frac{V_1}{m_1} \right) }{\left( \frac{V_2}{m_2} \right)}.
     \]
     \end{definition}
+
+    \begin{remark}
+    $F_{(n, m)} = F^*\left( \frac{n}{2}, \frac{m}{2}, \frac{m}{n} \right)$.
+    \end{remark}
 
     \begin{definition}
     If $Z \sim N(0, 1)$ is independent of $V \sim \chi_{(m)}^2$, then 
