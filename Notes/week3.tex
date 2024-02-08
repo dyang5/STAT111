@@ -1,0 +1,144 @@
+\newpage
+
+\section{Expected Value}
+\subsection{Definition of Expected Value}
+\begin{definition}
+For a discrete RV $X$, the \textbf{expected value of $X$} is $\mathbb{E}[X] = \sum_i x_i P(x_i)$. \\
+
+For a continuous RV $X$, $\mathbb{E}[X] = \int_{-\infty}^{\infty} xf(x) \, dx$.
+\end{definition}
+
+\begin{remark}
+The expected value of a random variable may not always be defined -- the integral may be unbounded, the integrand may be nonintegrable, 
+or the random variable could be both discrete and continuous.
+\end{remark}
+
+\begin{eg}
+$X \sim \mathrm{Cauchy}(1)$ has pdf $f_X(x) = \frac{1}{\pi} \frac{1}{1+x^2}$ has undefined expected value, as the 
+absolute integral diverges.
+\end{eg}
+
+\subsection{Linearity of Expectation}
+\begin{definition}[Linearity of Expectation]
+If $X_1, X_2, \dots, X_n$ are random variables, then
+\[
+    \mathbb{E}[X_1 + X_2 + \dots + X_n] = \mathbb{E}[X_1] + \mathbb{E}[X_2] + \dots + \mathbb{E}[X_n]
+\]
+\textit{regardless of whether $X_1, X_2, \dots, X_n$ are independent or not.}
+\end{definition}
+
+\begin{eg}
+Suppose that $n$ missiles are targeted independent by $n$ intercepts, each choosing a target at random. Find the expected number of missiles targets.
+\end{eg}
+
+\begin{answer}
+Define an indicator variable $I_k$ for each $k \in \{ 1, \dots, n \}$ such that
+\[
+    I_k = \begin{cases}
+        1 &\text{ if missile } k \text{ is targeted}  \\
+        0 &\text{ otherwise } 
+    \end{cases}
+\]
+Define $X$ to be the number of missiles targeted. Note that
+\[
+    \mathbb{E}[X] = \mathbb{E}[I_1) + \dots + \mathbb{E}[I_n).
+\]
+Note that $\mathbb{E}[I_k)$ for any $k$ is $1 - \left( \frac{n-1}{n} \right)^n$, so $\mathbb{E}[X] = n(1 - \left( \frac{n-1}{n} \right)^n)$. \\
+As $n \rightarrow \infty$, it follows that 
+\[
+    \mathbb{E}[X] = \lim_{n \to \infty} n\left[1 - \left( \frac{n-1}{n} \right)^n\right] = n\left( \frac{e-1}{e} \right).
+\]
+\end{answer}
+\subsection{LOTUS and Variance}
+
+\begin{theorem}[LOTUS (Law of the Unconscious Statistician)]
+For a random variable $X$, and a fixed function $g$ then $Y = g(x)$ has
+\[
+    \mathbb{E}[Y] = \begin{cases}
+        \sum_x g(x)p(x) &\text{ if } $X$ \text{ is discrete}   \\
+        \int_{-\infty}^{\infty} g(x)f(x) \, dx&\text{ if } $X$ \text{ is continuous} 
+    \end{cases}
+\]
+where $p(x)$ and $f(x)$ are the pmf and pdf of $X$, respectively. \\
+
+This holds only if $\sum_x |g(x)| p(x)$ or $\int_{-\infty}^{\infty} |g(x)|f(x) \, dx$ converge.
+\end{theorem}
+
+\begin{theorem}[Markov's Inequality]
+    For a random variable $X$,
+    \[
+        P(X \geq t) \leq \frac{\mathbb{E}_{}\left[ X\right]}{t}.
+    \]
+\end{theorem}
+\begin{theorem}[Chebyshev's Inequality]
+For a random variable $X$ with mean $\mu $ and variance $\sigma^2$ and for $t > 0$,
+\[
+    P(|X - \mu| \geq t) \leq \frac{\sigma ^2}{t^2}.
+\]
+\end{theorem}
+
+
+\subsection{Moment Generating Functions}
+\begin{definition}[Moment Generating Function]
+The \textbf{Moment Generating Function} of a random variable $X$ is 
+\[
+    M_X(t) = \mathbb{E}\left[ e^{tX} \right]. 
+\]
+
+The $k$th derivative of $M_x(t)$ at $t=0$ is $\mathbb{E}\left[X^k \right]$, the $k$th moment of the distribution of $X$. 
+\end{definition}
+
+\begin{theorem}[Uniqueness Property of MGFs]
+If two random variables $X$ and $Y$ have the same MGFs for all $t$ in an interval containing $0$, then $F_X(x) = F_Y(x)$ i.e. they must have the same distribution for all $x$.
+\end{theorem}
+
+\begin{remark}
+$M_{a+bX}(t) = e^{at} M_X(bt)$. \\
+
+Furthermore, for independent random variables $X_1, \dots, X_n$, each with MGF $M_{X_i}$, the MGF for $Y = \sum X_i$ is
+\[
+    M_Y(t) = \prod M_{X_i}(t).
+\]
+\end{remark}
+
+\subsection{Inequalities and Approximate Methods}
+
+\begin{theorem}[Jensen's Inequality]
+If $g$ is a convex function, then 
+\[
+    \mathbb{E}\left[g(X) \right] \geq g(\mathbb{E}\left[X \right] ).
+\]
+
+If $g$ is concave, then 
+\[
+    \mathbb{E}\left[g(X) \right] \leq g(\mathbb{E}\left[X \right] ).
+\]
+\end{theorem}
+
+Using Taylor approximations, we can derive approximations for the mean and variance of a random variable under a transformation $g$. 
+\begin{lemma}
+If $X$ is a random variable with mean $\mu_X$ and variance $\sigma^2_X$ and the transformed variable $Y = g(X)$,
+\[
+    \mathbb{E}\left[y \right] \approx g(\mu _x) + \frac{1}{2}\sigma ^2_X g^{\prime \prime}(\mu_X) 
+\]
+and 
+\[
+    \mathrm{Var} \left[ Y \right] \approx g^{\prime}(\mu_X)^2 \mathrm{Var}\left[ X\right].  
+\]
+\end{lemma}
+
+\subsection{Conditional Expectation}
+\begin{remark}
+Intuitively (without working with the definitions), conditional expectations given events and random variables are different:
+conditional expectation given an event is a value whereas conditional expectation given a random variable yields a random variable.
+\end{remark}
+
+\begin{theorem}[Law of Total Expectation: Adam's Law]
+$\mathbb{E}\left[Y \right] = \mathbb{E}\left[ \mathbb{E}\left[Y \mid X \right]  \right]$
+\end{theorem}
+
+\begin{theorem}[Law of Total Variance: Eve's Law]
+\[    
+   \mathrm{Var} \left[Y \right] = \mathbb{E}\left[\mathrm{Var} \left[ Y \mid X \right]  \right] + \mathrm{Var} \left[\mathbb{E}\left[Y \mid X \right]  \right] 
+\]
+\end{theorem}
