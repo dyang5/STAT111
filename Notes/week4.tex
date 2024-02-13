@@ -12,14 +12,42 @@
     \]
     follows a Normal distribution for any choice of constants $t_1, \dots, t_k$. \\
 
-    [Add why this allows for vectors that do not have a proper joint density function]
+    This definition may allow for vectors that do not have a proper joint density function: consider a bivariate case where $X_1 \sim N(0, 1)$ and $X_2 = -X_1$. It does indeed follow that any
+    linear combination of $X_1$ and $X_2$ follows a Normal distribution, as the sum of any two normal random variables is normal. \\
+
+    However, $X_1 + X_2 = 0$, which does not have a proper joint density function.
 
     \item If $\mathbf{Y} \sim N_n(\mu, \mathbf{V})$, then the joint PDF for $\mathbf{y} = (y_1, \dots, y_n)$ is
     \[
         f_{\mathbf{Y}}(\mathbf{y}) = \frac{\exp \left[ -\frac{1}{2}(\mathbf{y} -\mathbf{\mu})^T \mathbf{V}^{-1} (\mathbf{y} - \mathbf{\mu}) \right]}{\sqrt{(2\pi )^n |\det \mathbf{V}|}}
     \]
 
-    Explain how this matches the bivariate Normal density of presentation 3(a). 
+    It follows that this is an extension of the bivariate Normal density to larger dimensions. Note that the bivariate case is a specific case of the Multivariate Normal where $n = 2$.
+    If $\mathbf{Y} \sim N_2(\mu, \mathbf{V})$, then $\mu = \begin{bmatrix}
+        \mu_1 \\
+        \mu_2 \\
+    \end{bmatrix}$ and $\mathbf{V} = \begin{bmatrix}
+        \sigma_1^2 & \rho \sigma_1\sigma_2   \\
+        \rho \sigma_1\sigma_2 & \sigma_2^2  \\
+    \end{bmatrix}$. \\
+
+    One can check that indeed, the expression
+    \begin{align*}
+        f_{\mathbf{Y}}(\mathbf{y}) &= \frac{\exp \left[ -\frac{1}{2}(\mathbf{y} -\mathbf{\mu})^T \mathbf{V}^{-1} (\mathbf{y} - \mathbf{\mu}) \right]}{\sqrt{(2\pi )^n |\det \mathbf{V}|}} \\
+        &=\frac{\exp \left[ -\frac{1}{2}\begin{pmatrix}
+             y_1 - \mu_1 \\
+             y_2 - \mu_2 \\
+        \end{pmatrix}^T \begin{bmatrix}
+            \sigma_1^2 & \rho \sigma_1\sigma_2   \\
+            \rho \sigma_1\sigma_2 & \sigma_2^2  \\
+        \end{bmatrix}^{-1} \begin{pmatrix}
+            y_1 - \mu_1 \\
+            y_2 - \mu_2 \\
+        \end{pmatrix}\right]}{\sqrt{(2\pi )^n |\sigma_1^2\sigma_2^2(1-p^2)|}},
+    \end{align*}
+    obtained by plugging in the respective expressions for the bivariate case, matches the bivariate Normal density. The calculation/algebra
+    is left as an exercise to the reader.
+
 
     \item Suppose that $V$ is block diagonal; without loss of generality, we can assume that
     \[
@@ -44,7 +72,7 @@
     Note that
     \[
         \exp \left[ -\frac{1}{2}(\mathbf{y} -\mathbf{\mu})^T \mathbf{V}^{-1} (\mathbf{y} - \mathbf{\mu}) \right] = 
-        \exp \left[ -\frac{1}{2}(\mathbf{y}_1 -\mathbf{\mu}_1)^T \mathbf{V_1}^{-1} (\mathbf{y}_1 - \mathbf{\mu}_1) \right] \cdot \exp \left[ -\frac{1}{2}(\mathbf{y}_2 -\mathbf{\mu}_2)^T \mathbf{V_2}^{-1} (\mathbf{y}_2 - \mathbf{\mu}_2) \right].
+        \exp \left[ -\frac{1}{2}(\mathbf{y}_1 -\mathbf{\mu}_1)^T \mathbf{V_1}^{-1} (\mathbf{y}_1 - \mathbf{\mu}_1) \right] \exp \left[ -\frac{1}{2}(\mathbf{y}_2 -\mathbf{\mu}_2)^T \mathbf{V_2}^{-1} (\mathbf{y}_2 - \mathbf{\mu}_2) \right].
     \]
     Furthermore, 
     \[
@@ -58,4 +86,25 @@
         &= f_{\mathbf{Y}_1}(\mathbf{y}_1)f_{\mathbf{Y}_2}(\mathbf{y}_2)
     \end{align*}
     where $\mathbf{Y}_1$ and $\mathbf{Y}_2$ are two independent sub-vectors of $\mathbf{Y}$.
+
+    \item Consider the covariance between $\overline{Y}$ and $Y_i - \overline{Y}$ for any $i$ from $1$ to $n$. Note that
+    
+    \[
+        \Cov\left[ \overline{Y}, Y_i - \overline{Y} \right] = \Cov \left[\overline{Y}, Y_i \right] - \Cov \left[\overline{Y}, \overline{Y}  \right]
+    \]
+    by the linearity property of covariance. Since $\overline{Y} = \sum_{i = 1}^n Y_i$, it follows that
+    \begin{align*}
+        \Cov\left[ \overline{Y}, Y_i - \overline{Y} \right] &= \Cov \left[\overline{Y}, Y_i \right] - \Cov \left[\overline{Y}, \overline{Y}  \right] \\
+        &= \Cov \left[\frac{1}{n}Y_i + \frac{1}{n}\sum_{j \mid i \neq j \, \& \, j \geq 1}^{n} Y_j, Y_i \right] - \frac{\sigma^2}{n} \\
+        &= \frac{1}{n} \Cov \left[ Y_i, Y_i\right] - \frac{\sigma^2}{n} \\
+        &= \frac{\sigma^2}{n} - \frac{\sigma^2}{n} = 0.
+    \end{align*}
+
+    Thus, we find that $\Cov \left[\overline{Y}, Y_i - \overline{Y} \right] = 0$ for $i = 1, \dots, n$, so $\overline{Y}$ is uncorrelated with each $Y_i - \overline{Y}$. \\
+
+    Since 
+    \[
+        s^2 = \frac{1}{n-1} \sum_{i=1}^n (Y_i - \overline{Y})^2
+    \] 
+    by definition, and $\overline{Y}$ is independent from each $Y_i - \overline{Y}$, it follows that $\overline{Y}$ is independent of $s^2$.
 \end{enumerate}
