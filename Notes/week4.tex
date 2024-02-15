@@ -2,6 +2,33 @@
 
 \section{Joint and Conditional Distributions}
 
+\subsection{Joint, Marginal, and Conditional Distributions}
+
+\begin{definition}[Joint, Marginal, and Conditional]
+The \textbf{joint pdf} describes the probability density of observing both $X=x$ and $Y=y$ simultaneously. \\
+
+The \textbf{marginal pdf of $Y$} represents the probability density of observing $Y=y$, irrespective of the value of $X$. \\
+
+The \textbf{conditional pdf of $Y$} given $X=x$ represents the probability density of observing $X=x$, given that $Y=y$.
+\end{definition}
+
+\subsection{Covariance}
+
+\begin{definition}[Covariance and Correlation]
+The \textbf{covariance of $X$ and $Y$} is defined as
+\begin{align*}
+    \Cov \left[X, Y \right] &= \mathbb{E}\left[ \left(X - \mathbb{E}\left[X \right]\right) \left(Y - \mathbb{E}\left[Y \right]\right)  \right] \\
+    &= \mathbb{E}\left[XY \right] - \mathbb{E}\left[X \right] \mathbb{E}\left[Y \right] 
+\end{align*}
+The \textbf{correlation of $X$ and $Y$} is
+\[
+    \rho = \frac{\Cov \left[X, Y \right] }{\sigma_X \sigma_Y}.
+\]
+where $-1 \leq \rho \leq 1$.
+\end{definition}
+
+
+
 \subsection{Multivariate Normal}
 
 \begin{enumerate}[a)]
