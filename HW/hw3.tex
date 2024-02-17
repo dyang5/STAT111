@@ -29,9 +29,26 @@
 
 \begin{enumerate}
     \item \textbf{Suppose a planet has $m$ days in a year, and life forms have equal probability of being hatched on any of these days. For a random group of $n$
-    lifewornms, find the expected proportion of the $m$ possible hatch days that are represented. Find the value when $m = 365$ and $n = 365$ (hint: use indicator variables; the answer is close to $1 - e^{-1}$.)}
+    lifeworms, find the expected proportion of the $m$ possible hatch days that are represented. Find the value when $m = 365$ and $n = 365$ (hint: use indicator variables; the answer is close to $1 - e^{-1}$.)}
 
+    \item \textbf{Suppose $X$ has pmf $P(X = k) = \frac{c}{(1+|k|)^2}$ for $k = 0, \pm 1, \pm 2, \dots$. The constant
+    $c = (2\psi^{\prime}(1) - 1)^{-1}$, where $\psi^{\prime}(\alpha) = \frac{d^2}{d\alpha^2} \log \Gamma(\alpha)$ is the trigamma function.
+    Explain why $E(X)$ is not $0$, despite the symmetry of this pmf.}
     
+    \item \textbf{Suppose $X \sim \mathrm{Gamma}(\alpha, \lambda)$, with pdf $f_x(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha - 1}e^{-\lambda x}I(x > 0)$ for $\alpha > 0$ and $\lambda > 0$.}
+    
+    \begin{enumerate}[a)]
+      \item \textbf{Find an expression for $E(X^k)$, for $k = 1, 2, \dots$, using integration by recognition.}
+      \item \textbf{$Y = \frac{1}{X}$ follows a reciprocal Gamma distribution. Find $E(Y)$, $E(Y^2)$, and $\mathrm{Var} \left[Y \right]$, first using integration by recognition with the pdf found in HW2, and again
+      using LOTUS with the pdf for $X$. Be sure to say if there are conditions when these are not defined.}
+    \end{enumerate}
+
+    \item \textbf{Suppose $V \sim \mathrm{Gamma}(b, 1)$ and $X \mid V \sim \mathrm{Gamma}(a, V)$.}
+    
+    \begin{enumerate}[a)]
+      \item \textbf{Show that $X \sim F^*(a, b, 1)$.}
+      \item \textbf{Use the laws of total expectation and variance to find the mean and variance of the $F^*(a, b, 1)$ distribution. Be sure to say if there are conditions when these are not defined.}
+    \end{enumerate}
 \end{enumerate}
 
 \end{document}
