@@ -16,7 +16,7 @@
 
 	\hrule
 	\begin{center}
-        \textbf{STAT111: Mathematical Statistics II}\hfill \textbf{Spring 2024}\newline
+		\textbf{STAT111: Mathematical Statistics II}\hfill \textbf{Spring 2024}\newline
 
 		{\Large Homework 3}
 
@@ -28,27 +28,207 @@
 \vspace{1em}
 
 \begin{enumerate}
-    \item \textbf{Suppose a planet has $m$ days in a year, and life forms have equal probability of being hatched on any of these days. For a random group of $n$
-    lifeworms, find the expected proportion of the $m$ possible hatch days that are represented. Find the value when $m = 365$ and $n = 365$ (hint: use indicator variables; the answer is close to $1 - e^{-1}$.)}
+	\item \textbf{Suppose a planet has $m$ days in a year, and life forms have equal probability of being hatched on any of these days. For a random group of $n$
+	lifeworms, find the expected proportion of the $m$ possible hatch days that are represented. Find the value when $m = 365$ and $n = 365$ (hint: use indicator variables; the answer is close to $1 - e^{-1}$.)}
 
-    \item \textbf{Suppose $X$ has pmf $P(X = k) = \frac{c}{(1+|k|)^2}$ for $k = 0, \pm 1, \pm 2, \dots$. The constant
-    $c = (2\psi^{\prime}(1) - 1)^{-1}$, where $\psi^{\prime}(\alpha) = \frac{d^2}{d\alpha^2} \log \Gamma(\alpha)$ is the trigamma function.
-    Explain why $E(X)$ is not $0$, despite the symmetry of this pmf.}
-    
-    \item \textbf{Suppose $X \sim \mathrm{Gamma}(\alpha, \lambda)$, with pdf $f_x(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha - 1}e^{-\lambda x}I(x > 0)$ for $\alpha > 0$ and $\lambda > 0$.}
-    
-    \begin{enumerate}[a)]
-      \item \textbf{Find an expression for $E(X^k)$, for $k = 1, 2, \dots$, using integration by recognition.}
-      \item \textbf{$Y = \frac{1}{X}$ follows a reciprocal Gamma distribution. Find $E(Y)$, $E(Y^2)$, and $\mathrm{Var} \left[Y \right]$, first using integration by recognition with the pdf found in HW2, and again
-      using LOTUS with the pdf for $X$. Be sure to say if there are conditions when these are not defined.}
-    \end{enumerate}
+	\begin{solution}
+	Define an indicator variable $I_k$, for $k$ from $1$ to $m$, to represent whether or not an egg hatches on day $k$:
+	\[
+		I_k = \begin{cases}
+			1 &\text{ if egg hatches on day k} \\
+			0 &\text{ otherwise}.
+		\end{cases}
+	\]
+	Note that by construction, 
+	\begin{align*}
+		E(I_k) &= P(\text{egg hatching on day $k$}) \\
+		&= 1 - P(\text{ no egg hatches on day $k$}) \\
+		&= 1- \left( \frac{m-1}{m} \right)^n.
+	\end{align*}
 
-    \item \textbf{Suppose $V \sim \mathrm{Gamma}(b, 1)$ and $X \mid V \sim \mathrm{Gamma}(a, V)$.}
-    
-    \begin{enumerate}[a)]
-      \item \textbf{Show that $X \sim F^*(a, b, 1)$.}
-      \item \textbf{Use the laws of total expectation and variance to find the mean and variance of the $F^*(a, b, 1)$ distribution. Be sure to say if there are conditions when these are not defined.}
-    \end{enumerate}
+	Since the expected number of hatch days represented is simply $E(I_1 + I_2 + \dots + I_m)$, which is equivalent to $mE(I_1)$ by the linearity of expectation. 
+  	Thus, the expected proportion of hatch days represented is $\frac{mE(I_1)}{m} = E(I_1)$, or
+	\[
+		1- \left( \frac{m-1}{m} \right)^n = 1- \left( \frac{364}{365} \right)^{365} \approx \boxed{0.6236}.
+	\]
+	Note that this matches what we expect, as $\frac{1}{e} \approx 0.632$.
+	\end{solution}
+	
+	\newpage
+
+	\item \textbf{Suppose $X$ has pmf $P(X = k) = \frac{c}{(1+|k|)^2}$ for $k = 0, \pm 1, \pm 2, \dots$. The constant
+	$c = (2\psi^{\prime}(1) - 1)^{-1}$, where $\psi^{\prime}(\alpha) = \frac{d^2}{d\alpha^2} \log \Gamma(\alpha)$ is the trigamma function.
+	Explain why $E(X)$ is not $0$, despite the symmetry of this pmf.}
+	
+	\begin{solution} The expected value of $X$, $E(X)$, is not $0$ as the expectation of $|X|$, $E(|X|)$, is not defined. Note that by definition (and symmetry), 
+	\[
+		E(|X|) = \sum_{i=-\infty}^{\infty} \frac{c|x|}{(1+x)^2} = 2c\sum_{i=0}^{\infty} \frac{|x|}{(1+x)^2} = 2c\sum_{i=1}^{\infty} \frac{x}{(1+x)^2}
+	\]
+	
+	We claim that for all positive integers $x$, $(1+x)^2 \leq 5x^2$, or equivalently, $5x^2 - (1+x)^2 \geq 0$, in an attempt to bound this expected value. Note that upon completing the square, we find that 
+	\[
+		5x^2 - (1+x)^2 = 4\left( x - \frac{1}{4} \right)^2 - \frac{5}{4}.
+	\]
+
+	Since $4\left( x - \frac{1}{4} \right)^2 - \frac{5}{4}$ is increasing and greater than $0$ when $x = 1$, it follows that $(1+x)^2 \leq 5x^2$. \\
+
+	The above inequality gives us a lower bound for the expected value of $|X|$: 
+	\begin{align*}
+		E(|X|) &= 2c\sum_{i=1}^{\infty} \frac{x}{(1+x)^2} \\
+		&> 2c \sum_{i=1}^{\infty} \frac{x}{5x^2} = \frac{2c}{5} \sum_{i=1}^{\infty} \frac{1}{x}.
+	\end{align*} 
+	
+	Since the harmonic series diverges and is a lower bound for $E(|X|)$, it follows that $E(|X|)$ diverges and is consequently not defined. Thus, $E(X) \neq 0$.
+	\end{solution}
+	\newpage
+	
+	\item \textbf{Suppose $X \sim \mathrm{Gamma}(\alpha, \lambda)$, with pdf $f_x(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha - 1}e^{-\lambda x}I(x > 0)$ for $\alpha > 0$ and $\lambda > 0$.}
+	
+	\begin{enumerate}[a)]
+	  \item \textbf{Find an expression for $E(X^k)$, for $k = 1, 2, \dots$, using integration by recognition.}
+	  
+	\begin{solution}
+	By definition,
+	\begin{align*}
+		E(X^k) &= \int_0^{\infty} x^k \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha - 1}e^{-\lambda x} \, dx \\
+		&= \int_0^{\infty} x^{\alpha + k - 1} \frac{\lambda^\alpha}{\Gamma(\alpha)}e^{-\lambda x} \, dx \\
+		&= \frac{\Gamma(\alpha + k)}{\lambda^k \Gamma(\alpha)}\int_0^{\infty} x^{\alpha + k - 1} \frac{\lambda^{\alpha+k}}{\Gamma(\alpha + k)}e^{-\lambda x} \, dx
+	\end{align*}
+
+	Note that the integral is $1$, as it is the integrand of a $Gamma(\alpha + k, \lambda)$ random variable. Thus, we find that
+	\[
+		\boxed{E(X^k) = \frac{\Gamma(\alpha + k)}{\lambda^k \Gamma(\alpha)}}. \qedhere
+	\]
+	\end{solution}
+
+	\item \textbf{$Y = \frac{1}{X}$ follows a reciprocal Gamma distribution. Find $\mathbb{E}\left[Y \right] $, $\mathbb{E}\left[Y^2 \right] $, and $\mathrm{Var} \left[Y \right]$, first using integration by recognition with the pdf found in HW2, and again
+	using LOTUS with the pdf for $X$. Be sure to say if there are conditions when these are not defined.}
+
+	\begin{solution}
+		Note that $Y = \frac{1}{X}$ has pdf 
+		\[
+			f_Y(y) = \frac{\lambda^\alpha}{\Gamma(\alpha)} y^{-(\alpha + 1)}e^{-\frac{\lambda}{y}}.
+		\]
+		Consequently, the expected value of $Y$, $E(Y)$, is
+		\begin{align*}
+			\mathbb{E}\left[Y \right] &= \int_0^{\infty} y\frac{\lambda^\alpha}{\Gamma(\alpha)} y^{-(\alpha + 1)}e^{-\frac{\lambda}{y}} \, dy \\
+			&= \int_0^{\infty} \frac{\lambda^\alpha}{\Gamma(\alpha)} y^{-\alpha}e^{-\frac{\lambda}{y}} \, dy \\
+			&= \frac{\lambda \Gamma(\alpha - 1)}{\Gamma(\alpha)} \int_0^{\infty} y^{-(\alpha - 1 + 1) \frac{\lambda^{\alpha - 1}}{\Gamma(\alpha - 1)}} e^{-\frac{\lambda}{y}} \, dy.
+		\end{align*}
+
+		Note that the integral is $1$, as it is the integrand of a Reciprocal-Gamma$(\alpha - 1, \lambda)$ random variable. Thus, we find that (defined for any $\alpha > 1$),
+		\[
+			\boxed{\mathbb{E}\left[Y \right] = \frac{\lambda \Gamma(\alpha - 1)}{\Gamma(\alpha)} = \frac{\lambda}{\alpha - 1}}.
+		\]
+
+		We can follow a similar procedure to identify $\mathbb{E}\left[Y^2 \right]$. Note that
+		\begin{align*}
+			\mathbb{E}\left[Y^2 \right] &= \int_0^{\infty} y^2\frac{\lambda^\alpha}{\Gamma(\alpha)} y^{-(\alpha + 1)}e^{-\frac{\lambda}{y}} \, dy \\
+			&= \frac{\lambda^{2}  \Gamma(\alpha - 2)}{\Gamma(\alpha)} \int_0^{\infty} y^{-(\alpha - 2 + 1) \frac{\lambda^{\alpha - 2}}{\Gamma(\alpha - 2)}} e^{-\frac{\lambda}{y}} \, dy.
+		\end{align*}
+
+		Note that the integral is $1$, as it is the integrand of a Reciprocal-Gamma$(\alpha - 2, \lambda)$ random variable. Thus, we find that (defined for any $\alpha > 2$),
+		\[
+			\boxed{\mathbb{E}\left[Y^2 \right] = \frac{\lambda^2 \Gamma(\alpha - 2)}{\Gamma(\alpha)} = \frac{\lambda^2}{(\alpha - 1)(\alpha - 2)}}.
+		\]
+
+		For the variance of $Y$, we know
+		\begin{align*}
+			\mathrm{Var} \left[Y \right] &= \mathbb{E}\left[Y^2 \right] - \mathbb{E}\left[Y \right]^2 \\
+			&= \frac{\lambda^2}{(\alpha - 1)(\alpha - 2)} - \left( \frac{\lambda}{\alpha - 1} \right)^2 \\
+			&= \frac{\lambda^2(\alpha - 1) - \lambda^2(\alpha - 2)}{(\alpha - 1)^2(\alpha - 2)} \\
+			&= \frac{\lambda^2}{(\alpha - 1)^2(\alpha - 2)}.
+		\end{align*}
+
+		Thus, the variance of $Y$, defined for $\alpha > 2$, is 
+		\[
+			\boxed{\mathrm{Var} \left[Y \right] = \frac{\lambda^2}{(\alpha - 1)^2(\alpha - 2)}}.
+		\]
+		\noindent\rule{\textwidth}{1pt} \\
+
+		We can also use LOTUS and the pdf of $X$ to calculate these expected values. Note that
+		\[
+			\mathbb{E}\left[Y \right] = \mathbb{E}\left[\frac{1}{X} \right] = \int_0^{\infty} \frac{1}{x} \frac{\lambda^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\lambda x} \, dx.
+		\]
+		Simplifying, we find that
+		\begin{align*}
+			\mathbb{E}\left[Y \right] &= \int_0^{\infty} \frac{1}{x} \frac{\lambda^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\lambda x} \, dx \\
+			&= \int_0^{\infty} \frac{\lambda^\alpha}{\Gamma(\alpha)} x^{\alpha - 2} e^{-\lambda x} \, dx \\
+			&= \frac{\Gamma(\alpha - 1)\lambda}{\Gamma(\alpha)} \int_0^{\infty} \frac{\lambda^{\alpha - 1}}{\Gamma(\alpha - 1)} x^{(\alpha - 1) -  1} e^{-\lambda x} \, dx
+		\end{align*}
+		Once again, the integrand integrates to $1$ as it is the pdf of a $\mathrm{Gamma}(\alpha - 1, \lambda)$ variable. Thus, for $\alpha > 1$,
+		\[
+			\boxed{\mathbb{E}\left[Y \right] = \frac{\Gamma(\alpha - 1)\lambda}{\Gamma(\alpha)} = \frac{\lambda}{\alpha - 1}}.
+		\]
+
+		Similarly, note that
+		\[
+			\mathbb{E}\left[Y^2 \right] = \mathbb{E}\left[\frac{1}{X^2} \right] = \int_0^{\infty} \frac{1}{x^2} \frac{\lambda^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\lambda x} \, dx.
+		\]
+		Simplifying, we find that
+		\begin{align*}
+			\mathbb{E}\left[Y \right] &= \int_0^{\infty} \frac{1}{x^2} \frac{\lambda^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\lambda x} \, dx \\
+			&= \int_0^{\infty} \frac{\lambda^\alpha}{\Gamma(\alpha)} x^{\alpha - 3} e^{-\lambda x} \, dx \\
+			&= \frac{\Gamma(\alpha - 2)\lambda^2}{\Gamma(\alpha)} \int_0^{\infty} \frac{\lambda^{\alpha - 2}}{\Gamma(\alpha - 2)} x^{(\alpha - 2) -  1} e^{-\lambda x} \, dx
+		\end{align*}
+		Once again, the integrand integrates to $1$ as it is the pdf of a $\mathrm{Gamma}(\alpha - 2, \lambda)$ variable. Thus, for $\alpha > 2$,
+		\[
+			\boxed{\mathbb{E}\left[Y^2 \right] = \frac{\Gamma(\alpha - 2)\lambda^2}{\Gamma(\alpha)} = \frac{\lambda^2}{(\alpha - 1)(\alpha - 2)}}.
+		\]
+		These results both match our previous integration-by-recognition calculations.
+	\end{solution}
+
+	\end{enumerate}
+
+	\newpage
+
+	\item \textbf{Suppose $V \sim \mathrm{Gamma}(b, 1)$ and $X \mid V \sim \mathrm{Gamma}(a, V)$.}
+	
+	\begin{enumerate}[a)]
+	  \item \textbf{Show that $X \sim F^*(a, b, 1)$.}
+	  
+		\begin{solution}
+		Let $U \sim \mathrm{Gamma}(a, 1)$. Then by the scaling property of Gamma random variables, we know that, by treating $V$ as a constant, $\frac{U}{V} \sim \mathrm{Gamma}(a, V)$. 
+		Consequently, treating $V$ as a random variable, we have that 
+		\[
+			\frac{U}{V} \sim X,
+		\]
+		where $X \sim F^*(a, b, 1)$ by the definition of a $F^*$ random variable.
+		\end{solution}
+	  \item \textbf{Use the laws of total expectation and variance to find the mean and variance of the $F^*(a, b, 1)$ distribution. Be sure to say if there are conditions when these are not defined.}
+	
+		\begin{solution}
+			By Adam's Law (The Law of Total Expectation), since $X \sim F^*(a, b, 1)$, we have that
+			\begin{align*}
+				\mathbb{E}\left[X \right] &= \mathbb{E}\left[ \mathbb{E}\left[X \mid V \right]  \right] \\
+				&= \mathbb{E}\left[ \frac{a}{V} \right] \\
+				&= a \mathbb{E}\left[\frac{1}{V} \right].
+			\end{align*}
+
+		By problem $2$, since $V \sim \mathrm{Gamma}(b, 1)$, we know that $\mathbb{E}\left[\frac{1}{V} \right] = \frac{1}{b-1}$. Thus, we conclude that (for $b > 1$, when this is defined)
+		\[
+			\boxed{\mathbb{E}\left[X \right] = \frac{a}{b-1}}.
+		\]
+
+		Similarly, by Eve's Law (The Law of Total Variance), we know that
+		\[
+			\mathrm{Var} \left[X \right] = \mathbb{E}\left[\mathrm{Var} \left[ X \mid V \right]  \right] + \mathrm{Var} \left[\mathbb{E}\left[X \mid V \right]  \right]. 
+		\]
+		Since $X \mid V \sim \mathrm{Gamma}(a, V)$, we know that $\mathrm{Var} \left[X \mid V \right] = \frac{a}{V^2}$. Similarly, we know that $\mathbb{E}\left[X \mid V \right] = \frac{a}{V}$. 
+		Plugging these in, we find that 
+		\begin{align*}
+			\mathrm{Var} \left[X \right] &= \mathbb{E}\left[\mathrm{Var} \left[ X \mid V \right]  \right] + \mathrm{Var} \left[\mathbb{E}\left[X \mid V \right]  \right] \\
+			&= \mathbb{E}\left[\frac{a}{V^2} \right] + \mathrm{Var} \left[ \frac{a}{V} \right] \\
+			&= a\mathbb{E}\left[\frac{1}{V^2} \right] + a^2 \mathrm{Var} \left[ \frac{1}{V} \right].
+		\end{align*}
+
+		By problem $2$, since $V \sim \mathrm{Gamma}(b, 1)$, we know that $\mathrm{Var} \left[\frac{1}{V} \right] = \frac{1^2}{(b-1)^2(b-2)}$. Similarly, by problem $2$, we know
+		$\mathbb{E}\left[\frac{1}{V^2} \right] = \frac{1}{(b-1)(b-2)}.$ Plugging these values in, we get that (for $b > 2$, when this is defined)
+		\[
+			\boxed{\mathrm{Var} \left[X \right] = \frac{a}{(b-1)(b-2)} + \frac{a^2}{(b-1)^2(b-2)}}. \qedhere
+		\]
+		\end{solution}
+	\end{enumerate}
 \end{enumerate}
 
 \end{document}
