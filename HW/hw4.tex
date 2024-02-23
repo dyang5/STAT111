@@ -18,7 +18,7 @@
 	\begin{center}
         \textbf{STAT111: Mathematical Statistics II}\hfill \textbf{Spring 2024}\newline
 
-		{\Large Homework 3}
+		{\Large Homework 4}
 
 		David Yang
 	\end{center}
@@ -43,27 +43,156 @@
       \]
     \end{enumerate}
 
+    \newpage
+
     \item \textbf{Suppose $Z_1$ and $Z_2$ have joint pdf}
     \[
       f_{12}(z_1, z_2) = \exp \left[ -\log (\pi ) - 2(z_1^2 + z_2^2 + \sqrt{3}z_1 z_2) \right].
     \]
     \begin{enumerate}[a)]
-      \item \textbf{Identify this as a bivariate Normal density by specifying the means $\mu_1$ and $\mu_2$, standard deviations $\sigma_1$ and $\sigma_2$, and the correlation$ \rho $.}
+      \item \textbf{Identify this as a bivariate Normal density by specifying the means $\mu_1$ and $\mu_2$, standard deviations $\sigma_1$ and $\sigma_2$, and the correlation $ \rho $.}
+      
+      \begin{solution}
+        Note that 
+        \begin{align*}
+          f_{12}(z_1, z_2) &= \exp \left[ -\log (\pi ) - 2(z_1^2 + z_2^2 + \sqrt{3}z_1 z_2) \right] \\
+          &= \frac{1}{\pi} \exp \left[ - 2(z_1^2 + z_2^2 + \sqrt{3}z_1 z_2) \right].
+        \end{align*}
+
+        Rewriting this expression, we have that 
+        \begin{align*}
+          f_{12}(z_1, z_2) &= \frac{1}{\pi} \exp \left[ - 2(z_1^2 + z_2^2 + \sqrt{3}z_1 z_2) \right] \\
+          &= \frac{1}{2\pi \left( \frac{1}{2} \right)}  \exp \left[ -\frac{1}{2\left( \frac{1}{4} \right) }(z_1^2 + z_2^2 - 2\left( -\frac{\sqrt{3}}{2} \right) z_1 z_2) \right].
+        \end{align*}
+
+        We recognize this as a bivariate Normal density, with 
+        \[
+          \boxed{\mu_1 = \mu_2 = 0, \sigma_1 = \sigma_2 = 1, \text{ and } \rho = -\frac{\sqrt{3}}{2}}. \qedhere
+        \]
+      \end{solution}
+
       \item \textbf{Any joint pdf may be expressed as a marginal pdf multiplied by a conditional pdf. Show that $f_{12}(z_1, z_2)$ may be written as the product of a standard Normal density for $Z_1$ and a Normal density for $Z_2\mid z_1$ that depends on $z_1$.
       Give the conditional mean and variance for $Z_2 \mid z_1$ and show that they agree with the formulas $\mathbb{E}[Z_2 \mid z_1] = \beta_0 + \beta_1 z_1$ with $\beta_1 = \rho \frac{\sigma_2}{\sigma_1}$, 
       $\beta_0 = \mu_2 - \beta_1 \mu_1$, and $\mathrm{Var} \left[Z_2 \mid z_1 \right] = (1-\rho^2)\sigma_2^2$.}
+
+      \begin{solution}
+      Let $Z_1 \sim N(0, 1)$. We know that $f_{Z_1}(z_1) = \frac{1}{\sqrt{2\pi}} \exp \left[ -\frac{z_1^2}{2} \right].$ 
+      \begin{align*}
+        f_{12}(z_1, z_2) &= \frac{1}{\pi} \exp \left[- 2(z_1^2 + z_2^2 + \sqrt{3}z_1 z_2) \right] \\
+        &= \frac{1}{\sqrt{2\pi}} \exp \left[ -\frac{z_1^2}{2} \right] \frac{\sqrt{2}}{\sqrt{\pi}} \exp \left[- \left(\frac{3}{2}z_1^2 + 2z_2^2 + 2\sqrt{3}z_1 z_2\right) \right] 
+      \end{align*}
+      Recognizing the first term as $f_{Z_1}(z_1)$, the pdf for $Z_1$, we have that
+      \[
+        f_{12}(z_1, z_2) = f_{Z_1}(z_1) \frac{\sqrt{2}}{\sqrt{\pi}} \exp \left[- \left(\frac{3}{2}z_1^2 + 2z_2^2 + 2\sqrt{3}z_1 z_2\right) \right].
+      \]
+
+      Rearranging the second term and simplifying, we get that
+      \begin{align*}
+        f_{12}(z_1, z_2) &= f_{Z_1}(z_1) \frac{\sqrt{2}}{\sqrt{\pi}} \exp \left[- \left(\frac{3}{2}z_1^2 + 2z_2^2 + 2\sqrt{3}z_1 z_2\right) \right] \\
+        &= f_{Z_1}(z_1) \frac{\sqrt{2}}{\pi} \exp \left[ -2\left(z_2^2 + \sqrt{3}z_1z_2 + \frac{3}{4}z_1^2  \right)\right] \\
+        &= f_{Z_1}(z_1) \frac{1}{\sqrt{2\pi \cdot \frac{1}{4}}} \exp \left[ -\frac{\left( z_2 + \frac{\sqrt{3}}{2}z_1 \right)^2 }{2\left( \frac{1}{4} \right) }\right].
+      \end{align*}
+
+      We recognize the second term now as the pdf for $Z_2 \mid z_1 \sim N\left( -\frac{\sqrt{3}}{2}z_1, \frac{1}{4} \right)$, so we conclude
+      \[
+        f_{12}(z_1, z_2) = f_{Z_1}(z_1) f_{Z_2 \mid z_1}(z_2 \mid z_1).
+      \] 
+      Note that $\mathbb{E}\left[Z_2 \mid z_1 \right] = -\frac{\sqrt{3} }{2}z_1$, and 
+      \begin{align*}
+        \beta_0 + \beta_1 z_1 &= \left(\mu_2 - \left(\rho \frac{\sigma_2}{\sigma_1}\right)\mu_1\right) + \rho \frac{\sigma_2}{\sigma_1}z_1 \\
+        &= (0 - 0) - \frac{\sqrt{3}}{2}z_1 \\
+        &= -\frac{\sqrt{3} }{2} z_1.
+      \end{align*}
+
+      Similarly, $\mathrm{Var} \left[Z_2 \mid z_1 \right] = \frac{1}{4}$ and 
+      \begin{align*}
+        \left( 1 - \rho^2 \right) \sigma_2^2 &= \left( 1 - \left( -\frac{\sqrt{3}}{2} \right)^2\right) 1^2 \\
+        &= \frac{1}{4},
+      \end{align*}
+      matching the results from the given formulas.
+      \end{solution}
+
       \item \textbf{You can also show conditional results using representation. For $Z_o \sim N(0, 1)$ independent of $Z_2$, define $Z_1 = \rho Z_2 + \sqrt{1-\rho^2}Z_o$ to have correlation $\rho$ with $Z_2$.
       Show that conditioning on $Z_2 = z_2$ and treating this as constant in the representation of $Z_1$ results in a conditional distribution $Z_1 \mid z_2$ that mirrors that of $Z_2 \mid z_1$ from part (b).}
+    
+      \begin{solution}
+        For $Z_o \sim N(0, 1)$ independent of $Z_2$, define $Z_1 = \rho Z_2 + \sqrt{1-\rho^2}Z_o$ as stated. Note that $\sqrt{1-\rho^2}Z_o \sim N(0, 1-\rho^2)$. Conditioning on $Z_2 \mid z_2$, we find that
+        \[
+          Z_1 \mid z_2 \sim N(\rho Z_2, 1-\rho^2)
+        \] 
+        For $\rho = -\frac{\sqrt{3} }{2}$ (giving $1-\rho^2 = \frac{1}{4}$), we have
+        \[
+          Z_1 \mid z_2 \sim N\left( -\frac{\sqrt{3} }{2}z_2, \frac{1}{4} \right) 
+        \]
+        which matches the distribution of $Z_2 \mid z_1$ in part (b).
+      \end{solution}
     \end{enumerate}
+
+    \newpage
+    
     \item \textbf{Suppose $X$ and $Y$ have joint pdf $f_{xy}(x, y) = I(0 < x < 1, -x < y < x)$.}
     \begin{enumerate}[a)]
       \item \textbf{Explain how you can tell, without finding the marginal densities, that the conditional densities are Uniform.
       Write out the conditional densities $f_{x \mid y}(x \mid y)$ and $f_{y \mid x}(y \mid x)$.}
+
+      \begin{solution}
+      The conditional densities are uniform as they are proportional to the joint density, which can be thought of as Uniform (as it is an indicator variable). \\
+
+      Since by construction, $|y| < x$ and $x < 1$ it follows that the conditional density is
+      \[
+        f_{x \mid y}(x \mid y) = \frac{1}{1 - |y|} I(|y| < x < 1).
+      \]
+      Similarly, we must have that $-x < y < x$, so
+      \[
+        f_{x \mid y}(y \mid x) = \frac{1}{2x} I(-x < y < x). \qedhere
+      \]\end{solution}
       \item \textbf{Explain how you can tell, without finding the marginal densities, that $X$ and $Y$ are not independent. Find the marginal pdf's $f_x(x)$ and $f_y(y)$ 
       and verify that $f_{xy}(x, y) \neq f_x(x)f_y(y)$.}
+
+      \begin{solution}
+      Note that very clearly, $f_{x \mid y}(x, y)$ are not equal for different values of $y$, so $X$ and $Y$ cannot be independent. We can verify this with the marginal pdfs:
+      \[
+        f_x(x) = \frac{f_{xy}(x, y)}{f_{y \mid x}(y \mid x)} = \frac{I(0 < x < 1, -x < y, x)}{\frac{1}{2x} I(-x < y < x)}= 2x I(0 < x < 1).
+      \]
+      Similarly, 
+      \[
+        f_x(y) = \frac{f_{xy}(x, y)}{f_{x \mid y}(x \mid y)} = \frac{I(0 < x < 1, -x < y, x)}{\frac{1}{1 - |y|} I(|y| < x < 1)}= (1- |y|) I(-1 < y < 1).
+      \]
+
+      We check that
+      \begin{align*}
+        f_X(x)f_Y(y) &= 2x(1-|y|) I(0 < x < 1) I(-1 < y < 1) \\
+        &\neq I(0 < x < 1, -x < y, x) = f_{XY}(x, y)
+      \end{align*}
+      confirming that $X$ and $Y$ are not independent.
+      \end{solution}
+
       \item \textbf{Show that $X$ and $Y$ are uncorrelated.}
+      
+      \begin{solution}
+      Note that
+      \[
+        \mathbb{E}\left[XY \right] = \int_0^1 \int_{-x}^x xy I(0 < x < 1, -x < y < x) \, dy \, dx = 0
+      \]
+      by symmetry. Similarly,
+      \[
+        \mathbb{E}\left[X \right] = \int_0^1 x(2x) \, dx = 1
+      \]
+      and 
+      \[
+        \mathbb{E}\left[Y \right] = \int_{-1}^1 y(1 - |y|) \, dy = 0
+      \]
+      by symmetry. Thus, we have that
+      \[
+        \mathbb{E}\left[XY \right] - \mathbb{E}\left[X \right] \mathbb{E}\left[Y \right] = 0
+      \]
+      so $X$ and $Y$ are uncorrelated, as desired.
+      \end{solution}
+    
     \end{enumerate}
 
+    \newpage
+    \item 
     \begin{enumerate}[a)]
       \item \textbf{Suppose $X_1$ and $X_2$ are Bernoulli random variables with expectations $p_1$ and $p_2$. Show that $X_1$ and $X_2$ are independent if and only if they are uncorrelated.
       This shows the Bernoulli distribution is special like the multivariate Normal distribution in that uncorrelated implies independence.}
