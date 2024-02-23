@@ -31,8 +31,30 @@
     \item \textbf{Suppose $V_1$ and $V_2$ are independent $\mathrm{Gamma}(1, \lambda)$ random variables that represent waiting
     times in a Poisson process with rate $\lambda$ events per unit time. Let $X = V_1$ be the time of the
     first event and let $Y = V_1 + V_2$ be the time of the second event.}
-  
 
+    \begin{enumerate}[a)]
+      \item \textbf{Find the joint CDF for $X$ and $Y$: $F_{xy}(x, y) = P(X \leq x, Y \leq y)$. Hint: Graph the positive quadrant of the plane
+      with axes $V_1$ and $V_2$, and mark the region where $V_1 \leq x$ and $V_1 + V_2 \leq y$. Integrate the joint pdf for $V_1$ and $V_2$ over this region to obtain the function $F_{xy}(x, y)$.
+      Note that if there are restrictions on the arguments $x$ and $y$ that you do not specify, then you have failed to define the function.}
+      \item \textbf{Show how to get the marginal CDF $F_x$ by taking the upper limit for $y$, and $F_y$ by taking the upper limit for $x$. Differentiate each marginal CDF to get the marginal pdfs.}
+      \item \textbf{Show that taking partial derivatives of $F_{xy}$ with respect to $x$ and $y$ yields the joint pdf:}
+      \[
+        \frac{\partial^2}{\partial x \partial y}F_{xy}(x, y) = \lambda^2 e^{-\lambda y}I(0< x < y). 
+      \]
+    \end{enumerate}
+
+    \item \textbf{Suppose $Z_1$ and $Z_2$ have joint pdf}
+    \[
+      f_{12}(z_1, z_2) = \exp \left[ -\log (\pi ) - 2(z_1^2 + z_2^2 + \sqrt{3}z_1 z_2) \right].
+    \]
+    \begin{enumerate}[a)]
+      \item \textbf{Identify this as a bivariate Normal density by specifying the means $\mu_1$ and $\mu_2$, standard deviations $\sigma_1$ and $\sigma_2$, and the correlation$ \rho $.}
+      \item \textbf{Any joint pdf may be expressed as a marginal pdf multiplied by a conditional pdf. Show that $f_{12}(z_1, z_2)$ may be written as the product of a standard Normal density for $Z_1$ and a Normal density for $Z_2\mid z_1$ that depends on $z_1$.
+      Give the conditional mean and variance for $Z_2 \mid z_1$ and show that they agree with the formulas $\mathbb{E}[Z_2 \mid z_1] = \beta_0 + \beta_1 z_1$ with $\beta_1 = \rho \frac{\sigma_2}{\sigma_1}$, 
+      $\beta_0 = \mu_2 - \beta_1 \mu_1$, and $\mathrm{Var} \left[Z_2 \mid z_1 \right] = (1-\rho^2)\sigma_2^2$.}
+      \item \textbf{You can also show conditional results using representation. For $Z_o \sim N(0, 1)$ independent of $Z_2$, define $Z_1 = \rho Z_2 + \sqrt{1-\rho^2}Z_o$ to have correlation $\rho$ with $Z_2$.
+      Show that conditioning on $Z_2 = z_2$ and treating this as constant in the representation of $Z_1$ results in a conditional distribution $Z_1 \mid z_2$ that mirrors that of $Z_2 \mid z_1$ from part (b).}
+    \end{enumerate}
     \item \textbf{Suppose $X$ and $Y$ have joint pdf $f_{xy}(x, y) = I(0 < x < 1, -x < y < x)$.}
     \begin{enumerate}[a)]
       \item \textbf{Explain how you can tell, without finding the marginal densities, that the conditional densities are Uniform.
