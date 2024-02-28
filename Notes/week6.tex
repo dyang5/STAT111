@@ -44,4 +44,27 @@
         \Lambda &= \frac{\max\limits_{H_0} \frac{n!}{x_1! \dots x_6!}\theta_1^{x_1} \dots \theta_6^{x_6}}{\max\limits_{H_0 \cup H_1} \frac{n!}{x_1! \dots x_6!}\theta_1^{x_1} \dots \theta_6^{x_6}} \\
         &= \frac{\left( \frac{1}{6} \right)^{x_1 + \dots + x_6} }{\left( \frac{x_1}{n} \right)^{x_1} \dots \left( \frac{x_6}{n} \right)^{x_6} }
     \end{align*}
+    where the denominator is from the fact that $\hat{\theta}_i = \frac{x_i}{n}$, which we derived in part (a). Note that
+    \begin{align*}
+        -2 \log (\Lambda) &= -2 \sum_{i=1}^6 x_i \log \left( \frac{\frac{1}{6}}{\frac{x_i}{n}} \right) \\
+        &= -2 \left( \sum x_i \log \frac{1}{6} - \sum x_i \log \left( \frac{x_i}{n} \right) \right) \\
+        &= -2 \left( n \log \left(\frac{1}{6}\right) - \sum \log \left( \left( \frac{x_i}{n} \right)^{x_i} \right) \right) 
+    \end{align*}
+
+    The Chi-square approximation for $-2 \log \Lambda \dot\sim \chi^2_{\nu}$ where $\nu$ is the difference in the dimensions of the null and alternative parameter spaces; in this case, $\nu = 6 - 1 = 5$. \\
+
+    For the given data, we find that 
+    \[
+        \Lambda = \frac{\left( \frac{1}{6} \right)^{24} }{\frac{8}{24}^8 \frac{4}{24}^{16}} = \frac{1}{256}
+    \]
+    so $-2 \log \Lambda \approx 11.1$. Using the Chi-Square approximation $\chi^2_5$, we find the associated p-value using the R command \textit{$1$ - pchisq($11.1, 5)$ = 0.049}.
+    We can compare this approximation to the exact p-value which we can acquire through simulation (see attached R Code). \\
+
+    Note that the interpretation of the p-value is the probability of achieving such an extreme value of $-2\log \Lambda$ in $n$ rolls, assuming $H_0$ is true.
+
+    \item See the above image for the GLR test for independence of the row and column variables in a two-way table of counts.\\
+    
+    To show the asymptotic equivalence of the Chi-square approximation for $-2 \log \Lambda$ with the Pearson Chi-square test of independence, we will manipulate the expression for $-2 \log \Lambda$. \\
+
+    
 \end{enumerate}
