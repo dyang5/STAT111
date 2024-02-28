@@ -5,6 +5,7 @@
 \usepackage{amssymb}
 \usepackage[shortlabels]{enumitem}
 \usepackage[margin=1in]{geometry}
+\graphicspath{{img}}
 
 \newenvironment{solution}
   {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
@@ -35,12 +36,82 @@
     \begin{enumerate}[a)]
       \item \textbf{Find the joint CDF for $X$ and $Y$: $F_{xy}(x, y) = P(X \leq x, Y \leq y)$. Hint: Graph the positive quadrant of the plane
       with axes $V_1$ and $V_2$, and mark the region where $V_1 \leq x$ and $V_1 + V_2 \leq y$. Integrate the joint pdf for $V_1$ and $V_2$ over this region to obtain the function $F_{xy}(x, y)$.
-      Note that if there are restrictions on the arguments $x$ and $y$ that you do not specify, then you have failed to define the function.}
+      Note that if there are restrictions on the arguments $x$ and $y$ that you do not specify, then you have failed to define the function.} 
+
+      \begin{solution}
+      Note that since $X = V_1$ and $Y = V_1 + V_2$, then 
+      \[
+        F_{xy}(x, y) = P(X \leq x, Y \leq y) = P(V_1 \leq x, V_1 + V_2 \leq y) = P(V_1 \leq x, V_2 \leq y - V_1)
+      \]
+      with the restriction that $x \leq y$. \\
+
+      Graphing the positive quadrant of the plane with axes $V_1$ and $V_2$ and integrating the joint pdf for $V_1$ and $V_2$ over the region where $V_1 \leq x$ and $V_1 + V_2 \leq y$ for $x < y$ (shaded),
+      \vspace{-0.5cm}
+      \begin{center}  
+      \includegraphics[scale = 0.125]{hw4_p1.jpeg}
+      \end{center}
+      \vspace{-1cm}
+      we see that
+      
+      \begin{align*}
+        F_{xy}(x, y) &= \int_0^x \int_0^{y - V_1} \left( \lambda e^{-\lambda V_1} \right) \left( \lambda e^{-\lambda V_2} \right) dV_2 \, dV_1 \\
+        &= \int_0^x \left[ -\lambda e^{-\lambda(V_1 + V_2)} \right]_0^{y-V_1} \, dV_1 \\
+        &= \int_0^x -\lambda e^{-\lambda y} + \lambda e^{-\lambda V_1} \, dV_1 \\
+        &= \left[ -V_1 \lambda e^{-\lambda y} - e^{-\lambda V_1} \right]_0^x \\
+        &= 1 - e^{-\lambda x} - \lambda xe^{-\lambda y},
+      \end{align*}
+      so the joint CDF for $X$ and $Y$ (with the extra restriction $0 < x < y$) is
+      \[
+        \boxed{F_{xy}(x, y) = I(0 < x < y) \left(1 - e^{-\lambda x} - \lambda xe^{-\lambda y}\right)}. \qedhere
+      \]
+    \end{solution}
       \item \textbf{Show how to get the marginal CDF $F_x$ by taking the upper limit for $y$, and $F_y$ by taking the upper limit for $x$. Differentiate each marginal CDF to get the marginal pdfs.}
+      \begin{solution}
+      There are no restrictions on $y$, so the marginal CDF $F_x$ is simply
+      \begin{align*}
+        F_x(x) &= \lim_{y \to \infty} I(0 < x < y) \left(1 - e^{-\lambda x} - \lambda xe^{-\lambda y}\right) \\
+        &= \boxed{1 - e^{-\lambda x}}.
+      \end{align*}
+
+      Differentiating, we get the marginal pdf
+      \[
+        \boxed{f_x(x) = \lambda e^{-\lambda x}}
+      \]
+      which intuitively is the pdf for a $\mathrm{Gamma}(1, \lambda)$ random variable. \\
+
+      On the other hand, the upper limit for $x$ is $y$, as $0 < x < y$. Thus, the marginal CDF $F_y$ is
+      \begin{align*} 
+        F_y(y) &= \lim_{x \to y} I(0 < x < y) \left(1 - e^{-\lambda x} - \lambda xe^{-\lambda y}\right) \\
+        &= \boxed{1 - e^{-\lambda y} - \lambda ye^{-\lambda y}}
+      \end{align*}
+
+      Differentiating, we can get the marginal pdf
+      \begin{align*}
+        f_y(y) &= \frac{d}{dy} \left( 1 - e^{-\lambda y} - \lambda ye^{-\lambda y} \right) \\
+        &= \lambda e^{-\lambda y} - \lambda e^{-\lambda y} + \lambda^2 y e^{-\lambda y} \\
+        &= \boxed{\lambda^2 y e^{-\lambda y}}
+      \end{align*}
+
+      which intuitively is the pdf for a $\mathrm{Gamma}(2, \lambda)$ random variable. 
+      \end{solution}
+
       \item \textbf{Show that taking partial derivatives of $F_{xy}$ with respect to $x$ and $y$ yields the joint pdf:}
       \[
         \frac{\partial^2}{\partial x \partial y}F_{xy}(x, y) = \lambda^2 e^{-\lambda y}I(0< x < y). 
       \]
+
+      \begin{solution}
+      Finally, we can derive the joint pdf. Note that
+      \begin{align*}
+        f_{xy}(x, y) = \frac{\partial^2}{\partial x \partial y}F_{xy}(x, y) &= \frac{\partial}{\partial x}\left( \frac{\partial}{\partial y} F_{xy}(x, y)\right) \\
+        &= \frac{\partial}{\partial x}\left( \frac{\partial}{\partial y} F_{xy}(x, y)\right) \\
+        &= \frac{\partial}{\partial x}\left( \frac{\partial}{\partial y}  \left( I(0 < x < y) \left(1 - e^{-\lambda x} - \lambda xe^{-\lambda y}\right) \right)\right) \\
+        &= \frac{\partial}{\partial x}\left( I(0 < x < y) \lambda^2 xe^{-\lambda y} \right) \\
+        &= \boxed{\lambda^2 e^{-\lambda y}I(0 < x < y)}
+      \end{align*}
+
+      as desired.
+      \end{solution}
     \end{enumerate}
 
     \newpage
@@ -62,7 +133,7 @@
         Rewriting this expression, we have that 
         \begin{align*}
           f_{12}(z_1, z_2) &= \frac{1}{\pi} \exp \left[ - 2(z_1^2 + z_2^2 + \sqrt{3}z_1 z_2) \right] \\
-          &= \frac{1}{2\pi \left( \frac{1}{2} \right)}  \exp \left[ -\frac{1}{2\left( \frac{1}{4} \right) }(z_1^2 + z_2^2 - 2\left( -\frac{\sqrt{3}}{2} \right) z_1 z_2) \right].
+          &= \frac{1}{2\pi \left( \frac{1}{2} \right)}  \exp \left[ -\frac{1}{2\left( \frac{1}{4} \right) }\left(z_1^2 + z_2^2 - 2\left( -\frac{\sqrt{3}}{2} \right) z_1 z_2 \right) \right].
         \end{align*}
 
         We recognize this as a bivariate Normal density, with 
@@ -196,8 +267,85 @@
     \begin{enumerate}[a)]
       \item \textbf{Suppose $X_1$ and $X_2$ are Bernoulli random variables with expectations $p_1$ and $p_2$. Show that $X_1$ and $X_2$ are independent if and only if they are uncorrelated.
       This shows the Bernoulli distribution is special like the multivariate Normal distribution in that uncorrelated implies independence.}
+      
+      \begin{solution}
+      Note that if $X_1$ and $X_2$ are independent, then we have that $P(X_1 = 1, X_2 = 1) = P(X_1 = 1)P(X_2 = 1)$. Note that
+      \[
+        X_1 X_2 = \begin{cases}
+          1 &\text{ if $X_1 = 1$ and $X_2 = 1$}  \\
+          0 &\text{ otherwise}
+        \end{cases}
+      \]
+      so $\mathbb{E}\left[X_1 X_2 \right] = P(X_1 = 1, X_2 = 1) = P(X_1 = 1)P(X_2 = 1) = \mathbb{E}\left[X_1 \right]\mathbb{E}\left[X_2 \right]$. \\
+      
+      Thus,
+      \[
+        \mathbb{E}\left[X_1 X_2 \right] = \mathbb{E}\left[X_1 \right] \mathbb{E}\left[X_2 \right] 
+      \]
+      and so $X_1$ and $X_2$ are uncorrelated. \\
+
+      On the other hand, suppose that $X_1$ and $X_2$ are independent, so that $\mathbb{E}\left[X_1 X_2 \right] = \mathbb{E}\left[X_1 \right] \mathbb{E}\left[X_2 \right] = p_1 p_2$. \\
+
+      By the Law of Total Probability, we have that
+      \[
+        P(X_1 = 1) = P(X_1 = 1 \mid X_2 = 1)P(X_2 = 1) + P(X_1 = 1 \mid X_2 = 0)P(X_2 = 0).
+      \]
+      Since $P(X_1 = 1) = \mathbb{E}\left[X_1 \right] = p_1$, $P(X_1 = 1 \mid X_2 = 1)P(X_2 = 1) = \mathbb{E}\left[X_1 X_2 \right] = p_1 p_2$, and $P(X_2 = 0) = 1 - \mathbb{E}\left[X_2 \right] = 1-p_2$, we must have that
+      \begin{align*}
+        P(X_1 = 1 \mid X_2 = 0) &= \frac{P(X_1 = 1) - P(X_1 = 1 \mid X_2 = 1)}{P(X_2 = 0)} \\
+        &= \frac{p_1 - p_1 p_2}{1 - p_2} \\
+        &= p_1.
+      \end{align*}
+
+      Similarly, by the Law of Total Probability, we have that
+      \[
+        P(X_2 = 1) = P(X_2 = 1 \mid X_1 = 1)P(X_1 = 1) + P(X_2 = 1 \mid X_1 = 0)P(X_1 = 0)
+      \]
+
+      and so 
+      \begin{align*}
+        P(X_2 = 1 \mid X_1 = 0) &= \frac{P(X_2 = 1) - P(X_2 = 1 \mid X_1 = 1)}{P(X_1 = 0)} \\
+        &= \frac{p_2 - p_1 p_2}{1 - p_1} \\
+        &= p_2.
+      \end{align*}
+
+      We see that both $P(X_1 = 1) = P(X_1 = 1 \mid X_2 = 1) = P(X_1 = 1 \mid X_2 = 0) = p_1$ and 
+      $P(X_2 = 1) = P(X_2 = 1 \mid X_1 = 1) = P(X_2 = 1 \mid X_1 = 0) = p_2$. \\
+      
+      Through a similar line of reasoning, we can
+      conclude that $P(X_1 = 0) = P(X_1 = 0 \mid X_2 = 1) = P(X_1 = 0 \mid X_2 = 1) = 1 - p_1$ and 
+      $P(X_2 = 0) = P(X_2 = 0 \mid X_1 = 1) = P(X_2 = 0 \mid X_1 = 0) = 1 - p_2$. \\
+
+      Thus, $X_1$ and $X_2$ are independent, as desired. \\
+    
+      It follows that $X_1$ and $X_2$ are independent if and only if they are uncorrelated, as desired. \end{solution}
+      
       \item \textbf{Suppose $Y = X_1 + X_2$ with $X_1$ and $X_2$ independent. If you learn that $Y$ and $X_1$ are
-      Normal variables, prove that $X_2$ is also a Normal random variable.}
+      Normal variables, prove that $X_2$ is also a Normal random variable.} 
+
+      \begin{solution}
+      Suppose that $Y \sim N(\mu_Y, \sigma_Y^2)$ and $X_1 \sim N(\mu_1, \sigma_1^2)$. Since $Y = X_1 + X_2$, we know that the MGF of $Y$ and $X_1 + X_2$ are the same, so
+      \[
+        M_{X_1 + X_2}(t) = M_Y(t)
+      \]
+      meaning that $M_{X_1}(t) M_{X_2}(t) = M_Y(t)$ and 
+      \[
+        M_{X_2}(t) = \frac{M_Y(t)}{M_{X_1}(t)}.
+      \]
+      Since $Y \sim N(\mu_Y, \sigma_Y^2)$ and $X_1 \sim N(\mu_1, \sigma_1^2)$, we know that 
+      \[
+        M_Y(t) = e^{t \mu_Y + \frac{1}{2}\sigma_Y^2 t^2} \text{ and } M_{X_1}(t) = e^{t \mu_1 + \frac{1}{2}\sigma_1^2 t^2}.
+      \]
+      Thus,
+      \begin{align*}
+        M_{X_2}(t) &= \frac{M_Y(t)}{M_{X_1}(t)} \\
+        &= \frac{e^{t \mu_Y + \frac{1}{2}\sigma_Y^2 t^2}}{e^{t \mu_1 + \frac{1}{2}\sigma_1^2 t^2}} \\
+        &= e^{t(\mu_Y - \mu_1) + \frac{1}{2}(\sigma_Y^2 - \sigma_1^2)t^2}
+      \end{align*}
+      which is the MGF of the Normal random variable $N(\mu_Y - \mu_1, \sigma_Y^2 - \sigma_1^2)$. \\
+
+      Thus, if $Y$ and $X_1$ are Normal variables and $Y = X_1 + X_2$ with $X_1$ and $X_2$ independent, it follows that $X_2$ is also a Normal random variable.
+      \end{solution}
     \end{enumerate}
     
 \end{enumerate}

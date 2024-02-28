@@ -1,0 +1,47 @@
+\newpage
+\setcounter{section}{5}
+\section{Tests of Hypotheses}
+\subsection{GLR Test for Multinomial Distribution}
+
+\begin{enumerate}[a)]
+    \item For $X_j$ the count of dice rolls equal to $j$ (for $j \in \{ 1, \dots, 6 \}$), the joint likelihood function for the $L(\theta_1, \dots, \theta_6)$ is
+    \[
+        L(\theta_1, \dots, \theta_6) = \frac{n!}{x_1! \dots x_6!}\theta_1^{x_1} \dots \theta_6^{x_6}.
+    \]
+    Equivalently, the log-likelihood is
+    \[
+        l(\theta_1, \dots, \theta_6) = \log \left(\frac{n!}{x_1! \dots x_6!}\right) + \sum_{i=1}^6 x_i \log(\theta_i)
+    \]
+    where $\sum \theta_i = 1$. \\
+
+    To determine the MLE's $\hat{\theta}_i$, we use Lagrange Multipliers and work to maximize
+    \[
+        l(\theta_1, \dots, \theta_6, \lambda) = \log \left(\frac{n!}{x_1! \dots x_6!}\right) + \sum_{i=1}^6 x_i \log(\theta_i) + \lambda\left(\sum_{i=1}^6 \theta_i - 1\right)
+    \]
+    where the extra $\lambda(\sum_{i=1}^6 \theta_i - 1)$ arises from the Lagrange multiplier $\lambda$ and the constraint $\sum \theta_i = 1$. To maximize $l(\theta_1, \dots, \theta_6, \lambda)$, we need the partials with respect
+    to each $\theta_i$ and $\lambda$ to be equal to $0$:
+    \[
+        \frac{\partial l}{\partial \theta_i} = \frac{x_i}{\theta_i} + \lambda = 0 \text{ and } \frac{\partial l}{\partial \lambda} = \left(\sum \theta_i \right) - 1 = 0.
+    \]
+    The former condition $\frac{x_i}{\theta_i} + \lambda = 0$ tells us that $\hat{\theta}_i = -\frac{x_i}{\lambda}$. \\
+    
+    Now, the latter condition $\left(\sum \theta_i \right) - 1 = 0$ tells us that
+    \[
+        \sum \hat{\theta}_i = - \frac{\sum x_i}{\lambda} = 1,
+    \]
+    and solving for $\lambda$ gives us $\hat{\lambda} = - \sum x_i$. Thus, for each $\hat{\theta}_i$, we know that
+    \[
+        \hat{\theta}_i = -\frac{x_i}{\lambda} = \frac{-x_i}{- \sum x_i} = \frac{x_i}{n}
+    \]    
+    as desired.
+
+    \item As we saw previously, 
+    \[
+        L(\theta_1, \dots, \theta_6) = \frac{n!}{x_1! \dots x_6!}\theta_1^{x_1} \dots \theta_6^{x_6}
+    \]
+    Our null hypothesis is $H_0\colon \theta_1 = \dots = \theta_6 = \frac{1}{6}$ and alternative hypothesis is $H_1\colon $ not $H_0$, so
+    \begin{align*}
+        \Lambda &= \frac{\max\limits_{H_0} \frac{n!}{x_1! \dots x_6!}\theta_1^{x_1} \dots \theta_6^{x_6}}{\max\limits_{H_0 \cup H_1} \frac{n!}{x_1! \dots x_6!}\theta_1^{x_1} \dots \theta_6^{x_6}} \\
+        &= \frac{\left( \frac{1}{6} \right)^{x_1 + \dots + x_6} }{\left( \frac{x_1}{n} \right)^{x_1} \dots \left( \frac{x_6}{n} \right)^{x_6} }
+    \end{align*}
+\end{enumerate}
