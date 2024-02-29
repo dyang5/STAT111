@@ -1,11 +1,16 @@
 \newpage
+
 \setcounter{section}{5}
 \section{Tests of Hypotheses}
+
+You can generalize Neyman-Pearson Lemma to one-sided hypotheses tests, which will give a UMP (Uniformly Most Powerful) Test.
+
+\setcounter{subsection}{5}
 \subsection{GLR Test for Multinomial Distribution}
 \graphicspath{{notes/img}}
 
 \begin{enumerate}[a)]
-    \item \textbf{Let $X_j$ be the count of dice rolls equal to $j$ (for $j \in \{ 1, \dots, 6 \}$) for $n$ iid rolls of a six-sided die. Use these to define the joint likelihood function $L(\theta_1, \dots, \theta_6)$ for the probabilities of the six faces $(\sum \theta_j = 1)$. Use Lagrange multipliers to show the MLE's are $\hat{\theta}_j = X_j / n,$ for $j \in \{ 1, \dots 6\}.$} \\ 
+    \item \textbf{Let $X_j$ be the count of dice rolls equal to $j$ (for $j \in \{ 1, \dots, 6 \}$) for $n$ iid rolls of a six-sided die. Use these to define the joint likelihood function $L(\theta_1, \dots, \theta_6)$ for the probabilities of the six faces $(\sum \theta_j = 1)$. Use Lagrange multipliers to show the MLE's are $\hat{\theta}_j = X_j / n,$ for $j \in \{ 1, \dots 6\}.$}  
     
      For $X_j$ the count of dice rolls equal to $j$ (for $j \in \{ 1, \dots, 6 \}$), the joint likelihood function for the $L(\theta_1, \dots, \theta_6)$ is
     \[
@@ -40,9 +45,11 @@
     \]    
     as desired. 
 
-    \item \textbf{Derive the GLR test of $H_0 \colon \theta_1 = \dots = \theta_6$ vs $H_1 \colon$ not $H_0$. Suppose $n=24$ rolls gave counts of $X_1 = 8$, $X_2 = X_3 = X_4 = X_5 = 4$, and $X_6 =0$. Show how simulation may be used to compute an exact $p$-value. Compare to using the Chi-square approximation for $-2\log \Lambda$.} \\
+    \newpage
     
-     As we saw previously, 
+    \item \textbf{Derive the GLR test of $H_0 \colon \theta_1 = \dots = \theta_6$ vs $H_1 \colon$ not $H_0$. Suppose $n=24$ rolls gave counts of $X_1 = 8$, $X_2 = X_3 = X_4 = X_5 = 4$, and $X_6 =0$. Show how simulation may be used to compute an exact $p$-value. Compare to using the Chi-square approximation for $-2\log \Lambda$.} 
+    
+    As we saw previously, 
     \[
         L(\theta_1, \dots, \theta_6) = \frac{n!}{x_1! \dots x_6!}\theta_1^{x_1} \dots \theta_6^{x_6}
     \]
@@ -69,6 +76,8 @@
 
     Note that the interpretation of the p-value is the probability of achieving such an extreme value of $-2\log \Lambda$ in $n$ rolls, assuming $H_0$ is true. 
 
+    \newpage
+    
     \item \textbf{For a $2$-way table of counts, derive the GLR test for independence of the row and column variables. Show that the Chi-square approximation for $-2 \log \Lambda$ is asymptotically equivalent to the Pearson Chi-square test of independence (See Rice 9.5, 13.4).}
     
      See the image below for the GLR test for independence of the row and column variables in a two-way table of counts.\\
@@ -81,7 +90,7 @@
     
     Note that 
     \[
-        \Lambda = \prod_{i=1}^{2}\prod_{j=2}^J \frac{\theta_{ij}^{x_{ij}}}{\hat{\theta}_{ij}^{x_{ij}}} = \prod_{i=1}^{2}\prod_{j=1}^J \left( \frac{\theta_{ij}}{\hat{\theta}_{ij}}\right)^{x_{ij}}.
+        \Lambda = \prod_{i=1}^{2}\prod_{j=1}^2 \frac{\theta_{ij}^{x_{ij}}}{\hat{\theta}_{ij}^{x_{ij}}} = \prod_{i=1}^{2}\prod_{j=1}^2 \left( \frac{\theta_{ij}}{\hat{\theta}_{ij}}\right)^{x_{ij}}.
     \]
     It follows that
     \begin{align*}
