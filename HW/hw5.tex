@@ -1,0 +1,107 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[shortlabels]{enumitem}
+\usepackage[margin=1in]{geometry}
+\graphicspath{{img}}
+
+\newenvironment{solution}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+  {\end{proof}}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+	\hrule
+	\begin{center}
+        \textbf{STAT111: Mathematical Statistics II}\hfill \textbf{Spring 2024}\newline
+
+		{\Large Homework 5}
+
+		David Yang
+	\end{center}
+
+\hrule
+
+\vspace{1em}
+
+\begin{enumerate}
+    \item \textbf{Suppose $X_1, \dots, X_n$ are i.i.d.\ Normal with mean $\mu$ and variance $\sigma^2$.}
+    
+    \begin{enumerate}[a)]
+        \item \textbf{Show the MLE for $\sigma$ is the square root of the MLE for $\sigma^2$ (in general, if $\hat{\theta}$ is the MLE of $\theta$,
+        then $\hat{\theta}$ is the MLE of $\theta$, then $\hat{\varphi} = g(\hat{\theta})$ is the MLE for $\varphi = g(\theta)$).}
+
+        \begin{solution}
+        If $X_1, \dots, X_n$ are i.i.d.\ Normal with mean $\mu$ and variance $\sigma^2$, 
+        \begin{align*}
+            L(\mu, \sigma^2) &= \prod_{i=1}^n \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{1}{2}\frac{\left(x_i - \mu\right)^2}{2\sigma^2}} \\
+            &= \left( 2\pi \sigma^2 \right)^{-\frac{n}{2}} e^{-\frac{\sum(x_i - \mu)^2}{2\sigma^2}}.
+        \end{align*}
+
+        The log-likelihood is 
+        \begin{align*}
+            l(\mu , \sigma^2) &= n \log \left( \frac{1}{\sqrt{2\pi \sigma^2} } \right) - \frac{\sum (x_i - \mu)^2}{2\sigma^2} \\
+            &= -\frac{n}{2} \log \left( 2\pi \sigma^2 \right) - \frac{\sum (x_i - \mu)^2}{2\sigma^2}.
+        \end{align*}
+
+        Setting the partials to $0$ to solve for the MLEs, we get that
+        \begin{align*}
+            \frac{\partial l}{\partial \mu} &= 2 \frac{\sum(x_i - \mu)}{2\sigma^2}\\
+            \frac{\partial l}{\partial \sigma^2} &= -\frac{n}{2} \cdot \frac{1}{2\pi \sigma^2} \cdot 2\pi - \frac{1}{2} \cdot \left( \sum (x_i - \mu )^2 \right) \cdot \left( -\frac{1}{\sigma^4} \right) \\
+            &= -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum (x_i - \mu)^2
+        \end{align*}
+
+        The first equation is equivalent to $\sum (x_i - \mu) = 0$, so solving for $\mu$ gives
+        \[
+            \boxed{\hat{\mu} = \frac{\sum x_i}{n} = \overline{x}}.
+        \]
+
+        The second equation is equivalent to $\frac{n}{2\sigma^2} = \frac{1}{2\sigma^4} \sum (x_i - \mu)^2$, and solving for $\sigma^2$ gives 
+        \begin{align*}
+            \sigma^2 &= \frac{\sum (x_i - \mu)^2}{n}.
+        \end{align*}
+        Plugging in the MLE for $\mu$, we get the MLE for $\hat{\sigma}^2$:
+        \begin{align*}
+            \hat{\sigma}^2 &= \frac{\sum (x_i - \mu)^2}{n} \\
+            &= \boxed{\frac{1}{n} \left( \sum (x_i - \overline{x} )^2 \right)}. \, \, \qedhere
+        \end{align*}
+        \end{solution}
+        
+        \item \textbf{Show that $\hat{\sigma}^2 = \sum \frac{(X_i - \bar{X})^2}{n}$ has smaller mean square error than the unbiased estimate
+        $s^2 = \sum \frac{(X_i - \overline{X})^2}{n-1}$. }
+
+        \begin{solution}
+        
+        \end{solution}
+
+        \item \textbf{Find an expression for the expected value of the sample standard deviation $s = \sqrt{s^2}$. Use this to construct
+        an unbiased estimate for $\sigma$. You could check your answer by generating sample variances from the Gamma distribution implied by a given $n$ and $\sigma$.}
+        
+    \end{enumerate}
+
+    \item \textbf{Suppose $X_1, \dots, X_n$ are i.i.d.\ Poisson$(\theta)$.}
+    
+    \begin{enumerate}[a)]
+        \item \textbf{Let $Y = \sum X_i$. If $n = 3$, find $P(X_1 = 2, X_2 = 3, X_3 = 0 \mid Y = 5, \theta = 2)$. How does this change if $\theta = 3$?}
+        \begin{solution}
+        
+        \end{solution}
+        
+        \item \textbf{Show that $\overline{X}$ is the MLE for $\theta$, and that the reciprocal Fisher information gives the exact variance of $\hat{\theta}$. 
+        Verify that Poisson$(\theta)$ is a $1$-parameter exponential family, so you know you can use the second derivative formula for the Fisher information.}
+
+        \item \textbf{If $n = 10$ and $\theta = 10$, check the Normal approximation to the distribution of $\overline{X}$. Use the continuity
+        correction to approximate $P(\overline{X} = 10)$ and compare this to the exact probability based on the associated Poisson distribution.}
+
+        \item \textbf{Show that $\theta \sim \mathrm{Gamma}\left( \alpha, \frac{\alpha}{u} \right)$ defines a conjugate family of prior distributions for $\theta$, and that the
+        posterior mean for $\theta \mid \overline{x}$ is a weighted average of $\overline{x}$ and the prior mean $\mu$, with more weight on $\overline{x}$ as $n$ increases.}
+
+    \end{enumerate}
+    
+\end{enumerate}
+
+\end{document}
