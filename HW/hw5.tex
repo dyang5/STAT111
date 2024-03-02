@@ -57,7 +57,7 @@
 
         The first equation is equivalent to $\sum (x_i - \mu) = 0$, so solving for $\mu$ gives
         \[
-            \boxed{\hat{\mu} = \frac{\sum x_i}{n} = \overline{x}}.
+            \hat{\mu} = \frac{\sum x_i}{n} = \overline{x}.
         \]
 
         The second equation is equivalent to $\frac{n}{2\sigma^2} = \frac{1}{2\sigma^4} \sum (x_i - \mu)^2$, and solving for $\sigma^2$ gives 
@@ -67,20 +67,83 @@
         Plugging in the MLE for $\mu$, we get the MLE for $\hat{\sigma}^2$:
         \begin{align*}
             \hat{\sigma}^2 &= \frac{\sum (x_i - \mu)^2}{n} \\
-            &= \boxed{\frac{1}{n} \left( \sum (x_i - \overline{x} )^2 \right)}. \, \, \qedhere
+            &= \frac{1}{n} \left( \sum (x_i - \overline{x} )^2 \right).
         \end{align*}
+
+        Similarly, if we find the MLE for $\sigma$, we get that
+        \[
+            \frac{\partial l}{\partial \sigma} = -\frac{n}{2} \frac{1}{2\pi \sigma^2} \cdot 4\pi \sigma - \frac{\sum(x_i - \mu)^2}{4\sigma^3}.
+        \]
+        Equating this to $0$, plugging in $\hat{\mu} = \overline{x}$, and solving for $\sigma$, we find that
+        \[
+            \sigma^2 = \frac{1}{n} \left( x_i - \overline{x}  \right)^2,
+        \]
+        so $\hat{\sigma} = \sqrt{\frac{1}{n} \left( x_i - \overline{x}  \right)^2} = \sqrt{\hat{\sigma}^2}$. Thus, the MLE for $\sigma$ is
+        the square root of the MLE for $\sigma^2$, as desired. 
         \end{solution}
         
-        \item \textbf{Show that $\hat{\sigma}^2 = \sum \frac{(X_i - \bar{X})^2}{n}$ has smaller mean square error than the unbiased estimate
+        \item \textbf{Show that $\hat{\sigma}^2 = \sum \frac{(X_i - \overline{X})^2}{n}$ has smaller mean square error than the unbiased estimate
         $s^2 = \sum \frac{(X_i - \overline{X})^2}{n-1}$. }
 
         \begin{solution}
-        
+        Note that $\frac{(n-1)s^2}{\sigma^2} \sim \chi_{n-1}^2$, so
+        \[
+            \mathbb{E}\left[ \frac{(n-1)s^2}{\sigma^2} \right] = n-1 \text{ and } \mathrm{Var} \left[\frac{(n-1)s^2}{\sigma^2} \right] = 2(n-1).
+        \]
+        It follows that
+        \[
+            \mathbb{E}\left[s^2 \right] = \sigma^2 \text{ and } \mathrm{Var} \left[s^2 \right] = \frac{2\sigma^4}{n-1}.
+        \]
+        Furthermore, we know that $\hat{\sigma}^2 = \frac{n-1}{n}s^2$. Consequently,
+        \[
+            \mathbb{E}\left[\hat{\sigma}^2 \right] = \frac{n-1}{n} \mathbb{E}\left[s^2 \right] = \frac{n-1}{n}\sigma^2
+        \] and
+        \[ 
+            \mathrm{Var} \left[\hat{\sigma}^2 \right] = \left( \frac{n-1}{n} \right)^2 \mathrm{Var} \left[s^2 \right] = \frac{2\sigma^4 (n-1)}{n^2}.
+        \]
+
+        Since $s^2$ is an unbiased estimate, its mean square error is equal to its variance:
+        \[
+            MSE(s^2) = \mathrm{Var} \left[s^2 \right] = \frac{2\sigma^4}{n-1}.
+        \]
+        On the other hand, 
+        \begin{align*}
+            MSE(\hat{\sigma}^2) &= \mathrm{Var} \left[\hat{\sigma}^2 \right] + (\mathbb{E}\left[\hat{\sigma}^2 \right] - \sigma^2)^2 \\
+            &= \left( \frac{2\sigma^4 (n-1)}{n^2} \right) + \left( \frac{n-1}{n}\sigma^2 - \sigma^2 \right)^2 \\
+            &= \frac{2\sigma^4 (n-1)}{n^2} + \frac{\sigma^4}{n^2} \\
+            &= \frac{(2n-1) \sigma^4}{n^2}.
+        \end{align*}
+        Note that by direct comparison, since $\frac{2n-1}{n^2} < \frac{2}{n-1}$, it follows that $MSE(\hat{\sigma}^2) < MSE(s^2)$, as desired.
         \end{solution}
 
         \item \textbf{Find an expression for the expected value of the sample standard deviation $s = \sqrt{s^2}$. Use this to construct
         an unbiased estimate for $\sigma$. You could check your answer by generating sample variances from the Gamma distribution implied by a given $n$ and $\sigma$.}
         
+        \begin{solution}
+        We know that $\frac{(n-1)s^2}{\sigma^2} \sim \chi_{n-1}^2$.  Suppose that $X \sim \chi_{n-1}^2$. Then
+        \[
+            \mathbb{E}\left[ \sqrt{\frac{(n-1)s^2}{\sigma^2}} \right] = \mathbb{E}\left[ \sqrt{x} \right].
+        \]
+        It follows from LOTUS and integral by recognition that
+        \begin{align*}
+            \mathbb{E}\left[ \sqrt{x} \right] &= \int_{0}^{\infty} \sqrt{x} f_X(x) \, dx \\
+            &= \int_{0}^{\infty} \sqrt{x} \frac{x^{\frac{n-1}{2} - 1} e^{-\frac{x}{2}}}{2^{\frac{n-1}{2}} \Gamma\left( \frac{n - 1}{2} \right) } \, dx\\
+            &= \frac{\sqrt{2}\Gamma\left( \frac{n}{2} \right)}{\Gamma \left( \frac{n-1}{2} \right) } \int_0^{\infty} \frac{x^{\frac{n}{2} - 1} e^{-\frac{x}{2}}}{2^{\frac{n}{2}} \Gamma\left( \frac{n}{2} \right) } \, dx \\
+            &= \frac{\sqrt{2}\Gamma\left( \frac{n}{2} \right)}{\Gamma \left( \frac{n-1}{2} \right) }
+        \end{align*}
+        where the final step follows by recognizing the integrand as the pdf for a $\chi^2$ variable. It follows that
+        \[
+            \mathbb{E}\left[ \sqrt{\frac{(n-1)s^2}{\sigma^2}} \right] = \mathbb{E}\left[\frac{s}{\sigma} \sqrt{n-1} \right] = \frac{\sqrt{2}\Gamma\left( \frac{n}{2} \right)}{\Gamma \left( \frac{n-1}{2} \right) }.
+        \]
+        Using linearity of expectation, we find that 
+        \[
+          \mathbb{E}\left[s \right]  = \frac{\sigma}{\sqrt{n-1}} \frac{\sqrt{2}\Gamma\left( \frac{n}{2} \right)}{\Gamma \left( \frac{n-1}{2} \right) }. 
+        \]
+        Thus, an unbiased estimate for $\sigma$ is simply
+        \[
+            \boxed{\hat{\sigma} = \frac{\sqrt{n-1} }{\sigma \sqrt{2} } \frac{\Gamma\left( \frac{n-1}{2} \right) }{\Gamma \left( \frac{n}{2} \right) }}. \qedhere
+        \]
+        \end{solution}
     \end{enumerate}
 
     \item \textbf{Suppose $X_1, \dots, X_n$ are i.i.d.\ Poisson$(\theta)$.}
@@ -88,29 +151,146 @@
     \begin{enumerate}[a)]
         \item \textbf{Let $Y = \sum X_i$. If $n = 3$, find $P(X_1 = 2, X_2 = 3, X_3 = 0 \mid Y = 5, \theta = 2)$. How does this change if $\theta = 3$?}
         \begin{solution}
-        
+        Since the sum of Poissons is a Poisson, we know that $Y \sim \mathrm{Poisson}(3\theta)$. For $\theta = 2$, we calculate
+        \begin{align*}
+            P(X_1 = 2, X_2 = 3, X_3 = 0 \mid Y = 5) &= \frac{P(X_1 = 2, X_2 = 3, X_3 = 0 \cap Y=5)}{P(Y=5)} \\
+            &= \frac{P(X_1 = 2)P(X_2 = 3)P(X_3 = 0)}{P(Y=5)}
+        \end{align*}
+        where the second line follows from the fact that each $X_i$ are i.i.d. \\
+
+        Plugging in the respective probabilities, we get
+        \begin{align*}
+            P(X_1 = 2, X_2 = 3, X_3 = 0 \mid Y = 5) &= \frac{P(X_1 = 2)P(X_2 = 3)P(X_3 = 0)}{P(Y=5)} \\
+            &= \frac{\frac{e^{-2}2^2}{2!} \frac{e^{-2}2^3}{3!} \frac{e^{-2}2^0}{0!}}{\frac{e^{-6} 6^5}{5!}} \\
+            &= \boxed{\frac{10}{243}}.
+        \end{align*}
+
+        For $\theta = 3$, we use the same logic to get that
+        \begin{align*}
+            P(X_1 = 2, X_2 = 3, X_3 = 0 \mid Y = 5) &= \frac{P(X_1 = 2)P(X_2 = 3)P(X_3 = 0)}{P(Y=5)} \\
+            &= \frac{\frac{e^{-3}3^2}{2!} \frac{e^{-3}3^3}{3!} \frac{e^{-3}3^0}{0!}}{\frac{e^{-9} 9^5}{5!}} \\
+            &= \boxed{\frac{10}{243}}
+        \end{align*}
+        and so the probability does not change depending on the value of $\theta$.
         \end{solution}
         
         \item \textbf{Show that $\overline{X}$ is the MLE for $\theta$, and that the reciprocal Fisher information gives the exact variance of $\hat{\theta}$. 
         Verify that Poisson$(\theta)$ is a $1$-parameter exponential family, so you know you can use the second derivative formula for the Fisher information.}
 
         \begin{solution}
-            
+        Note that 
+        \[
+            L(\theta) = \prod_{i=1}^n \frac{e^{-\theta}\theta^{x_i}}{x_i!}
+        \]
+        so the log-likelihood is
+        \[
+            l(\theta) = -n\theta + \sum x_i \log \theta - \sum \log(x_i!).
+        \]
+        Setting $\frac{\partial l}{\partial \theta}$ to $0$, we get that
+        \[
+            \frac{\partial l}{\partial \theta} = -n + \frac{\sum x_i}{\theta} = 0
+        \]
+        so $\boxed{\hat{\theta} = \frac{\sum x_i}{n} = \overline{x}}$ as desired.  
+
+        \hrulefill
+
+        We will now verify that Poisson$(\theta)$ is a $1$-parameter exponential family, so you know you can use the second derivative formula for the Fisher information. Note that
+        if $X \sim \mathrm{Poisson}(\theta)$, then
+        \begin{align*}
+            f_{X}(x) &= \frac{\theta^x e^{-\theta}}{x!} \\
+            &= \exp \left( \log \left( \frac{\theta^x e^{-\theta}}{x!} \right)  \right) \\
+            &= \exp ((x \log \theta) - \log(x!) - \theta)
+        \end{align*}
+        which is precisely the form of the exponential family; $T(x) = x$, $\eta(\theta) = \log(\theta)$, $A(\theta) = \theta$, and $B(x) = \log(x!)$. \\
+
+        Thus, Poisson$(\theta)$ is a $1$-parameter exponential family. 
+
+        \hrulefill
+
+        To find the Fisher information for $X_1, \dots, X_n$, we will use the second derivative formula. We found that
+        \[
+            \frac{\partial l}{\partial \theta} = -n + \frac{\sum x_i}{\theta}
+        \]
+        so
+        \[
+            \frac{\partial^2 l}{\partial \theta^2} = -\frac{\sum x_i}{\theta^2}.
+        \]
+        It follows that
+        \[
+            I_n(\theta) = -\mathbb{E}\left[ \frac{\partial^2 l}{\partial \theta^2} \right] = -\mathbb{E}\left[ -\frac{\sum x_i}{\theta^2} \right] = \frac{\mathbb{E}\left[ \sum x_i\right] }{\theta^2} = \frac{n}{\theta}.
+        \]
+        However, we also know that 
+        \[
+            \mathrm{Var} \left[\hat{\theta} \right] = \mathrm{Var} \left[\overline{X}  \right] = \frac{n\mathrm{Var} \left[X_i \right] }{n^2} = \frac{\theta}{n}.
+        \]
+        Thus, we conclude that  $\frac{1}{I_n(\theta)} = \mathrm{Var} \left[\hat{\theta} \right]$ so the reciprocal Fisher information gives the 
+        exact variance of $\hat{\theta}$, as desired.
         \end{solution}
         
         \item \textbf{If $n = 10$ and $\theta = 10$, check the Normal approximation to the distribution of $\overline{X}$. Use the continuity
         correction to approximate $P(\overline{X} = 10)$ and compare this to the exact probability based on the associated Poisson distribution.}
 
         \begin{solution}
-            
+        Note that $\mathbb{E}\left[\overline{X}  \right] = \mathbb{E}\left[X_i \right] = 10$. On the other hand, $\mathrm{Var} \left[\overline{X}\right] = \frac{1}{n} \mathrm{Var} \left[X_i \right] = \frac{10}{10} = 1$. 
+        It follows that the normal approximation for $\overline{X}$ is $N(10, 1)$. \\
+
+        Using the continuinity correction, we can approximate $P(\overline{X} = 10)$ as $P(9.95 < \overline{X} < 10.05)$, so
+        \begin{align*}
+            P(\overline{X} = 10) &= P(9.95 < \overline{X} < 10.05) \\
+            &= pnorm(10.05, 10, 1) - pnorm(10.05, 10, 1) \approx 0.0399.
+        \end{align*}
+
+        On the other hand, note that $P(\overline{X} = 10) = P(Y = 100)$, where $Y \sim \mathrm{Poisson}(10 \cdot 10)$, so
+        \[
+            P(Y = 100) = \frac{100^{100}e^{-100}}{100!} \approx 0.04.
+        \]
+        We see that the exact probability based on the associated Poisson distribution and the Normal approximation are very close.  
         \end{solution}
+
+
         
         \item \textbf{Show that $\theta \sim \mathrm{Gamma}\left( \alpha, \frac{\alpha}{u} \right)$ defines a conjugate family of prior distributions for $\theta$, and that the
         posterior mean for $\theta \mid \overline{x}$ is a weighted average of $\overline{x}$ and the prior mean $\mu$, with more weight on $\overline{x}$ as $n$ increases.}
 
         \begin{solution}
-            
+        Note that $\overline{X}$ is a sufficient statistic for $X_1, \dots, X_n$ which are i.i.d\, Poisson. Consequently, 
+        conditioning on the sufficient statistic $\overline{X}$ is equivalent to conditioning on $X_1, \dots, X_n$. We know that
+        \[
+            f_{\theta \mid X_1, \dots, X_n} = f_{\theta}L(X_1, \dots, X_n \mid \theta)
+        \]
+        where 
+        \[
+            f_{\theta} = \frac{\left( \frac{\alpha}{\mu} \right)^\alpha }{\Gamma(\alpha)} \theta^{\alpha - 1} e^{\frac{-\alpha}{\mu} \theta}
+        \]
+        and
+        \[
+            L(X_1, \dots, X_n \mid \theta) = \prod \frac{\theta^{x_i}}{x_i!}e^{-\theta} = e^{-n\theta} \frac{\theta^{\sum x_i}}{\prod x_i!}.
+        \]
+        It follows that 
+        \begin{align*}
+            f_{\theta \mid X_1, \dots, X_n} &= f_{\theta}L(X_1, \dots, X_n \mid \theta) \\
+            &= \left( \frac{\left( \frac{\alpha}{\mu} \right)^\alpha }{\Gamma(\alpha)} \theta^{\alpha - 1} e^{\frac{-\alpha}{\mu} \theta} \right) \left( e^{-n\theta} \frac{\theta^{\sum x_i}}{\prod x_i!} \right) \\
+            &\propto \theta^{\alpha - 1 + \sum x_i} e^{-\theta\left( \frac{\alpha}{\mu} + n \right) }
+        \end{align*}
+        which is the kernel of a $\mathrm{Gamma}\left(\alpha + \sum x_i, \frac{\alpha}{\mu} + n\right)$ random variable. \\
+
+        Thus, we know that $f_{\theta \mid X_1, \dots, X_n} = f_{\theta \mid \overline{X}} \sim \mathrm{Gamma}\left(\alpha + \sum x_i, \frac{\alpha}{\mu} + n\right)$. Since the prior and posterior
+        distributions are in the same family (Gamma) of distributions, we know that $\theta$ defines a conjugate family of prior distributions for $\theta$, as desired. \\
+
+        Finally, note that
+        \[
+            \mathbb{E}\left[\theta \mid \overline{X}  \right] = \frac{\alpha + \sum x_i}{\frac{\alpha}{\mu} + n}.
+        \]
+        Manipulating this expression, we find that
+        \begin{align*}
+            \mathbb{E}\left[\theta \mid \overline{X}  \right] &= \frac{\alpha + \sum x_i}{\frac{\alpha}{\mu} + n} \\
+            &= \frac{\alpha + n \overline{x}}{\frac{\alpha}{\mu} + n} \\
+            &= \frac{\alpha}{\frac{\alpha}{\mu} + n} + \overline{x}\left(\frac{n}{\frac{\alpha}{\mu} + n}\right) \\
+            &= \mu \left(\frac{\alpha}{\alpha + n\mu}\right) + \overline{x}\left(\frac{n\mu}{\alpha + n\mu}\right),
+        \end{align*}
+        so the posterior mean for $\theta \mid \overline{x}$ is a weighted average of $\overline{x}$ and the prior mean $\mu$. Finally, we see that if $n$ increases, the weight on the second term (corresponding to $\overline{x}$) increases, as desired.
         \end{solution}
+        
     \end{enumerate}
     
 \end{enumerate}
