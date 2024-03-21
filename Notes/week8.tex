@@ -1,5 +1,3 @@
-\newpage
-
 \setcounter{section}{7}
 \section{Multiple Comparisons}
 
@@ -9,7 +7,7 @@
 
 \begin{enumerate}[a)]
     \item \textbf{Describe the conclusions you might make after carrying out a one-way ANOVA F test,
-    and how you would estimate the $\theta_i$'s when the null hypothesis is rejected or not rejected.}
+    and how you would estimate the $\theta_i$'s when the null hypothesis is rejected or not rejected.} \\
 
     A one-way ANOVA F Test works to check whether there are statistically significant differences in the means of 3 or more groups of data. The null hypothesis is of the form
     \[
@@ -31,9 +29,10 @@
     Stein's Theorem tells us that our above estimate for the $\theta_i$'s (taking the averages of each of the groups) is \textit{inadmissible}, in the sense that there is another estimate that has smaller mean square error. 
     But we anticipated from part (a) that the observed $Y_i$ is the MLE for each group -- these seem to be in conflict with each other. \\
 
+    The subtlety relies in the fact that we are no longer estimating each group mean individually (in which case the MLE is simply the observed averages). Rather, when we are dealing with a group of different means, Stein's estimate says that there are estimation rules with smaller total squared error (summing across all groups) than simply estimating the averages for each individual group. Equivalently, ``no matter what the values of the true means, there are estimation rules with smaller total risk." \\
+    
     \item \textbf{Stein, along with Willard James, provide an alternative joint estimator (the James-Stein
     estimate) that has a smaller expected sum of squares error:}
-
     \begin{align*}
         k = 3&\colon \, \, \, \, \hat{\theta}_i = \hat{B} \mu + (1-\hat{B})Y_i, \,\, \, \, \, \hat{B} = \frac{V}{\sum (Y_i - \mu)^2}, \, \, \, \, \, \mu \text{ = any fixed constant (e.g. 0)} \\
         k > 3&\colon \, \, \, \, \hat{\theta}_i = \hat{B}\overline{Y}+ (1-\hat{B})Y_i, \, \, \, \, \,\hat{B} = \frac{(k-3)V}{\sum (Y_i - \mu)^2}.
@@ -43,17 +42,15 @@
     Describe how the Stein estimate ``shrinks'' the $Y_i$'s together, and how this can reduce the mean square error by introducing directional bias that anticipates regression towards the mean (an improved version requires $\hat{B} \leq 1$.)
     Note that the $Y_i$'s are typically more variable than the $\theta_i$'s. Use simulation to test a $k=3$ case based on the Wordle example. Use $\mu = 3.5$ and $V=1$ and try various values of  $\theta_1$, $\theta_2$, and $\theta_3$.} \\
 
-    As per the formulas, we can think of the Stein stimate as a weighted average between $\mu$ or $\overline{Y}$ and the $Y_i$'s. This introduces
-    what can be understood as a ``shrinkage to the grand average'', consequently shrinking the $Y_i$'s to be closer together. \\
+    As per the formulas, we can think of the Stein estimate as a weighted average between $\mu$ or $\overline{Y}$ and the $Y_i$'s. This introduces what can be understood as a ``shrinkage to the grand average'', i.e. shrinking the $Y_i$'s to be closer together. \\
     
-    Since the MSE is the sum of the bias squared and the variance, by shrinking the $Y_i$'s together, even if we are introducing some directional bias, we are also working to regress towards the mean, 
-    so the effect of the increase in bias will be ideally outweighed by the decrease in the variance. By this logic, the Stein's estimate actually decreases the MSE. \\
+    Since the MSE is the sum of the bias squared and the variance, by shrinking the $Y_i$'s together, even if we are introducing some directional bias, we are also working to regress towards the mean, so the decrease in the variance will outweigh the effect of the increase in bias. By this logic, Stein's estimate actually decreases the MSE. \\
 
     The Stein estimate makes sense because the $Y_i$'s vary about their underlying $\theta_i$'s, so the overall variability in
     the $Y_i$'s will typically be larger than the variability in the $\theta_i$'s. To anticipate this, each $Y_i$ is shrunk toward some common value, and the most obvious value to shrink toward is $\overline{Y} $, the average of the $Y_i$'s. 
     The following example illustrates this well:
     \begin{center}
-        \includegraphics[scale=0.66]{week8_SteinsRegression}
+        \includegraphics[scale=0.66]{week8_SteinsRegression.png}
     \end{center}
 
     Mathematically, note that since $Y_i \sim N(\theta_i, V)$ by assumption, it follows that
@@ -85,30 +82,16 @@
     in 1970) provides information about the distribution of batting averages in
     Major League Baseball that year. If we observed only one player's average, it
     would be equally likely to be an overestimate or an under-estimate of the
-    player's true probability of getting a hit. But in the context of other similar players, we might reasonably judge a particular batting average is more likely to be
-    an over-estimate or under-estimate. For example, Clemente's .400 was the largest of a sample of 18 batting averages.
-    Without any outside knowledge that .400 is an unusually high average for a
-    professional player, one could still judge that this was likely to be an over-estimate
-    of Clemente's true probability. A classical confidence interval for Clemente's
-    mean would be symmetric about .400,allowing for the possibility that he had
-    a true probability larger than .400 and was in a batting slump for those first
-    45 at-bats. The Stein estimate predicts Clemente to bat closer to the overall
-    average $y =.265$, but still to be above average. Similarly, the Stein estimate predicts Max Alvis' final average to be higher
+    player's true probability of getting a hit. But in the context of other similar players, we might reasonably judge a particular batting average is more likely to be an over-estimate or under-estimate. For example, Clemente's .400 was the largest of a sample of 18 batting averages.
+    Without any outside knowledge that .400 is an unusually high average for a professional player, one could still judge that this was likely to be an over-estimate of Clemente's true probability. A classical confidence interval for Clemente's mean would be symmetric about .400, allowing for the possibility that he had a true probability larger than .400 and was in a batting slump for those first 45 at-bats. The Stein estimate predicts Clemente to bat closer to the overall average $y =.265$, but still to be above average. Similarly, the Stein estimate predicts Max Alvis' final average to be higher
     than .156, but still below average. \\
 
-    Similarly, shrinking the $Y_i$'s together in the WNBA example is essentially the idea of ``regressing to the mean''. \\
+    Similarly, shrinking the $Y_i$'s together in the WNBA example is essentially the idea of ``regressing to the mean'' and/or ``borrowing strength from the ensemble.'' \\
 
-    What makes Stein's result more paradoxical is his general statement that,
-when estimating a collection of $k$ (possibly unrelated) means using a set of independent sample averages, the averages
-are inadmissible. That is, there is another estimate that does better (in terms of minimizing the sum of squares) for every possible set of means. The Stein estimate
-was shown to be such an estimate. Efron and Morris illustrate the paradoxical nature of this fact by including a nineteenth average in their collection: the
-percentage of a random sample of 45 foreign-made automobiles. Now, they
-consider estimating the 18 player means and the overall percent of foreign-made
-cars. Applying the Stein's estimate seems to imply that the percentage of foreign-made cars is influenced by the batting performances of Clemente and
-the others. \\
+    What makes Stein's result more paradoxical is his general statement that when estimating a collection of $k$ (possibly unrelated) means using a set of independent sample averages, the averages are inadmissible. That is, there is another estimate that does better (in terms of minimizing the sum of squares) for every possible set of means. The Stein estimate was shown to be such an estimate. Efron and Morris illustrate the paradoxical nature of this fact by including a nineteenth average in their collection: the percentage of a random sample of 45 foreign-made automobiles. Now, they consider estimating the 18 player means and the overall percent of foreign-made cars. Applying Stein's estimate seems to imply that the percentage of foreign-made cars is influenced by the batting performances of Clemente and the others. \\
 
-\textit{But this is in fact not as paradoxical as one may think. With a simple regression model (to minimize the sum of squares),
-the fitted value for the percent of foreign cars would be influenced by the batting
-averages. The Stein estimate essentially attempts to fit this regression model
-without having observed the responses, but assuming that they will be centered about the same mean as the predictors.}
+    \textit{But this is in fact not as paradoxical as one may think. With a simple regression model (to minimize the sum of squares), the fitted value for the percent of foreign cars would be influenced by the batting averages. The Stein estimate essentially attempts to fit this regression model without having observed the responses, but assuming that they will be centered about the same mean as the predictors. Consequently, the loss function (total squared error) supposes that the problems are related, in which case Stein's estimate is not paradoxical.}
 \end{enumerate}
+
+
+\end{document}
