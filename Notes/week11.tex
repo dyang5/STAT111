@@ -1,0 +1,173 @@
+\setcounter{section}{10}
+\section{Simple Linear Regression}
+
+\setcounter{subsection}{4}
+\subsection{Matrix Representation}
+\graphicspath{{notes/img}}
+
+\newpage
+
+\textbf{The linear model becomes much easier to manage when represented in matrix and vector form. Let
+$\bm{Y}$ be the $n \times 1$ vector of $Y_1, \dots, Y_n$, and let $\bm{X}$ be an $n \times 2$ matrix with a column of $1$'s and a column
+with the values $x_1, \dots, x_n$. Define $\bm{\beta}$ to be the $2\times 1$ vector of $\beta_0$ and $\beta_1$.}
+\begin{enumerate}[a)]
+\item \textbf{Show that the simple regression model can be written as $\bm{Y} = \bm{X\beta} + \bm{\varepsilon}$, for $\bm{\varepsilon} \sim N_n(\bm{0}, \sigma^2\bm{I})$.}
+
+Note that the typical simple linear regression model assumes $Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$. Extending this to the matrix representation is simple,
+and works as expected: we get that
+\[
+    \bm{Y} = \bm{X\bm{\beta}} + \bm{\varepsilon}.
+\]
+Indeed, we see that
+\[
+    \begin{bmatrix}
+        Y_1 \\
+        \vdots \\
+        Y_n \\
+    \end{bmatrix} 
+    = \begin{bmatrix}
+        1 & x_1 \\
+        \vdots & \vdots  \\
+        1 & x_n  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        \beta_0 \\
+        \beta_1  \\
+    \end{bmatrix}
+    + \begin{bmatrix}
+        \varepsilon_1 \\
+        \vdots \\
+        \varepsilon_n \\
+    \end{bmatrix}
+\]
+is precisely the matrix representation of SLR. \\
+
+\item \textbf{Explain why we can't solve $\bm{Y} = \bm{X\beta}$ to get $\bm{\beta} = \bm{X}^{-1}\bm{Y}$, but we can solve $\bm{X}^T \bm{Y} = \bm{X}^T \bm{X} \bm{\beta}$
+to get $\hat{\bm{\beta}} = (\bm{X}^T \bm{X})^{-1} \bm{X}^T \bm{Y}$.}
+
+Note that $\bm{X}$ is a $n \times 2$ matrix, so its inverse does not exist. Consequently, instead of solving $\bm{Y} = \bm{X\beta}$ to get $\bm{\beta} = \bm{X}^{-1}\bm{Y}$,
+we can solve 
+\[
+    \bm{X}^T \bm{Y} = \bm{X}^T \bm{X} \bm{\beta}
+\]
+Note now that $\bm{X}^T \bm{X}$ is a $2 \times 2$ matrix, so we can solve by multiplying by $(\bm{X}^T \bm{X})^{-1}$ to get
+\[
+    \boxed{\hat{\bm{\beta}} = (\bm{X}^T \bm{X})^{-1} \bm{X}^T \bm{Y}}.
+\]
+\item \textbf{Show the generalization of the expansion in 4b, and explain how it shows that $\hat{\bm{\beta}}$ is the MLE.}
+\[
+    (\bm{Y} - \bm{X\beta})^T(\bm{Y} - \bm{X\beta}) = (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) + (\hat{\bm{\beta}} - \bm{\beta})\bm{X}^T\bm{X}(\hat{\bm{\beta}} - \bm{\beta}).
+\]
+We use our trick of adding and subtracting by the same constant in our left hand side expression, and then expanding. Note that
+\[
+    (\bm{Y} - \bm{X\beta})^T(\bm{Y} - \bm{X\beta}) =  ((\bm{Y} - \bm{X}\hat{\bm{\beta}}) + (\bm{X}\hat{\bm{\beta}} - \bm{X\beta}))^T((\bm{Y} - \bm{X}\hat{\bm{\beta}}) + (\bm{X}\hat{\bm{\beta}} - \bm{X\beta}))
+\]
+Expanding, we find that
+\begin{align*}
+    (\bm{Y} - \bm{X\beta})^T(\bm{Y} - \bm{X\beta}) &=  ((\bm{Y} - \bm{X}\hat{\bm{\beta}}) + (\bm{X}\hat{\bm{\beta}} - \bm{X\beta}))^T((\bm{Y} - \bm{X}\hat{\bm{\beta}}) + (\bm{X}\hat{\bm{\beta}} - \bm{X\beta})) \\
+    &= (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T (\bm{Y} - \bm{X}\hat{\bm{\beta}}) + (\bm{X}\hat{\bm{\beta}} - \bm{X}\bm{\beta})^T (\bm{X}\hat{\bm{\beta}} - \bm{X}\bm{\beta}) \\
+    &+ (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T (\bm{X}\hat{\bm{\beta}} - \bm{X}\bm{\beta}) + (\bm{X}\hat{\bm{\beta}} - \bm{X}\bm{\beta})^T(\bm{Y} - \bm{X}\hat{\bm{\beta}})
+\end{align*}
+Note that the latter two terms are both $1 \times 1$, so $(\bm{Y} - \bm{X}\hat{\bm{\beta}})^T (\bm{X}\hat{\bm{\beta}} - \bm{X}\bm{\beta}) = (\bm{X}\hat{\bm{\beta}} - \bm{X}\bm{\beta})^T(\bm{Y} - \bm{X}\hat{\bm{\beta}})$.
+To simplify the above expression, we work with the term
+\begin{align*}
+    (\bm{X}\hat{\bm{\beta}} - \bm{X}\bm{\beta})^T(\bm{Y} - \bm{X}\hat{\bm{\beta}}) &= (\hat{\bm{\beta}} - \bm{\beta})^T\bm{X}^T (\bm{Y} - \bm{X}\hat{\bm{\beta}}) \\
+    &= (\hat{\bm{\beta}} - \bm{\beta})^T (\bm{X}^T\bm{Y} - \bm{X}^T\bm{X}\hat{\bm{\beta}}) \\
+    &=  (\hat{\bm{\beta}} - \bm{\beta})^T (\bm{X}^T\bm{Y} - \bm{X}^T\bm{X}((\bm{X}^T\bm{X})^{-1}\bm{X}^T \bm{Y})) \\
+    &=  (\hat{\bm{\beta}} - \bm{\beta})^T (\bm{X}^T\bm{Y} - \bm{X}^T \bm{Y}) \\
+    &= 0. 
+\end{align*}
+
+Thus, our latter two terms are both $0$ and we are left with the generalized expansion in 4b:
+\[
+    (\bm{Y} - \bm{X\beta})^T(\bm{Y} - \bm{X\beta}) = (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) + (\hat{\bm{\beta}} - \bm{\beta})\bm{X}^T\bm{X}(\hat{\bm{\beta}} - \bm{\beta}).
+\]
+
+Note that for $\bm{Y} = \bm{X\bm{\beta}} + \bm{\varepsilon}$, we have that $\bm{Y} \sim (\bm{X\beta}, \sigma^2\bm{I})$. 
+As we've seen previously (presentation 3), maximizing the likelihood is a matter of minimizing the least squares error expression $(\bm{Y} - \bm{X\beta})^T(\bm{Y} - \bm{X\beta})$, which appears as the negative exponent of an exponential.
+The expression $(\bm{Y} - \bm{X\beta})^T(\bm{Y} - \bm{X\beta})$, which can be written using the generalized expression above:
+\[
+    (\bm{Y} - \bm{X\beta})^T(\bm{Y} - \bm{X\beta}) = (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) + (\hat{\bm{\beta}} - \bm{\beta})\bm{X}^T\bm{X}(\hat{\bm{\beta}} - \bm{\beta}).
+\]
+is minimized when the latter term is $0$, meaning $\bm{\beta} = \hat{\bm{\beta}}$. Thus, the MLE is simply $\hat{\bm{\beta}}$.
+
+\item \textbf{Recall that, for an $n \times 1$ vector random variable $\bf{Y}$ with mean vector $\bf{\mu}$ and covariance matrix $\bf{V}$, if $\bf{M}$ is an $m \times n$ matrix of constants,
+then $\bf{MY}$ has mean $\bf{M\mu}$ and covariance $\bf{MVM}^T$. Show that $\hat{\bf{\beta}}$ has mean vector $\bf{\beta}$ and covariance matrix $\sigma^2(\bf{X}^T \bf{X})^{-1}$. Verify the variance and covariance results from presentation 3.}
+
+Recall that $\hat{\bm{\beta}} = (\bm{X}^T \bm{X})^{-1} \bm{X}^T \bm{Y}$ and  $\bm{Y} \sim (\bm{X\beta}, \sigma^2\bm{I})$. It follows that
+\begin{align*}
+    \mathbb{E}\left[\hat{\bm{\beta}} \right] &= (\bm{X}^T \bm{X})^{-1} \bm{X}^T  \mathbb{E}\left[\bm{Y} \right] \\
+    &= (\bm{X}^T \bm{X})^{-1} \bm{X}^T \bm{X\beta} \\
+    &= \bm{\beta}.
+\end{align*}
+
+Similarly,
+\begin{align*}
+    \mathrm{Var} \left[\hat{\bm{\beta}} \right] &= \mathrm{Var} \left[ (\bm{X}^T \bm{X})^{-1} \bm{X}^T \bm{Y} \right] \\
+    &= (\bm{X}^T \bm{X})^{-1} \bm{X}^T \mathrm{Var} \left[Y \right] ((\bm{X}^T \bm{X})^{-1} \bm{X}^T)^T \\
+    &= (\bm{X}^T \bm{X})^{-1} \bm{X}^T \sigma^2 \bm{I} ((\bm{X}^T \bm{X})^{-1} \bm{X}^T)^T \\
+    &= \sigma^2 (\bm{X}^T \bm{X})^{-1} \bm{X}^T \bm{X} ((\bm{X}^T \bm{X})^{-1})^T \\
+    &= \sigma^2 (\bm{X}^T \bm{X})^{-1}.
+\end{align*}
+
+To verify the variance and covariance results from presentation $3$, one can check using the fact that
+\[
+    \bf{X}^T \bf{X} = \begin{bmatrix}
+        n & n \overline{x}   \\
+        n \overline{x}  & \sum x_i^2
+    \end{bmatrix}
+\]
+
+that indeed, 
+\[
+    \sigma^2 (\bf{X}^T \bf{X})^{-1} = \begin{bmatrix}
+        \mathrm{Var} \left[\hat{\beta}_0 \right]  & \Cov \left[\hat{\beta}_0, \hat{\beta}_1 \right]   \\
+        \Cov \left[\hat{\beta}_0, \hat{\beta}_1 \right] &  \mathrm{Var} \left[\hat{\beta}_1 \right] \\
+    \end{bmatrix}
+\]
+\textit{(Some manipulation and use of the fact that $\sum (x_i - \overline{x} )^2 = \sum x_i^2 - n \overline{x}^2$ is needed -- see presentation 3 notes for more details.)}
+
+\item \textbf{A matrix $\bf{M}$ is a projection matrix if and only if $\bf{M}^T = \bf{M}$ and $\bf{MM} = \bf{M}$. 
+The vector of fitted mean values is $\hat{\bf{Y}} = \bf{X}\hat{\bf{\beta}} = \bf{X}(\bf{X}^T \bf{X})^{-1} \bf{X}^T \bf{Y} = \bf{HY}$, 
+and the vector of fitted residuals is $\hat{\bf{\varepsilon}} = \bf{Y} - \hat{\bf{Y}} = (\bf{I} - \bf{H})\bf{Y}$, where $\bf{I}$ is the $n \times n$ identity matrix. 
+Show that $\bf{H} = \bf{X}(\bf{X}^T \bf{X})^{-1} \bf{X}^T$ and $\bf{I} - \bf{H}$ are orthogonal projection matrices. 
+Note that $\bf{Y} = \bf{HY} + (\bf{I} - \bf{H})\bf{Y} = \hat{\bf{Y}} + \hat{\bf{\varepsilon}}$.
+}
+
+Note that if $\bf{H} = \bf{X}(\bf{X}^T \bf{X})^{-1} \bf{X}^T$, then 
+\[
+    \bf{H}^T = (\bf{X}(\bf{X}^T \bf{X})^{-1} \bf{X}^T)^T = ((\bf{X})^T)^T ((\bf{X}^T \bf{X})^{-1})^T \bf{X}^T.
+\]
+Since $\bf{X}^T\bf{X}$ is symmetric, its inverse is also symmetric, so $((\bf{X}^T \bf{X})^{-1})^T = (\bf{X}^T \bf{X})^{-1}$. Thus,
+\[
+    \bf{H}^T = \bf{X} (\bf{X}^T \bf{X})^{-1} \bf{X}^T = \bf{H}.
+\]
+
+Similarly, 
+\begin{align*}
+    \bf{H}^2 &= (\bf{X}(\bf{X}^T \bf{X})^{-1} \bf{X}^T)(\bf{X}(\bf{X}^T \bf{X})^{-1} \bf{X}^T) \\
+    &= (\bf{X}(\bf{X}^T \bf{X})^{-1} (\bf{X}^T\bf{X}) (\bf{X}^T \bf{X})^{-1} \bf{X}^T) \\
+    &= \bf{X}(\bf{X}^T \bf{X})^{-1} \bf{X}^T \\
+    &= \bf{H}
+\end{align*}
+
+as desired. Consequently, $\bf{H}$ is a projection matrix.\\
+
+On the other hand, note that 
+\[
+    (\bf{I} - \bf{H})^T = \bf{I}^T - \bf{H}^T = \bf{I} - \bf{H}.
+\]
+
+Furthermore, 
+\begin{align*}
+    (\bf{I} - \bf{H})(\bf{I} - \bf{H}) &= \bf{I}^2 - 2 \bf{I}\bf{H} + \bf{H}^2 \\
+    &= \bf{I} - 2\bf{H} + \bf{H} \\
+    &= \bf{I} - \bf{H}.
+\end{align*}
+
+Thus, once again, $\bf{I} - \bf{H}$ is a projection matrix. Finally, they are orthogonal: note that
+\[
+    \bf{H}(\bf{I} - \bf{H}) = \bf{H} \bf{I} - \bf{H}^2 = \bf{H} - \bf{H} = 0.
+\]
+In the next presentation, we will see build some intuition behind what these matrices represent and how they are used.
+\end{enumerate}
