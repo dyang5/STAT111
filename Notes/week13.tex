@@ -27,7 +27,81 @@ As for the posterior pdf, we have
     f_{\beta \mid Y}(\bm{\beta} \mid \hat{\bm{\beta}}, \sigma^2) &= f_{\bm{\beta}} L(\bm{Y} \mid \bm{\beta}) \\
     & \propto \exp \left[ -\frac{1}{2} (\bm{\beta} - \bm{\gamma})^T \bm{A}^{-1} (\bm{\beta} - \bm{\gamma}) \right] \exp \left[ -\frac{1}{2} (\hat{\bm{\beta}} - \bm{\beta})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\hat{\bm{\beta}} - \bm{\beta}) \right] \\
     & \propto \exp \left[ -\frac{1}{2} \left((\bm{\beta} - \bm{\gamma})^T \bm{A}^{-1} (\bm{\beta} - \bm{\gamma}) + (\hat{\bm{\beta}} - \bm{\beta})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\hat{\bm{\beta}} - \bm{\beta}) \right)\right] \\
-    &= \exp \left[ -\frac{1}{2} \left(\bm{\beta}^T(\bm{V}^{-1} + \bm{A}^{-1})\bm{\beta} - 2\bm{\beta}^T (\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}) + \bm{\beta}^T \bm{V}^{-1} \hat{\bm{\beta}} + \bm{\gamma}^T \bm{A}^{-1}\bm{\gamma} \right) \right].
+    &= \exp \left[ -\frac{1}{2} \left(\bm{\beta}^T(\bm{V}^{-1} + \bm{A}^{-1})\bm{\beta} - 2\bm{\beta}^T (\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}) + \bm{\beta}^T \bm{V}^{-1} \hat{\bm{\beta}} + \bm{\gamma}^T \bm{A}^{-1}\bm{\gamma} \right) \right] \\
+    & \propto \exp \left[ -\frac{1}{2} \left(\bm{\beta} - \mathbb{E}\left[\bm{\beta} \mid \hat{\bm{\beta}}\right] \right)^T (\bm{V}^{-1} + \bm{A}^{-1})^{-1} \left(\bm{\beta} - \mathbb{E}\left[\bm{\beta} \mid \hat{\bm{\beta}}\right] \right) \right].
 \end{align*}
 
+Note that we have a quadratic term with respect to $\bm{\beta}$, so we can recognize this as a MVN density. Recall that for $\bm{Y} \sim N_n(\bm{\mu}, \tilde{\bm{V}})$, the density
+\[
+    f_Y(\bm{Y}) \propto \exp \left[  -\frac{1}{2} \left( (\bm{Y} - \bm{\mu}) ^T \tilde{\bm{V}}^{-1} (\bm{Y} - \bm{\mu}) \right) \right] \propto \exp \left[ -\frac{1}{2} \left( \bm{Y}^T \tilde{\bm{V}}^{-1} \bm{Y} - 2 \bm{Y}^T \tilde{\bm{V}}^{-1} \bm{\mu} \right)  \right].
+\]
+Matching the respective terms, we see that 
+\[
+    \tilde{\bm{V}} = (\bm{V}^{-1} + \bm{A}^{-1})^{-1}
+\]
+so the variance of the posterior distribution is
+\[
+    \mathrm{Var} \left[\bm{\beta} \mid \hat{\bm{\beta}} \right] = (\bm{V}^{-1} + \bm{A}^{-1})^{-1}.
+\]
+On the other hand, we also have that
+\[
+    \tilde{\bm{V}}^{-1} \bm{\mu} = (\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}),
+\]
+so solving for $\bm{\mu}$ gives the mean of the posterior distribution
+\begin{align*}
+    \mathbb{E}\left[ \bm{\beta} \mid \hat{\bm{\beta}} \right] &= \tilde{\bm{V}}(\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}) \\
+    &= (\bm{V}^{-1} + \bm{A}^{-1})^{-1}(\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}).
+\end{align*}
+
+\item \textbf{For symmetric, invertible $p \times p$ matrices $\bm{V}$ and $\bm{A}$, show that}
+\[
+    (\bm{V}^{-1} + \bm{A}^{-1})^{-1} = \bm{A}(\bm{V} + \bm{A})^{-1}\bm{V} =  \bm{V}(\bm{V} + \bm{A})^{-1}\bm{A}. 
+\]
+\textbf{Use this to express $\mathbb{E}\left[\bm{\beta} \mid \hat{\bm{\beta}} \right]$ as a weighted average of the vectors $\gamma$ and $\hat{\bm{\beta}}$.} \\
+
+Note that 
+\begin{align*}
+    \left[ \bm{A}(\bm{V} + \bm{A})^{-1}\bm{V} \right]^{-1} &= \bm{V}^{-1}(\bm{V} + \bm{A})\bm{A}^{-1} \\
+    &= (\bm{I} + \bm{V}^{-1} \bm{A})\bm{A}^{-1} = \bm{A}^{-1} + \bm{V}^{-1} 
+\end{align*}
+so
+\[
+    (\bm{A}(\bm{V} + \bm{A}^{-1})\bm{V}) = (\bm{V}^{-1} + \bm{A}^{-1})^{-1}.
+\]
+Similarly,
+\begin{align*}
+    \left[ \bm{V}(\bm{V} + \bm{A})^{-1}\bm{A} \right]^{-1} &= \bm{A}^{-1}(\bm{V} + \bm{A})\bm{V}^{-1} \\
+    &= \bm{A}^{-1}(\bm{I} + \bm{A}\bm{V}^{-1}) = \bm{A}^{-1} + \bm{V}^{-1}.
+\end{align*}
+so
+\[
+    (\bm{V}(\bm{V} + \bm{A}^{-1})\bm{A}) = (\bm{V}^{-1} + \bm{A}^{-1})^{-1}.
+\]
+We conclude that
+\[
+  \boxed{ (\bm{V}^{-1} + \bm{A}^{-1})^{-1} = \bm{A}(\bm{V} + \bm{A})^{-1}\bm{V} =  \bm{V}(\bm{V} + \bm{A})^{-1}\bm{A}}.  
+\]
+
+From part (a), we have that
+\[
+    \mathbb{E}\left[ \bm{\beta} \mid \hat{\bm{\beta}} \right] = (\bm{V}^{-1} + \bm{A}^{-1})(\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}).
+\]
+
+Expanding and simplifying, we get that
+\begin{align*}
+    \mathbb{E}\left[ \bm{\beta} \mid \hat{\bm{\beta}} \right] &= (\bm{V}^{-1} + \bm{A}^{-1})^{-1}(\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}) \\
+    &= (\bm{V}^{-1} + \bm{A}^{-1})^{-1}(\bm{V}^{-1} \hat{\bm{\beta}}) + (\bm{V}^{-1} + \bm{A}^{-1})^{-1}(\bm{A}^{-1} \bm{\gamma}).
+\end{align*}
+
+We can substitute $\bm{A}(\bm{V} + \bm{A})^{-1}\bm{V}$ and $\bm{V}(\bm{V} + \bm{A})^{-1}\bm{A}$ for the first and second $(\bm{V} + \bm{A})^{-1}$ terms, respectively, to get
+\begin{align*}
+    \mathbb{E}\left[ \bm{\beta} \mid \hat{\bm{\beta}} \right] &= (\bm{V}^{-1} + \bm{A}^{-1})^{-1}(\bm{V}^{-1} \hat{\bm{\beta}}) + (\bm{V}^{-1} + \bm{A}^{-1})^{-1}(\bm{A}^{-1} \bm{\gamma}) \\
+    &= \bm{A}(\bm{V} + \bm{A})^{-1}\bm{V}(\bm{V}^{-1} \hat{\bm{\beta}}) + \bm{V}(\bm{V} + \bm{A})^{-1}\bm{A}(\bm{A}^{-1} \bm{\gamma}) \\
+    &= \bm{A}(\bm{V} + \bm{A})^{-1} \hat{\bm{\beta}} + \bm{V}(\bm{V} + \bm{A})^{-1} \bm{\gamma}.
+\end{align*}
+
+We see that this is a weighted average of $\hat{\bm{\beta}}$ and $\bm{\gamma}$, as $\bm{A}(\bm{V} + \bm{A})^{-1} + \bm{V}(\bm{V} + \bm{A})^{-1} = 1$. 
+
+\item \textbf{Show that assuming $p(\bm{\beta}) \propto c$ leads to the posterior distribution $\bm{\beta} \mid y, \sigma^2 \sim N_p(\hat{\bm{\beta}}, \sigma^2(\bm{X}^T\bm{X})^{-1})$, which
+gives another Bayesian-Frequentist symmetry.}
 \end{enumerate}
