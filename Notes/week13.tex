@@ -1,0 +1,33 @@
+\setcounter{section}{12}
+\section{Bayesian Inference}
+
+\subsection{Bayesian Regression Model}
+\graphicspath{{notes/img}}
+
+\newpage
+
+
+
+\begin{enumerate}[a)]
+\item \textbf{The Normal linear model implies $\hat{\bm{\beta}} \mid \bm{\beta}, \sigma^2 \sim N_p(\bm{\beta}, \bm{V})$, where
+$\bm{V} = \sigma^2 (\bf{X}^T \bf{X})^{-1}$. Assuming a prior distribution $\bm{\beta} \sim N_p(\bm{\gamma}, \bm{A})$, find the implied
+posterior distribution for $\bm{\beta} \mid \hat{\bm{\beta}}, \sigma^2$.}
+
+Recall that the setup for linear regression: $\bm{Y} = \bm{X\beta} + \sigma \bm{Z}$, where $\bm{Z} \sim N_n(0, \bm{I})$. It follows that
+the likelihood
+\begin{align*}
+    L(\bm{Y} \mid \bm{\beta}) = f_{Y \mid \beta}(\bm{Y} \mid \bm{\beta}) &\propto \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X\beta})^T (\bm{Y} -\bm{X\beta}) \right) \right] \\
+    &= \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) + (\hat{\bm{\beta}} - \bm{\beta})\bm{X}^T\bm{X}(\hat{\bm{\beta}} - \bm{\beta}) \right) \right] \\
+    &\propto \exp \left[ -\frac{1}{2} (\hat{\bm{\beta}} - \bm{\beta})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\hat{\bm{\beta}} - \bm{\beta}) \right]. \\
+\end{align*}
+Note that this likelihood depends only on $\hat{\beta}$, so $\hat{\beta}$ is a sufficient statistic for $\beta$. \\
+
+As for the posterior pdf, we have 
+\begin{align*}
+    f_{\beta \mid Y}(\bm{\beta} \mid \hat{\bm{\beta}}, \sigma^2) &= f_{\bm{\beta}} L(\bm{Y} \mid \bm{\beta}) \\
+    & \propto \exp \left[ -\frac{1}{2} (\bm{\beta} - \bm{\gamma})^T \bm{A}^{-1} (\bm{\beta} - \bm{\gamma}) \right] \exp \left[ -\frac{1}{2} (\hat{\bm{\beta}} - \bm{\beta})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\hat{\bm{\beta}} - \bm{\beta}) \right] \\
+    & \propto \exp \left[ -\frac{1}{2} \left((\bm{\beta} - \bm{\gamma})^T \bm{A}^{-1} (\bm{\beta} - \bm{\gamma}) + (\hat{\bm{\beta}} - \bm{\beta})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\hat{\bm{\beta}} - \bm{\beta}) \right)\right] \\
+    &= \exp \left[ -\frac{1}{2} \left(\bm{\beta}^T(\bm{V}^{-1} + \bm{A}^{-1})\bm{\beta} - 2\bm{\beta}^T (\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}) + \bm{\beta}^T \bm{V}^{-1} \hat{\bm{\beta}} + \bm{\gamma}^T \bm{A}^{-1}\bm{\gamma} \right) \right].
+\end{align*}
+
+\end{enumerate}
