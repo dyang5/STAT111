@@ -1,32 +1,29 @@
+\newpage
 \setcounter{section}{12}
 \section{Bayesian Inference}
 
 \subsection{Bayesian Regression Model}
 \graphicspath{{notes/img}}
 
-\newpage
-
-
-
 \begin{enumerate}[a)]
 \item \textbf{The Normal linear model implies $\hat{\bm{\beta}} \mid \bm{\beta}, \sigma^2 \sim N_p(\bm{\beta}, \bm{V})$, where
 $\bm{V} = \sigma^2 (\bf{X}^T \bf{X})^{-1}$. Assuming a prior distribution $\bm{\beta} \sim N_p(\bm{\gamma}, \bm{A})$, find the implied
 posterior distribution for $\bm{\beta} \mid \hat{\bm{\beta}}, \sigma^2$.}
-
-Recall that the setup for linear regression: $\bm{Y} = \bm{X\beta} + \sigma \bm{Z}$, where $\bm{Z} \sim N_n(0, \bm{I})$. It follows that
+ 
+Recall that the setup for linear regression: $\bm{Y} = \bm{X\beta} + \sigma \bm{Z}$, where $\bm{Z} \sim N_n(0, \bm{I})$ so $\bm{Y} \sim N_n(\bm{X\beta}, \sigma^2\bm{I})$. It follows that
 the likelihood
 \begin{align*}
     L(\bm{Y} \mid \bm{\beta}) = f_{Y \mid \beta}(\bm{Y} \mid \bm{\beta}) &\propto \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X\beta})^T (\bm{Y} -\bm{X\beta}) \right) \right] \\
-    &= \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) + (\hat{\bm{\beta}} - \bm{\beta})\bm{X}^T\bm{X}(\hat{\bm{\beta}} - \bm{\beta}) \right) \right] \\
-    &\propto \exp \left[ -\frac{1}{2} (\hat{\bm{\beta}} - \bm{\beta})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\hat{\bm{\beta}} - \bm{\beta}) \right]. \\
+    &= \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) + (\bm{\beta} - \hat{\bm{\beta}})\bm{X}^T\bm{X}(\bm{\beta} - \hat{\bm{\beta}}) \right) \right] \\
+    &\propto \exp \left[ -\frac{1}{2} (\bm{\beta} - \hat{\bm{\beta}})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\bm{\beta} - \hat{\bm{\beta}}) \right]. \\
 \end{align*}
 Note that this likelihood depends only on $\hat{\beta}$, so $\hat{\beta}$ is a sufficient statistic for $\beta$. \\
 
 As for the posterior pdf, we have 
 \begin{align*}
     f_{\beta \mid Y}(\bm{\beta} \mid \hat{\bm{\beta}}, \sigma^2) &= f_{\bm{\beta}} L(\bm{Y} \mid \bm{\beta}) \\
-    & \propto \exp \left[ -\frac{1}{2} (\bm{\beta} - \bm{\gamma})^T \bm{A}^{-1} (\bm{\beta} - \bm{\gamma}) \right] \exp \left[ -\frac{1}{2} (\hat{\bm{\beta}} - \bm{\beta})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\hat{\bm{\beta}} - \bm{\beta}) \right] \\
-    & \propto \exp \left[ -\frac{1}{2} \left((\bm{\beta} - \bm{\gamma})^T \bm{A}^{-1} (\bm{\beta} - \bm{\gamma}) + (\hat{\bm{\beta}} - \bm{\beta})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\hat{\bm{\beta}} - \bm{\beta}) \right)\right] \\
+    & \propto \exp \left[ -\frac{1}{2} (\bm{\beta} - \bm{\gamma})^T \bm{A}^{-1} (\bm{\beta} - \bm{\gamma}) \right] \exp \left[ -\frac{1}{2} (\bm{\beta} - \hat{\bm{\beta}})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\bm{\beta} - \hat{\bm{\beta}}) \right] \\
+    & \propto \exp \left[ -\frac{1}{2} \left((\bm{\beta} - \bm{\gamma})^T \bm{A}^{-1} (\bm{\beta} - \bm{\gamma}) + (\bm{\beta} - \hat{\bm{\beta}})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\bm{\beta} - \hat{\bm{\beta}}) \right)\right] \\
     &= \exp \left[ -\frac{1}{2} \left(\bm{\beta}^T(\bm{V}^{-1} + \bm{A}^{-1})\bm{\beta} - 2\bm{\beta}^T (\bm{V}^{-1} \hat{\bm{\beta}} + \bm{A}^{-1} \bm{\gamma}) + \bm{\beta}^T \bm{V}^{-1} \hat{\bm{\beta}} + \bm{\gamma}^T \bm{A}^{-1}\bm{\gamma} \right) \right] \\
     & \propto \exp \left[ -\frac{1}{2} \left(\bm{\beta} - \mathbb{E}\left[\bm{\beta} \mid \hat{\bm{\beta}}\right] \right)^T (\bm{V}^{-1} + \bm{A}^{-1})^{-1} \left(\bm{\beta} - \mathbb{E}\left[\bm{\beta} \mid \hat{\bm{\beta}}\right] \right) \right].
 \end{align*}
@@ -103,5 +100,77 @@ We can substitute $\bm{A}(\bm{V} + \bm{A})^{-1}\bm{V}$ and $\bm{V}(\bm{V} + \bm{
 We see that this is a weighted average of $\hat{\bm{\beta}}$ and $\bm{\gamma}$, as $\bm{A}(\bm{V} + \bm{A})^{-1} + \bm{V}(\bm{V} + \bm{A})^{-1} = 1$. 
 
 \item \textbf{Show that assuming $p(\bm{\beta}) \propto c$ leads to the posterior distribution $\bm{\beta} \mid y, \sigma^2 \sim N_p(\hat{\bm{\beta}}, \sigma^2(\bm{X}^T\bm{X})^{-1})$, which
-gives another Bayesian-Frequentist symmetry.}
+gives another Bayesian-Frequentist symmetry.} \\
+
+For $p(\bm{\beta}) \propto c$, we have
+\begin{align*}
+    f_{\beta \mid Y}(\bm{\beta} \mid \hat{\bm{\beta}}, \sigma^2) &= f_{\bm{\beta}} L(\bm{Y} \mid \bm{\beta}) \\
+    &= c \exp \left[ -\frac{1}{2} (\bm{\beta} - \hat{\bm{\beta}})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\bm{\beta} - \hat{\bm{\beta}}) \right] \\
+    & \propto \exp \left[ -\frac{1}{2} (\bm{\beta} - \hat{\bm{\beta}})\left(\sigma^2(\bm{X}^T\bm{X})\right)^{-1}(\bm{\beta} - \hat{\bm{\beta}}) \right]
+\end{align*}
+
+and so the posterior distribution is $\bm{\beta} \mid y, \sigma^2 \sim N_p(\hat{\bm{\beta}}, \sigma^2(\bm{X}^T\bm{X})^{-1})$. \\
+
+This gives the Bayesian-frequentist symmetry:
+\[
+    \hat{\bm{\beta}} - \bm{\beta} \mid y, \sigma^2 \sim N_p(0, \sigma^2(\bm{X}^T\bm{X})^{-1})
+\]
+for Bayesian inference, and in the frequentist perspective, $\hat{\bm{\beta}} \sim N_p(\bm{\beta},  \sigma^2(\bm{X}^T\bm{X})^{-1})$ so
+\[
+    \hat{\bm{\beta}} - \bm{\beta} \mid \beta, \sigma^2 \sim N_p(0, \sigma^2(\bm{X}^T\bm{X})^{-1}).
+\]
+
+\item \textbf{The \textit{restricted maximum likelihood} (REML) estimate for a variance is computed by first integrating the
+mean parameters out of the joint likelihood function and then maximizing with respect to $\sigma^2$ (as opposed to maximizing the joint likelihood function).
+Show that the REML estimate for a multiple regression is the mean squared error (MSE). Explain why this procedure
+is more coherent in the context of a constant prior density for $\bm{\beta}$.}
+
+From our previous work, we know that $\bm{Y} \sim N_n(\bm{X\beta}, \sigma^2\bm{I})$, so
+\begin{align*}
+    L(\bm{\beta}, \sigma^2) &\propto (\sigma^2)^{-\frac{n}{2}} \exp \left[ -\frac{1}{2\sigma^2} (\bm{Y} - \bm{X}\bm{\beta})^T (\bm{Y} - \bm{X}\bm{\beta})\right] \\
+    & \propto (\sigma^2)^{-\frac{n}{2}} \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) + (\bm{\beta} - \hat{\bm{\beta}})\bm{X}^T\bm{X}(\bm{\beta} - \hat{\bm{\beta}}) \right) \right] \\
+\end{align*}
+To get the REML, we integrate out the mean parameter $\bm{\beta}$ to get
+\[
+    L^*(\sigma^2) = \int_{\R^p} f(\bm{Y} \mid \bm{\beta}, \sigma^2) p(\bm{\beta}) \, d\bm{\beta}
+\]
+(where in the constant prior case, we have $p(\bm{\beta}) \propto c$), and so
+\begin{align*}
+    L^*(\sigma^2) &\propto (\sigma^2)^{-\frac{n}{2}}  \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) \right) \right] 
+    \int_{\R^p} \exp \left[ -\frac{1}{2\sigma^2} (\bm{\beta} - \hat{\bm{\beta}})\bm{X}^T\bm{X}(\bm{\beta} - \hat{\bm{\beta}}) \right] d\bm{\beta} \\
+\end{align*}
+Recognizing the integral as a kernel of a MVN random variable with mean $\bm{\beta}$ and covariance matrix $\sigma^2(\bm{X}^T\bm{X})^{-1}$ (so that the respective pdf integrates to $1$), we have that this simplifies to
+\begin{align*}
+    L^*(\sigma^2) &\propto (\sigma^2)^{-\frac{n}{2}}  \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) \right) \right] 
+    \int_{\R^p} \exp \left[ -\frac{1}{2\sigma^2} (\bm{\beta} - \hat{\bm{\beta}})\bm{X}^T\bm{X}(\bm{\beta} - \hat{\bm{\beta}}) \right] d\bm{\beta} \\
+    &= (\sigma^2)^{-\frac{n}{2}}  \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) \right) \right] (2\pi)^{\frac{n}{2}} |\sigma^2(\bm{X}^T\bm{X})^{-1}|^{\frac{1}{2}} \\
+    & \propto (\sigma^2)^{-\frac{n - p}{2}}  \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) \right) \right].
+\end{align*}
+\textit{(Note that the last step follows from the fact that for a $p \times p$ matrix $\bm{A}$, $|c\bm{A}| = c^p |\bm{A}|$.)} \\
+
+Maximizing over $\sigma^2$ as we have done previously, we get the REML estimate
+\[
+    \hat{\sigma}^2 = \frac{(\bm{Y} - \bm{X\hat{\beta}})^T (\bm{Y} - \bm{X\hat{\beta}})}{n - p} = \frac{1}{n-p} \sum (\bm{Y}_i - \hat{\bm{Y}})^2 = \text{MSE}. 
+\]
+
+\item \textbf{Assuming the joint Jeffreys prior density $p(\beta, \sigma^2) \propto 1/\sigma^2, \sigma^2 > 0$, show that the marginal posterior density for $\sigma^2 \mid y$
+is reciprocal-Gamma. Outline how to generate posterior draws for the $\beta_j^{\prime}s$ or $\mu_i = \bm{X}_i^T \bm{\beta}$s, or for future $Y$ values.} \\
+
+For the joint Jeffreys prior density $p(\beta, \sigma^2) \propto 1/\sigma^2$, we have that
+\begin{align*}
+    L^*(\sigma^2) &= \int_{\R^p} f(\bm{Y} \mid \bm{\beta}, \sigma^2) p(\bm{\beta}, \sigma^2) \, d\bm{\beta} \\
+    &= \frac{1}{\sigma^2} \int_{\R^p} f(\bm{Y} \mid \bm{\beta}, \sigma^2) \, d\bm{\beta} \\
+    &=  \propto (\sigma^2)^{-\left(\frac{n - p}{2} + 1\right)}  \exp \left[ -\frac{1}{2\sigma^2} \left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) \right) \right].
+\end{align*}
+
+Thus, the marginal posterior density $\sigma^2 \mid y \sim \mathrm{InvGamma}\left( \frac{n-p}{2}, \frac{\left( (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T(\bm{Y} - \bm{X\hat{\bm{\beta}}}) \right)}{2}\right)$, or
+\[
+    \boxed{\sigma^2 \mid y \sim \mathrm{InvGamma}\left( \frac{n-p}{2}, \frac{SSE}{2}\right)}. 
+\]
+We also have that 
+\[
+    \bm{\beta} \mid y, \sigma^2 \sim N_p(\hat{\bm{\beta}}, \sigma^2(\bm{X}^T\bm{X})^{-1}). 
+\]
+Thus, we can generate posterior draws or future $Y$ values. See R Code for real/simulated data.
+
 \end{enumerate}
