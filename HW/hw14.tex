@@ -1,0 +1,47 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[shortlabels]{enumitem}
+\usepackage[margin=1in]{geometry}
+\graphicspath{{img}}
+
+\newenvironment{solution}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+  {\end{proof}}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+	\hrule
+	\begin{center}
+        \textbf{STAT111: Mathematical Statistics II}\hfill \textbf{Spring 2024}\newline
+
+		{\Large Homework 14}
+
+		David Yang
+	\end{center}
+
+\hrule
+
+\vspace{1em}
+
+\begin{enumerate}
+    \item \textbf{The countries data set is from the CIA and reports Life Expectancy, Birth Rate, Real GDP per
+    Capita and Education expenditure as a $\%$ of GDP. Find a model to predict life expectancy, or some
+    transformation of life expectancy, from some or all of the other variables, or transformations of the
+    other variables (interactions are possible, too). Show evidence that the Normal linear regression
+    assumptions appear to be met. Make a $95\%$ prediction interval for the life expectancy in a country
+    with a birth rate of 12 births per 1000 persons in a year, GDP per capita of $\$70,000$, and with $4\%$
+    of GDP spent on education (close to the values for the USA).}
+    
+    \item \textbf{Suppose that the relation of family income to consumption is positive and roughly linear. Of those
+    families in the 90th percentile of income, what proportion would you expect to be at or above the
+    90th percentile of consumption: (a) exactly $50\%$, (b) less than $50\%$, of (c) more than $50\%$? Justify
+    your answer.}
+   
+\end{enumerate}
+
+\end{document}
