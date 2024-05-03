@@ -171,6 +171,25 @@ We also have that
 \[
     \bm{\beta} \mid y, \sigma^2 \sim N_p(\hat{\bm{\beta}}, \sigma^2(\bm{X}^T\bm{X})^{-1}). 
 \]
-Thus, we can generate posterior draws or future $Y$ values. See R Code for real/simulated data.
+Thus, we can generate posterior draws for the $\beta$s or future $Y$ values. See R Code for real/simulated data. \\
+
+\textit{Background for Simulated R Code} \\
+
+We have that $Y \sim N_n(\bm{\mu}, \bm{V})$, so 
+\[
+    \bm{Y} = \bm{\mu} + \bm{V}^{\frac{1}{2}}\bm{Z}
+\]
+where $\bm{Z} \sim N_n(0, \bm{I})$. To calculate this square root matrix $\bm{V}^{\frac{1}{2}}$, we can diagonalize:
+\begin{align*}
+    \bm{V} &= \bm{\Gamma} \bm{\Lambda} \bm{\Gamma}^T \\
+    \bm{V}^{\frac{1}{2}} &= \bm{\Gamma} \bm{\Lambda}^{\frac{1}{2}} \bm{\Gamma}^T 
+\end{align*}
+where $\bm{\Lambda}$ is a diagonal matrix of eigenvalues, so $\bm{\Lambda}$ is a diagonal matrix containing the square root of the eigenvalues. \\
+
+We also know that $\bm{\beta} \sim N_p(\hat{\bm{\beta}}, \sigma^2(\bm{X}^T\bm{X})^{-1})$, so
+\[
+    \bm{\beta} = \hat{\bm{\beta}} + \sigma\sqrt{(\bm{X}^T\bm{X})^{-1}}\bm{Z}
+\]
+for $\bm{Z} \sim N_p(0, \bm{I})$.
 
 \end{enumerate}

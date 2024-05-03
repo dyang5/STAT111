@@ -5,6 +5,8 @@
 \usepackage{amssymb}
 \usepackage[shortlabels]{enumitem}
 \usepackage[margin=1in]{geometry}
+\usepackage{bm}
+
 \graphicspath{{img}}
 
 \newenvironment{solution}
@@ -36,12 +38,49 @@
     assumptions appear to be met. Make a $95\%$ prediction interval for the life expectancy in a country
     with a birth rate of 12 births per 1000 persons in a year, GDP per capita of $\$70,000$, and with $4\%$
     of GDP spent on education (close to the values for the USA).}
-    
+
+    \begin{solution}
+    See attached R Output for specific details. \\
+
+    In my linear model, I use the birth rate and GDP variables to predict life expectancy (education was left out as it was not significant, and 
+    none of the interaction variables with education were significant either). The assumptions for Normal linear regression were satisfied;
+    there appears to be a relatively linear relationship between the variables, we see that the residuals are relatively normal, and 
+    satisfy the homoscedasticity and independence conditions. \\
+
+    The 95\% prediction interval I derived for the life expectancy under my model was approximately
+    \[
+      \boxed{[68.9, 82.6]}
+    \]
+    which seems on par with the data for countries such as the UK and the US.
+    \end{solution}
+
     \item \textbf{Suppose that the relation of family income to consumption is positive and roughly linear. Of those
     families in the 90th percentile of income, what proportion would you expect to be at or above the
     90th percentile of consumption: (a) exactly $50\%$, (b) less than $50\%$, of (c) more than $50\%$? Justify
     your answer.}
+
+    \begin{solution}
+    For families in the 90th percentile of income, we expect the proportionto be at or above the
+    90th percentile of consumption to be \boxed{\text{(c) more than $50\%$.}} 
+    This follows from the fact that the relation of family income to consumption is positive and roughly linear, so
+    we expect families with higher incomes to have higher levels of consumption.
+
+    \end{solution}
    
+    \item \textbf{The \textit{weighted} regression model assumes}
+    \[
+      \bm{Y} = \bm{X\beta} + \bm{\epsilon}, \, \, \, \bm{\epsilon} \sim N_n(\bm{0}, \sigma^{2}\bm{W}^{-1})
+    \]
+    \textbf{where $\bm{W}$ is a known, symmetric $n \times n$ positive definite matrix, and $\bm{X}$ is $n \times p$ and is also known.}
+
+    \begin{enumerate}
+      \item \textbf{Define $\hat{\bm{\beta}} = (\bm{X}^T \bm{WX})^{-1} \bm{X}^T \bm{WY}$. Show that}
+      \[
+        (\bm{Y} - \bm{X\beta})^T\bm{W}(\bm{Y} - \bm{X\beta}) = (\bm{Y} - \bm{X}\hat{\bm{\beta}})^T\bm{W}(\bm{Y} - \bm{X\hat{\bm{\beta}}}) + (\bm{\beta} - \hat{\bm{\beta}})\bm{X}^T\bm{WX}(\bm{\beta} - \hat{\bm{\beta}}).
+      \]
+      \item \textbf{Explain why (a) implies that $\hat{\bm{\beta}}$ is the MLE for $\bm{\beta}$ but not the least squares estimate.}
+      \item 
+    \end{enumerate}
 \end{enumerate}
 
 \end{document}
