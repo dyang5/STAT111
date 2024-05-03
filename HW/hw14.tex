@@ -68,7 +68,7 @@
     \end{solution}
    
 	\newpage
-	
+
     \item \textbf{The \textit{weighted} regression model assumes}
     \[
       \bm{Y} = \bm{X\beta} + \bm{\epsilon}, \, \, \, \bm{\epsilon} \sim N_n(\bm{0}, \sigma^{2}\bm{W}^{-1})
@@ -110,7 +110,7 @@
       \item \textbf{Explain why (a) implies that $\hat{\bm{\beta}}$ is the MLE for $\bm{\beta}$ but not the least squares estimate.}
 	  \begin{solution}
 		Note that the above expression is minimized for $\bm{\beta}$ when $\beta = \hat{\bm{\beta}}$, in which case the second term equals zero (if $\beta \neq \hat{\bm{\beta}}$ , then the second term is positive).
-		Thus, $\hat{\bm{\beta}}$ is the MLE for $\bm{\beta}$. However, it is not the least squares estimate.
+		Thus, $\hat{\bm{\beta}}$ is the MLE for $\bm{\beta}$. However, it is the least squares weighted estimate, which is not the same as the least squares estimate.
 	  \end{solution}
 
 	  \item \textbf{Define $\bm{Y}^* = (\bm{W}^{\frac{1}{2}})\bm{Y}$ and $\bm{X}^* = (\bm{W}^{\frac{1}{2}})\bm{X}$, where $\bm{W}^{\frac{1}{2}}$ is a symmetric square root matrix.
@@ -121,11 +121,15 @@
 	  \[
 		\hat{\bm{\beta}} = (\bm{X}^T \bm{WX})^{-1} \bm{X}^T \bm{WY} = ((\bm{X}^*)^T\bm{X}^*)^{-1} (\bm{X}^*)^T \bm{Y}^*.
 	  \]
-	  This directly matches the form of our standard unweighted regression model, and we get the formula
+	  We can also use the associated $\bm{X}^*$ and $\bm{Y}^*$ values to find that 
+	  \[
+		(\bm{Y} - \bm{X\beta})^T\bm{W}(\bm{Y} - \bm{X\beta}) = (\bm{Y}^* - \bm{X^*\beta})^T(\bm{Y}^* - \bm{X^*\beta}).
+	  \]
+	  Consequently, we have that the form matches the form of our standard unweighted regression model, and we get the formula
 	  \[
 		(\bm{Y}^* - \bm{X^*\beta})^T(\bm{Y}^* - \bm{X^*\beta}) = (\bm{Y}^* - \bm{X}^*\hat{\bm{\beta}})^T(\bm{Y}^* - \bm{X^*\hat{\bm{\beta}}}) + (\hat{\bm{\beta}} - \bm{\beta})(\bm{X}^*)^T\bm{X}^*(\hat{\bm{\beta}} - \bm{\beta}).
 	  \]
-	  which is also our typical least squares formula. This implies the same value for $\hat{\bm{\beta}}$. 
+	  which is also our typical least squares formula. This implies the same value for $\hat{\bm{\beta}}$, as shown above. 
 	  \end{solution}
 	  
       \item \textbf{Find the sampling distribution of $\hat{\bm{\beta}}$ (given $\bm{\beta}$ and $\sigma^2$).}
@@ -156,6 +160,16 @@
       but where each independent response value $Y_i$ is the average of $m_i$ independent measurements. For example, the logs of the median
       selling prices in the home sales data are roughly the averages of individual log-selling prices for each municipality, with different numbers
       of houses sold (e.g. $m_i = 1767$ for Upper Darby and $m_i = 17$ for Swarthmore). Describe the appropriate $\bm{W}$ matrix.}
+
+	  \begin{solution}
+		The $\bm{W}$ matrix in the home sales data would be a diagonal matrix (since the measurements are independent, we have no covariance in the non-diagonal entries) 
+		of size $\sum m_k$ over all municipalities. For the block of each matrix corresponding to a municipality of size $m_k$, the corresponding diagonal entries will be $f(m_k)$ for some function $f$
+		(e.g. $\log$). \\
+
+		The idea is that though the Normal linear model is appropriate, we put
+		weights corresponding to the houses in each municipality, so that each house is equally weighted relative to the others in either the same or different municipalities.
+		This ensures that we can weight the variances across each municipality, whereas in the Normal linear model we assume equal variance across all municipalities.
+	  \end{solution}
     \end{enumerate}
 \end{enumerate}
 
